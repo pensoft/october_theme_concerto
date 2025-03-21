@@ -1,0 +1,30 @@
+
+{% for partner in partners %}
+<div class="col-xs-12">
+    <div class="row partner-item">
+        <div class="col-md-3 col-xs-12">
+            <div class="partner_cover">
+                <img src="{{partner.cover.path}}">
+            </div>
+        </div>
+        <div class="col-md-9 col-xs-12">
+            <div class="partner_info">
+                <div class="instituion-title row">
+                    <div class="col-md-9 col-xs-12 start-md center-xs">{{partner.instituion}}</div>
+                    <div class="col-md-3 col-xs-12 end-md center-xs">
+                            <a href="{{partner.instituion_url}}" class="btn btn-primary website">
+                                Visit website
+                            </a>
+
+                    </div>
+                </div>
+                <div class="partner_description">
+                    {{partner.content|raw}}
+                </div>
+                <p><a class="read-more" onclick="toggleExpandReadMore(this);">Read more</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,143 @@
+.contact_container{
+    background: @primary-color url("../../assets/images/planet-contact_bg.jpg") bottom center no-repeat;
+    background-size: 100%;
+    color: white;
+    min-height: 250vh;
+
+    .breakpoint-huge-down({
+        min-height: 200vh;
+    });
+
+    img{
+        width: unset;
+        max-width: 100%;
+
+    }
+
+    h1{
+        color: white!important;
+    }
+
+    .coordinator_info{
+        //background: url("../../assets/images/Concerto_Contact.svg") bottom left no-repeat;
+        background: url("../../assets/images/bg_contact_info.svg") bottom left no-repeat;
+        border-radius: 10px;
+        font-size: 26px;
+        color: white;
+        padding: 40px!important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        .contact_label{
+            text-transform: uppercase;
+        }
+        .profle_position{
+            text-transform: uppercase;
+            font-size: 26px;
+        }
+        .profle_name{
+            font-size: 20px;
+            margin: 20px 0;
+        }
+        .profle_department{
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .profle_email {
+            color: @info-color;
+            background: url("../../assets/images/Email_Contact.svg") left center no-repeat;
+            background-size: 38px;
+            padding-left: 50px;
+            font-size: 20px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            &:hover{
+                opacity: 0.6;
+            }
+        }
+
+        .social-networks{
+            .icons{
+                align-items: start;
+                justify-content: start;
+                margin-top: 20px;
+
+                a{
+                    width: 30px;
+                    height: 30px;
+                    color: @footer-text-color;
+                    justify-content: center;
+                    float: left;
+                    border: 1px solid @footer-text-color;
+                    display: flex;
+                    align-items: center;
+                    border-radius: 50%;
+
+                    //margin-left: -10px;
+
+                    &::before{
+                        width: 22px;
+                        height: 22px;
+                        border-radius: 2px;
+                        color: @footer-text-color;
+                        font-size: 1em;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    &:hover{
+                        opacity: 1;
+                    }
+
+                    &.p-twitter{
+                        font-size: 0.9em!important;
+                    }
+
+                    &.p-bluesky{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        &:before{
+                            font-size: 0.65em !important;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-top: 2px;
+                        }
+
+                    }
+
+                    &.p-threads{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        &:before{
+                            font-size: 0.8em!important;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    .together{
+        display: flex;
+        flex-direction: column;
+        min-height: 3em;
+
+        .conserto_logo{
+            margin-bottom: 50px;
+        }
+        .conserto_together{
+        }
+    }
+}

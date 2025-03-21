@@ -1,0 +1,38 @@
+/**
+	SVG map
+*/
+
+.fill_default:hover
+{
+    cursor:pointer;
+    path{
+        opacity:1;
+        cursor:pointer;
+        fill: @green-color;
+    }
+
+}
+
+.st1{
+    fill: red;
+}
+
+.tooltiptext {
+    display: none;
+    width: fit-content;
+    background-color: #FFF;
+    color: @green-color;
+    text-align: center;
+    border-radius: 8px;
+    position: fixed;
+    z-index: 1;
+    padding: 10px 15px;
+    -webkit-box-shadow: 0px -1px 11px 0px #c1c1c1;
+    -moz-box-shadow: 0px -1px 11px 0px #c1c1c1;
+    box-shadow: 0px -1px 11px 0px #c1c1c1;
+    font-weight: bold;
+}
+
+.tooltiptext.active {
+    display: initial;
+}

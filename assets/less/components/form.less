@@ -1,0 +1,151 @@
+.ui.form {
+    .field + .field {
+        margin-top: 1rem;
+    }
+    .fields {
+        display: flex;
+        margin: 0 -.5rem;
+        flex-direction: column;
+
+        .field + .field {
+            margin-top: 1rem;
+        }
+
+        &.inline {
+            flex-direction: row;
+
+            .field {
+                margin-top: 0;
+            }
+        }
+        .field {
+            padding-left: .5rem;
+            padding-right: .5rem;
+            clear: both;
+            margin: 0;
+        }
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        &.inline {
+            flex-direction: row;
+            width: auto;
+            align-items: center!important;
+            input, textarea {
+                width: auto;
+            }
+        }
+        & > label {
+            display: block;
+            margin: 0 0 .3rem 9px;
+            white-space: nowrap;
+        }
+        & > input, textarea, select {
+            //display: block;
+            width: 100%;
+            font-size: 16px;
+            color: #8d9a98;
+
+            box-sizing: border-box;
+            .line-height();
+            height: 47px;
+            line-height: 1em;
+            border-radius: 80px;
+            border: 1px solid @border-color;
+            background: #FBFFFB;
+            display: inline-flex;
+            padding: 10px 210px 10px 20px;
+            align-items: center;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .field, .group-holder label{
+        position: relative;
+    }
+
+    /* Hide the default checkbox */
+    input[type="checkbox"] {
+        visibility: hidden;
+        cursor: pointer;
+        margin-right: 10px
+    }
+
+    /* Create a custom checkbox */
+    .mark {
+        position: absolute;
+        top: 11px;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: white;
+        border: 1px solid @link-color;
+        cursor: pointer;
+    }
+
+    .field:hover input ~ .mark {
+        background-color: @link-color;
+        opacity: 0.3;
+    }
+
+    input:checked ~ .mark {
+        background-color: @link-color!important;
+        background-image: none;
+    }
+
+    /* Create the mark/indicator (hidden when not checked) */
+    .mark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the mark when checked */
+    input:checked ~ .mark:after {
+        display: block;
+    }
+
+    /* Style the mark/indicator */
+    .mark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+    .align-items-baseline {
+        position: relative;
+    }
+
+}
+
+.login_form_container{
+    .col-xs-12{
+        padding: 0;
+    }
+}
+
+.space_top{
+    margin-top: 2rem;
+}
+
+.login{
+    .coordinator_info{
+        justify-content: start!important;
+    }
+
+    .contact_info{
+        justify-content: space-between;
+    }
+
+    .ui.form .fields .field + .field{
+        margin-top: 2rem;
+    }
+}

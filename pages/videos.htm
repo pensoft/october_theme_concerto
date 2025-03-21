@@ -1,0 +1,119 @@
+url = "/media-center/videos"
+layout = "default"
+title = "Videos"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList mediaVideosList]
+modelClass = "pensoft\Media\Models\Videos"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+
+[jumbotron]
+jumbotron = "under-construction"
+title = 1
+background = "transperant"
+templates = "template1"
+description_limit = 0
+==
+<?php
+use Pensoft\Media\Models\Videos;
+use System\Models\File;
+
+function onStart(){
+	$this['mediaVideosList'] =  Videos::where('pensoft_media_videos.parent_id', null)->get();
+if(get('download')){
+$file = File::find((int)get('download'));
+$file_name = $file->getLocalPath();
+$recordName = get('file_name') ? get('file_name') : 'OBSGESSION_video';
+$ext= $file->getExtension();
+
+if (file_exists($file_name)) {
+header('Content-Description: File Transfer');
+header('Content-Type: application/octet-stream');
+header("Content-Type: application/force-download");
+header('Content-Disposition: attachment; filename='.$recordName .'.'. $ext);
+header('Content-Transfer-Encoding: binary');
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Pragma: public');
+header('Content-Length: ' . filesize($file_name));
+ob_clean();
+flush();
+readfile($file_name);
+exit();
+}
+return Redirect::to('/videos');
+}
+}
+
+
+function onDownloadFile(){
+$file = File::find(post('id'));
+$pathToFile = $file->getLocalPath();
+$fileName = $file->file_name;
+$fileType = $file->content_type;
+$headers = [
+'HTTP/1.1 200 OK',
+'Pragma: public',
+'Content-Type: '.$fileType,
+'Content-Type: application/force-download'
+];
+
+return Response::download($pathToFile, $fileName, $headers);
+}
+?>
+==
+
+{% set records = mediaVideosList %}
+
+<div class="container">
+    <h1 class="display-1">Videos</h1>
+    {% if records.count() %}
+    <div class="row">
+        <div class="col-md-1 col-xs-12">
+            <div class="go-back">
+                <a href="{{'media-center'|page}}" class="read-more-arrow"></a>
+            </div>
+        </div>
+        <div class="col-md-11 col-xs-12">
+            <div class="row">
+                {% for record in records %}
+                <div class="col-md-6 col-xs-12">
+
+
+
+                    {% if record.youtube_url %}
+                    <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}" width="100%" height="267"></iframe>
+                    {% endif %}
+
+                    {% if record.vimeo_url %}
+                    <iframe width="100%" height="267" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            src="{{record.vimeo_url}}">
+                    </iframe>
+
+                    {% endif %}
+                    <p class="card_title">{{ record.name|length > 65 ? record.name|striptags|slice(0, 65)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : record.name|striptags|replace({"&nbsp;": " ", ".": ". "})  }}</p>
+                    {% if record.file %}
+                    <div class="links">
+                            <!--<video controls="" width="100%" height="267"><source src="{{record.file.path}}" type="video/mp4"></video>-->
+                            <a class="btn btn-secondary" href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}">Download</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% else %}
+                {{ noRecordsMessage }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

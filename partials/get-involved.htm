@@ -1,0 +1,66 @@
+<form method="post" data-request="{{__SELF__}}::onSubmit" data-request-files data-request-flash >
+    <input type="hidden" name="_handler" value="onSubmit">
+    {{ form_token() }}
+    {{ form_sessionKey() }}
+    <div id="error_messages">
+        {% flash error %}
+        <p>{{ message }}</p>
+        {% endflash %}
+    </div>
+    <div class="ui form get_involved_form">
+        <input name="profile" type="hidden" value="1">
+        <div class="row between-md around-xs">
+            <div class="col-md-6 col-xs-12 field">
+                <label for="first_name">Name <span class="red">*</span> </label>
+                <input name="first_name" type="text" class="" id="first_name" value="" placeholder="First and Last names">
+            </div>
+
+            <div class="col-md-6 col-xs-12 field">
+                <label for="email">Email address <span class="red">*</span></label>
+                <input name="email" type="email" class="" id="email" value="" placeholder="Email address">
+            </div>
+
+            <div class="col-md-6 col-xs-12 field">
+                <label for="affiliation">Affiliation <span class="red">*</span> </label>
+                <input name="affiliation" type="text" class="" id="affiliation" value="" placeholder="Name of institute a representative of">
+            </div>
+
+            <div class="col-md-6 col-xs-12 field">
+                <label for="country">Country <span class="red">*</span></label>
+                <input name="country" type="text" class="" id="country" value="" placeholder="Country">
+            </div>
+
+            <div class="col-md-6 col-xs-12 field">
+                <label for="main_language">Main language <span class="red">*</span> </label>
+                <input name="main_language" type="text" class="" id="main_language" value="" placeholder="Main language">
+            </div>
+
+            <div class="col-md-6 col-xs-12 field">
+                <label for="second_language">Second language <span class="red">*</span></label>
+                <input name="email" type="text" class="" id="second_language" value="" placeholder="Second language">
+            </div>
+
+            <div class="row box" id="interest">
+                <div class="col-md-12 col-xs-12 field" id="payment_options_field">
+                    <label for="interest">Interest in FORSAID <span class="red">*</span></label>
+                    <label><input name="interest[]" type="radio" value="pay_now">Ecotoxicological data gaps</label>
+                    <label><input name="interest[]" type="radio" value="group_invoice">Co-monitoring scheme for pesticides and pollinators</label>
+                    <label><input name="interest[]" type="radio" value="group_invoice">Models for predicting pesticide toxicological effects on pollinators</label>
+                    <label><input name="interest[]" type="radio" value="group_invoice">Population-level systems-based approach to risk and policy assessment</label>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-xs-12 field">
+                <div class="g-recaptcha" id="recaptcha" data-sitekey="{{__SELF__.property('recaptcha_key')}}"></div>
+            </div>
+
+            <div class="col-md-12 col-xs-12 mt-1 text-center">
+                <button type="submit" class="btn btn-primary" style="min-width: 100px;">Submit</button>
+            </div>
+            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+        </div>
+    </div>
+</form>
+
+{% framework extras %}
+{% scripts %}

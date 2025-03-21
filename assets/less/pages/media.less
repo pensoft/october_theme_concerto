@@ -1,0 +1,237 @@
+.newsletters,
+.news-media{
+    h2{
+        font-size: 26px;
+        text-transform: uppercase;
+        color: @green-color;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .news_media_item{
+        border-radius: 8px;
+        background: @green-color url("../../assets/images/Project-News_Placeholder-Icon.svg") center no-repeat;
+        background-size: 20%;
+        width: 550px;
+        height: 280px;
+        max-width: 100%;
+        content: '';
+        transition: all 0.3s ease-in-out;
+
+        &.news_label{
+            background: @green-color url("../../assets/images/Project-News_Placeholder-Icon.svg") center no-repeat;
+            background-size: 20%;
+            &:hover{
+                background-size: 24%;
+            }
+        }
+
+        &.newsletters_label{
+            background: @green-color url("../../assets/images/Newsletters_Placeholder-Icon.svg") center no-repeat;
+            background-size: 20%;
+            &:hover{
+                background-size: 24%;
+            }
+        }
+
+        &.press_label{
+            background: @green-color url("../../assets/images/Press-Releases_Placeholder-Icon.svg") center no-repeat;
+            background-size: 20%;
+            &:hover{
+                background-size: 24%;
+            }
+        }
+
+        &.materials_label{
+            background: @green-color url("../../assets/images/Project-Materials_Placeholder-Icon.svg") center no-repeat;
+            background-size: 20%;
+            &:hover{
+                background-size: 24%;
+            }
+        }
+
+        &.newsletters_inner_label{
+            background: @green-color url("../../assets/images/Newsletter_Placeholder-Icon-inner.svg") center no-repeat;
+            background-size: 20%;
+            //&:hover{
+            //    background-size: 24%;
+            //}
+        }
+
+
+    }
+
+    .links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+        .breakpoint-large-down({
+            justify-content: space-evenly;
+            margin-bottom: 50px;
+        });
+
+        form {
+            width: fit-content;
+        }
+
+        button {
+            //padding: 10px 30px 10px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            background: @green-color;
+            border: none;
+        }
+    }
+}
+
+
+.press-releases{
+    .category-tabs-container{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+
+
+        a{
+            padding-bottom: 10px;
+            width: fit-content;
+            cursor: pointer;
+            font-size: 20px;
+            font-style: normal;
+            color: @heading-text-color;
+            text-transform: capitalize;
+            margin-right: 30px;
+            opacity: 0.65;
+            .breakpoint-small-down({
+                display: block;
+                margin-left: 0px;
+                margin-right: 0px;
+                width: 100%;
+                padding: 5px 0;
+            });
+
+            &:hover, &.active{
+                opacity: 1;
+                font-weight: 600;
+            }
+
+        }
+        .category-tabs{
+            .breakpoint-large-down({
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            });
+        }
+        .breakpoint-large-down({
+            margin-left: unset;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+        });
+    }
+
+
+    .press-relies-item{
+        max-width: 100%;
+        margin: 0 auto 30px auto;
+        padding: 30px!important;
+        position: relative;
+        background: @secondary-color;
+        border-radius: 8px;
+
+        .breakpoint-large-down({
+            width: auto;
+        });
+
+        .card-title{
+            color: @green-color;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            line-height: 125%; /* 22.5px */
+        }
+
+        .date{
+            color: @heading-text-color;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            left: 0px;
+            top: 0px;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .btn.btn-primary{
+            margin-right: 10px;
+            .breakpoint-large-down({
+                margin-right: 0;
+                margin-bottom: 20px;
+            });
+        }
+    }
+}
+
+.material_item{
+    max-width: 90%;
+    h2{
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 0;
+    }
+
+    .logo-container{
+        margin-bottom: 10px;
+        img{
+            border-radius: 8px;
+        }
+    }
+
+    .btn-primary {
+        overflow: hidden;
+        position: relative;
+        display: inline-block;
+        //border: 1px solid @link-color;
+        border-radius: 8px;
+        border: none;
+        font-size: 20px;
+        font-weight: 500;
+
+        &.download {
+            margin-bottom: 0;
+            padding-left: 43px;
+            transition: all 0.5s ease-in-out;
+            max-height: 43px;
+            line-height: 1em;
+
+            &:before {
+                background: url("../../assets/images/Icon_Download.svg") left center no-repeat;
+                background-size: 17px;
+                transition: all 0.5s ease-in-out;
+                width: 20px;
+                height: 20px;
+                left: 20px;
+                top: 10px;
+                position: absolute;
+                content: ' ';
+            }
+
+            &:hover {
+                background: @heading-text-color;
+                &:before {
+                    background: url("../../assets/images/Icon_Download.svg") left center no-repeat;
+                    background-size: 17px;
+                }
+            }
+        }
+    }
+}
+
+

@@ -1,0 +1,282 @@
+
+
+.fill_default:hover,
+.fill_default.fill_ES:hover,
+.fill_default.fill_AU:hover,
+.fill_default.fill_FR:hover,
+.fill_default.fill_DE:hover,
+.fill_default.fill_BG:hover,
+.fill_default.fill_HU:hover,
+.fill_default.fill_PT:hover,
+.fill_default.fill_GB:hover,
+.fill_default.fill_RO:hover,
+.fill_default.fill_SE:hover,
+.fill_default.fill_BE:hover,
+.fill_default.fill_NL:hover,
+.fill_default.fill_IT:hover,
+.fill_default.fill_EE:hover,
+.fill_default.fill_CH:hover
+{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.partners_list{
+    margin-top: 50px;
+    .breakpoint-small-down({
+        margin-top: 0px;
+        min-height: unset;
+    });
+}
+
+.partners_intro{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    .container{
+        padding: 0;
+    }
+    div, p{
+        width: 100%;
+        display: block;
+    }
+    p{
+        margin-bottom: 0;
+        //font-size: 20px;
+        font-weight: 400;
+        opacity: 0.65;
+        width: 75%;
+    }
+
+    .blue_label{
+        background: @green-color;
+        border-bottom-right-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 30px;
+        color: white;
+        line-height: 2em;
+        width: 70%;
+        margin-bottom: 30px;
+    }
+
+    .green_label{
+        background: @link-color;
+        border-bottom-right-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 30px;
+        color: white;
+        line-height: 2em;
+        width: 70%;
+        margin-bottom: 30px;
+    }
+}
+
+.partners-map-container{
+    margin: 50px auto;
+    display: inline-block;
+    padding: 0;
+    width: 100%;
+    .breakpoint-large-down({
+        margin: 60px auto;
+        display: inline-block !important;
+        padding: 0 !important;
+    });
+}
+
+.partners svg{
+    max-width: 100% !important;
+    height: auto;
+}
+
+#mycomponentpartners{
+    .col-xs-12{
+        .breakpoint-large-down({
+            padding-left: 0;
+            padding-right: 0;
+        });
+    }
+}
+
+
+
+.partner-item{
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .partner_cover, .partner_info{
+        background: @secondary-color;
+        border-radius: 8px;
+    }
+
+    .partner_cover {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 257px;
+        max-width: 100%;
+
+        .breakpoint-large-down({
+            padding: 30px;
+            margin: 10px;
+            max-width: -webkit-fill-available;
+        });
+
+        img{
+            width: 156px;
+            max-width: 90%;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+        }
+    }
+
+    .instituion-title{
+        align-items: center;
+        height: 6em;
+
+        .col-md-9{
+            padding: 0;
+            color: @green-color;
+            text-transform: uppercase;
+            line-height: 1.25em;
+            font-size: 22px;
+            font-weight: 500;
+        }
+    }
+
+    .partner_info{
+        padding: 30px;
+    }
+
+    .partner_description{
+        height: 95px;
+        overflow: hidden;
+        font-size: 18px;
+        position: relative;
+        color: @heading-text-color;
+        &.expand{
+            height: auto;
+            //overflow: visible;
+            &:after{
+                height: 0px;
+            }
+        }
+        &:after{
+            width: 100%;
+            height: 100%;
+            content: ' ';
+            background: transparent linear-gradient(180deg, rgba(236, 241, 250, 0) 0%, rgba(236, 241, 250, 1) 100%) 0% 0% no-repeat padding-box;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: all 0.5s ease-in-out;
+        }
+    }
+
+    .dorsal{
+        margin-top: 20px;
+        display: inline-block;
+    }
+
+}
+
+.subtitle{
+    color: @green-color!important;
+    font-size: 26px;
+    margin: 50px 0 0 0;
+}
+
+.subdescription{
+    font-size: 20px;
+    margin: 20px 0;
+    font-weight: 600;
+}
+
+.supporting_partners{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    .supp_partner_item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: fit-content;
+        margin-bottom: 40px;
+
+        .supp_partner_image{
+            width: 240px;
+            height: 78px;
+            max-width: 100%;
+            /* UI Properties */
+            background: @secondary-color;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img{
+                width: auto;
+                max-width: 90%;
+                object-fit: none;
+            }
+            &:hover{
+                box-shadow: 0px 0px 10px #5858581C;
+            }
+
+            .website_link{
+                background: @link-color url("../../assets/images/Icon-website.svg") center no-repeat;
+                background-size: 80%;
+                width: 32px;
+                height: 32px;
+                border-radius: 3px;
+                margin-left: 18px;
+            }
+        }
+
+        .website{
+            margin: 20px auto;
+        }
+    }
+}
+
+.supporting_projects{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    .supp_partner_item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: fit-content;
+        margin-bottom: 40px;
+
+        .supp_partner_image{
+            width: 240px;
+            height: 78px;
+            max-width: 100%;
+            /* UI Properties */
+            background: @secondary-color;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img{
+                width: auto;
+                max-width: 90%;
+                height: 41px;
+                object-fit: contain;
+            }
+        }
+
+        .website{
+            margin: 20px auto;
+        }
+    }
+}
+
+
+

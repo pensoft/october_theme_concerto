@@ -1,0 +1,209 @@
+url = "/events/:slug?|[a-zA-Z\-0-9]"
+layout = "default"
+title = "Events"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+header_image = "partners.jpg"
+
+[calendar]
+default = "true"
+limit = "null"
+category = "null"
+language = "en"
+redirect_to_detailed_page = "false"
+default_view = "dayGridMonth"
+==
+<?php
+use Pensoft\Calendar\Models\Entry;
+use Carbon\Carbon;
+
+function onStart(){
+
+    if($this->param('slug')){
+$this['entry'] =  Entry::select(
+'*',
+'title',
+'place',
+'description',
+'url',
+
+DB::raw("to_char(\"start\", 'DD') as start_day"),
+DB::raw("to_char(\"start\", 'YYYY') as start_year"),
+DB::raw("to_char(\"end\", 'DD') as end_day"),
+DB::raw("to_char(\"end\", 'YYYY') as end_year"),
+DB::raw("to_char(\"start\", 'month') as start_month"),
+DB::raw("to_char(\"end\", 'month') as end_month"),
+DB::raw("
+\"end\" is not null as has_end
+")
+
+
+)->where('slug', $this->param('slug'))->first();
+
+\BennoThommo\Meta\Meta::set('twitter:card', 'summary_large_image');
+\BennoThommo\Meta\Meta::set('twitter:title', $this['entry']['title']);
+\BennoThommo\Meta\Meta::set('twitter:description', str_limit(Html::strip($this['entry']['description']), 255));
+\BennoThommo\Meta\Meta::set('og:title', $this['entry']['title']);
+\BennoThommo\Meta\Meta::set('og:description', str_limit(Html::strip($this['entry']['description']), 255) );
+\BennoThommo\Meta\Meta::set('og:type', 'article');
+\BennoThommo\Meta\Meta::set('og:url', $this->pageUrl(''));
+if($this['entry']['cover_image']){
+\BennoThommo\Meta\Meta::set('twitter:image', $this['entry']['cover_image']->getThumb(600, null, ['mode' => 'auto']));
+
+
+\BennoThommo\Meta\Meta::set('og:image', $this['entry']['cover_image']->getThumb(600, 314, ['mode' => 'crop']));
+\BennoThommo\Meta\Meta::set('og:image:width', 600);
+\BennoThommo\Meta\Meta::set('og:image:height', 314);
+}
+
+}
+$this['page_url'] = $this->pageUrl('');
+$this['entries'] = Entry::where('end', '>=', Carbon::now())->orderBy('start', 'asc')->paginate(20);
+$this['past_entries'] = Entry::where('end', '<', Carbon::now())->orderBy('start', 'desc')->get();
+
+$this['slug'] = $this->param('slug');
+}
+?>
+==
+
+{% if not slug %}
+<!--<div class="container">-->
+<!--    <div class="events_tabs">-->
+<!--        <a class="" href="#listView">&nbsp;</a>-->
+<!--        <a class="" href="#calendarView">&nbsp;</a>-->
+<!--    </div>-->
+<!--</div>-->
+<!--tabs content	-->
+<div class="container-fluid">
+    <div class="container">
+        <h1 class="display-1">Events</h1>
+        <div class="row" id="listView">
+            <div class="events_list_container">
+                {% for entry in entries %}
+                {% set url = entry.url ?  entry.url : '/events/' ~ entry.slug %}
+
+                <div class="row entry_item middle-xs">
+                    <div class="col-md-1 col-xs-12 date_container">
+                        <span class="date_day">{{entry.start|date("j")}}</span>
+                        <span class="date_month">{{entry.start|date("M")}}</span>
+                        <span class="date_year">{{entry.start|date("Y")}}</span>
+                    </div>
+
+                    <div class="col-md-9 col-xs-12">
+                        {% if entry.cover_image %}
+                        <a href="{{'events'|page}}/{{entry.slug}}">
+                            <img src="{{entry.cover_image.getThumb(auto, auto, {'mode': 'crop'})}}">
+                        </a>
+                        {% endif %}
+
+                        <a href="{{'events'|page}}/{{entry.slug}}" class="date_week">{{entry.title|raw}}</a>
+<!--                        <div class="body">{{ entry.description|length > 110 ? entry.description|striptags|slice(0, 110)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : entry.description|striptags|replace({"&nbsp;": " ", ".": ". "})  }}</div>-->
+
+                    </div>
+                    <div class="col-md-2 col-xs-12 center-md center-xs">
+                        <a href="{{'events'|page}}/{{entry.slug}}" class="read-more-arrow"></a>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+            {% if entries.count > 20 %}
+            <div class="row container">
+                {{ entries.fragment('listView').render|raw }}
+            </div>
+            {% endif %}
+
+            {% if past_entries.count > 0 %}
+            <div class="col-xs-12 mt-4">
+                <h2>Past events</h2>
+                <div class="events_list_container">
+                    {% for entry in past_entries %}
+                    {% set url = entry.url ?  entry.url : '/events/' ~ entry.slug %}
+
+                    <div class="row entry_item middle-xs">
+                        <div class="col-md-1 col-xs-12 date_container">
+                            <span class="date_day">{{entry.start|date("j")}}</span>
+                            <span class="date_month">{{entry.start|date("M")}}</span>
+                            <span class="date_year">{{entry.start|date("Y")}}</span>
+                        </div>
+
+                        <div class="col-md-9 col-xs-12">
+                            {% if entry.cover_image %}
+                            <a href="{{'events'|page}}/{{entry.slug}}">
+                                <img src="{{entry.cover_image.getThumb(auto, auto, {'mode': 'crop'})}}">
+                            </a>
+                            {% endif %}
+
+                            <a href="{{'events'|page}}/{{entry.slug}}" class="date_week">{{entry.title|raw}}</a>
+                            <!--                        <div class="body">{{ entry.description|length > 110 ? entry.description|striptags|slice(0, 110)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : entry.description|striptags|replace({"&nbsp;": " ", ".": ". "})  }}</div>-->
+
+                        </div>
+                        <div class="col-md-2 col-xs-12 center-md center-xs">
+                            <a href="{{'events'|page}}/{{entry.slug}}" class="read-more-arrow"></a>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+<!--        <div class="row" id="calendarView">-->
+<!--            {% component 'calendar' %}-->
+<!--        </div>-->
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+    {% if entry %}
+        <div class="container">
+
+            <div class="row back_row">
+                <div class="col-xs-12">
+                    <div class="go-back">
+                        <a href="/events" class="read-more-arrow"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-news-item">
+
+
+            <div class="row news-cover">
+                <div class="col-xs-12 news-img-container">
+                    <div class="news-date">{% if entry.start|date("j") == entry.end|date("j") %} {{entry.start|date("j M Y")}} {% elseif entry.start|date("M") == entry.end|date("M") %} {{entry.start|date("j")}}-{{entry.end|date("j M Y")}} {% else %} {{entry.start|date("d M Y")}} - {{entry.end|date("d M Y")}}  {% endif %}</div>
+                    <img src="{{ entry.cover_image.thumb(800, auto, { mode: 'crop' }) }}" />
+                </div>
+                <div class="col-xs-12">
+                    <h1>{{entry.title}}</h1>
+                    <div class="news-date" style="top: 86px;"><b>{{entry.place}}</b></div>
+                </div>
+                <div class="col-xs-12 news-content">
+                    {{entry.description|raw}}
+
+                    <div class="col-xs col-md start-md start-xs share_container">
+                        <span class="share_label">Share</span>
+                        <a href="https://www.linkedin.com/shareArticle?url={{page_url}}" class="pr p-linkedin small"></a>
+                        <a href="https://bsky.app/intent/compose?text={{entry.title}}+{{page_url}}" class="pr p-bluesky small"></a>
+                        <a href="https://threads.net/intent/post?text={{entry.title}}+{{page_url}}" class="pr p-threads small"></a>
+<!--                        <a href="http://twitter.com/share?text={{entry.title}}&url={{page_url}}" target="_blank" class="pr p-twitter small"></a>-->
+<!--                        <a href="https://www.facebook.com/sharer/sharer.php?u={{page_url}}&amp;src=sdkpreparse" target="_blank" class="pr p-facebook small"></a>-->
+<!--                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{page_url}}" target="_blank" class="pr p-linkedin small"></a>-->
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+        </div>
+    {% endif %}
+
+{% endif %}

@@ -1,0 +1,92 @@
+url = "/contact"
+layout = "default"
+title = "Contact"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[siteSearchInclude]
+
+[jumbotron]
+jumbotron = "contact"
+background = "#ffffff"
+templates = "template2"
+description_limit = 0
+==
+<?php
+use Pensoft\Cardprofiles\Models\Profiles;
+
+function onStart(){
+	$this['profiles'] =  Profiles::where('category_id', 1)->get();
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+
+<div class="container-fluid contact_container">
+
+<div class="container">
+    <h1 class="display-1">CONTACT</h1>
+		{% for profile in profiles %}
+        <div class="row contact_info">
+            <div class="col-md-6 col-xs-12">
+                {% if profile.avatar %}
+                <img src="{{profile.avatar.thumb(545, 620, {'mode' : 'crop' })}}" class="fr-fic fr-dii">
+                {% else %}
+                <img src="{{'CMS_icons_avatar.svg'|media}}" class="fr-fic fr-dii">
+                {% endif %}
+            </div>
+            <div class="col-md-6 col-xs-12 coordinator_info">
+                <div class="contact_label">GET IN TOUCH</div>
+                <div>
+                    {% if profile.position %}<div class="profle_position">{{profile.position}}</div>{% endif %}
+                    {% if profile.names %}<div class="profle_name">{{profile.names}}</div>{% endif %}
+                    {% if profile.department %}<div class="profle_department">{{profile.department}}</div>{% endif %}
+
+                    {% if profile.email %}
+                    <a href="mailto:{{profile.email}}" class="profle_email" target="_blank">
+                        {{profile.email}}
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="social-networks">
+                    Follow CONCERTO
+                    <div class="icons">
+                        {% if this.theme.facebook_url %}
+                        <a href="{{facebook_url}}" target="_blank" class="pr p-secondary p-facebook normal" target="_blank"></a>
+                        {% endif %}
+                        {% if this.theme.twitter_url %}
+                        <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter normal" target="_blank"></a>
+                        {% endif %}
+                        {% if this.theme.linkedin_url %}
+                        <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank"></a>
+                        {% endif %}
+                        {% if this.theme.youtube_url %}
+                        <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
+                        {% endif %}
+                        {% if this.theme.instagram_url %}
+                        <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank"></a>
+                        {% endif %}
+                        {% if this.theme.bluesky_url %}
+                        <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky normal"></a>
+                        {% endif %}
+                        {% if this.theme.threads_url %}
+                        <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads normal"></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+		{% endfor %}
+
+
+</div>
+
+
+    <div class="container together">
+        <img src="{{'Concerto_Contact.svg'|media}}" class="conserto_logo" />
+        <img src="{{'Together-For-a-Better-Future.svg'|media}}" class="conserto_together" />
+    </div>
+
+</div>

@@ -1,0 +1,71 @@
+[menu footer_menu]
+start = "id-1"
+activeNode = 0
+listItemClasses = "footer-menu-item"
+primaryClasses = "footer-menu"
+secondaryClasses = "dropdown-menu"
+numberOfLevels = 1
+
+[jumbotron footer_funds]
+jumbotron = "funding"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<div class="container-fluid border-box dark-background">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12"><img src="{{'Concerto_LOGO_Footer.svg'|media}}" class="footer_logo"></div>
+            <div class="col-md-6 col-xs-12">
+                {% if (footer_funds_flag != null or footer_funds_text != '') %}
+                <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 col-sm col-xs-12">
+                    {% if footer_funds_flag %}
+                    <img class="mr-0 mr-lg-1" src="{{ footer_funds_flag }}"/>
+                    {% endif %}
+                </div>
+
+                {% endif %}</div>
+            <div class="col-md-6 col-xs-12">{% component 'footer_menu' %}</div>
+            <div class="col-md-6 col-xs-12">
+                    <div class="funding-text">
+                    {% component 'footer_funds' %}
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 social-networks-footer-container">
+                <div class="social-networks">
+                    <div class="icons">
+                        {% if enable_facebook and facebook_url %}
+                        <a href="{{facebook_url}}" target="_blank" class="pr p-secondary p-facebook normal" target="_blank">Facebook</a>
+                        {% endif %}
+                        {% if enable_twitter and twitter_url %}
+                        <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter normal" target="_blank">Twitter</a>
+                        {% endif %}
+                        {% if enable_linkedin and linkedin_url %}
+                        <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank">LinkedIn</a>
+                        {% endif %}
+                        {% if enable_youtube and youtube_url %}
+                        <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank">YouTube</a>
+                        {% endif %}
+                        {% if enable_instagram and instagram_url %}
+                        <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank">Instagram</a>
+                        {% endif %}
+                        {% if this.theme.bluesky_url %}
+                        <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky normal">BlueSky</a>
+                        {% endif %}
+                        {% if this.theme.threads_url %}
+                        <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads normal">Threads</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 ">
+                <div class="row">
+                    <div class="col-md-4 col-xs-12 start-md center-xs privacy_policy_container"><a href="{{'privacy-policy'|page}}">Privacy policy</a></div>
+                    <div class="col-md-8 col-xs-12 powered-by end-md center-xs"><span>Designed and powered by <a href="https://pensoft.net/" target="_blank">
+                    <img class="pensoft_logo" src="{{ 'assets/images/Pensoft_Logo.svg'|theme }}" /></a>
+                </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

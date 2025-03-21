@@ -1,0 +1,223 @@
+url = "/news/:id?|[a-zA-Z\-0-9]"
+layout = "default"
+title = "News"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[related_articles]
+limit = 1
+thumb_width = 400
+thumb_height = 250
+==
+<?php
+use Pensoft\Articles\Models\Category;
+use Pensoft\Articles\Models\Article;
+
+function urlencode($string){
+    return trim(urlencode($string));
+}
+function onStart()
+{
+
+$this['article'] = Pensoft\Articles\Models\Article::where('slug', $this->param('id'))->where('published', 'true')->first();
+
+$this['categories'] = Category::orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+
+    $categoryId = input('categoryId', 'all');
+
+    if ($categoryId !== 'all' && !is_numeric($categoryId)) {
+        return redirect('news');
+    }
+
+    $this['categoryId'] = $categoryId;
+
+    if ($categoryId === 'all') {
+        $records = Article::news()->where('published_at', '<=', 'now')
+                                  ->where('published', 'true')
+                                  ->orderBy('published_at', 'DESC')
+                                  ->paginate(15);
+    } else {
+        $records = Article::news()->whereHas('categories', function ($query) use ($categoryId) {
+                     $query->where('id', $categoryId);
+                 })->where('published_at', '<=', 'now')
+                   ->where('published', 'true')
+                   ->orderBy('published_at', 'DESC')
+                   ->paginate(15);
+    }
+
+    if ($categoryId !== 'all') {
+        $records->appends(['categoryId' => $categoryId]);
+    }
+
+    $this['records'] = $records;
+
+if($this['article']){
+
+$this['is_detail_page'] = $this['article'] ? true : false;
+$this['allow_share'] = $this['article']['allow_share'] == 'yes' ? true : false;
+if($this['is_detail_page']){
+$seoTitle = $this['article']['title'];
+$seoKeywords = $this['article']['meta_keywords'] ?: $this['article']['keywords'];
+$seoDescription = str_limit(Html::strip($this['article']['content']), 255);
+
+if (class_exists('\BennoThommo\Meta\Meta')) {
+if($seoTitle) {
+\BennoThommo\Meta\Meta::set('title', $seoTitle);
+}
+if($seoKeywords) {
+\BennoThommo\Meta\Meta::set('keywords', $seoKeywords);
+}
+if($seoDescription) {
+\BennoThommo\Meta\Meta::set('description', $seoDescription);
+}
+}
+}
+if($this['is_detail_page'] and $this['allow_share']){
+$this['page_url'] = $this->pageUrl('');
+$this['encoded_title'] = urlencode($this['article']['title']);
+$this['slug'] = $this['article']['slug'];
+\BennoThommo\Meta\Meta::set('twitter:card', 'summary_large_image');
+\BennoThommo\Meta\Meta::set('twitter:title', $this['article']['title']);
+\BennoThommo\Meta\Meta::set('twitter:description', str_limit(Html::strip($this['article']['content']), 255));
+\BennoThommo\Meta\Meta::set('og:title', $this['article']['title']);
+\BennoThommo\Meta\Meta::set('og:description', str_limit(Html::strip($this['article']['content']), 255) );
+\BennoThommo\Meta\Meta::set('og:type', 'article');
+\BennoThommo\Meta\Meta::set('og:url', $this->pageUrl(''));
+if($this['article']['cover']){
+\BennoThommo\Meta\Meta::set('twitter:image', $this['article']['cover']->getThumb(600, null, ['mode' => 'auto']));
+
+\BennoThommo\Meta\Meta::set('og:image', $this['article']['cover']->getThumb(600, 314, ['mode' => 'crop']));
+\BennoThommo\Meta\Meta::set('og:image:width', 600);
+\BennoThommo\Meta\Meta::set('og:image:height', 314);
+}
+}
+}
+
+if($this['is_detail_page']){
+$related = array();
+if($this['article']['slug']){
+$article = Article::where('slug', $this['article']['slug'])->first();
+$arrayOfTags = explode(",", $article->keywords);
+
+$related = Article::where('slug', '!=', $this['article']['slug']);
+
+$orWhere = '( ';
+$c = 1;
+
+foreach($arrayOfTags as $tag){
+$orWhere .= ' keywords ILIKE \'%'.trim($tag).'%\' ';
+if($c < count($arrayOfTags)){
+$orWhere .= ' or ';
+}
+$c++;
+}
+$orWhere .= ')';
+$related = $related
+->whereRaw($orWhere)
+->limit(1)
+->get();
+
+$this['related'] = $related;
+}
+}
+}
+?>
+==
+<div class="container">
+
+	{% if is_detail_page %}
+
+
+	<div class="single-news-item">
+
+        <span class="row">
+            <div class="col-xs-1">
+                <a href="/news" class="go-back"></a>
+            </div>
+            <div class="col-xs-11 center-xs">
+                <span class="news-date">{{article.published_at | date('d F Y') }}</span>
+                <span class="news-category">{{article.categories[0].name}}</span>
+<!--            <div class="col-xs text-published"></div>-->
+            </div>
+
+        <h1 class="display-1">{{article.title}}</h1>
+        <div class="row">
+            <div class="col-xs-12 news-img-container">
+                <img src="{{ article.cover.path }}" />
+            </div>
+            <div class="col-xs-12 news-content">
+                {{article.content|raw}}
+
+                <div class="col-xs col-md start-md start-xs share_container">
+                    <span class="share_label">Share</span>
+                    <a href="https://www.linkedin.com/shareArticle?url={{page_url}}" class="pr p-linkedin small"></a>
+                    <a href="https://bsky.app/intent/compose?text={{article.title}}+{{page_url}}" class="pr p-bluesky small"></a>
+                </div>
+
+            </div>
+        </div>
+	</div>
+
+	{% else %}
+
+
+    <div class="row">
+        <div class="col-xs-1">
+            <a href="{{'news-media'|page}}" class="go-back"></a>
+        </div>
+        <div class="col-xs-11"><h1 class="display-1">PROJECT NEWS</h1></div>
+    </div>
+
+
+    <div class="category-tabs-container mb-2">
+        {% if categories.count > 0 %}
+        <div class="row category-tabs" id="category-tabs">
+            <a href="{{ 'news'|page }}" class="{{ 'all' == categoryId ? 'active' : '' }}">All News</a>
+            {% for category in categories %}
+            <a href="{{ 'news'|page }}?categoryId={{ category.id }}" class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="news-list">
+
+        <div class="row">
+            {% for record in records %}
+            {% spaceless %}
+            <div class="col-md-6 col-xs-12 news-item">
+                <div class="row news_column">
+
+                    <a href="{{'news'|page}}/{{record.slug}}">
+                        {% if record.cover %}
+                        <div class="news-image col-xs-12 center-xs">
+                            <img class="news-img-top" src="{{record.cover.getThumb(550, 280, {'mode': 'crop'})}}">
+                        </div>
+                        {% endif %}
+                        <div class="news-container col-xs-12">
+                            <div class="row mt-1 mb-3">
+                                <div class="col-xs-4 news-date">{{record.published_at | date('d F Y') }}</div>
+                                <div class="col-xs-4 news-category">{{record.categories[0].name}}</div>
+                                <div class="col-xs-4 text-published"></div>
+                                <div class="col-xs-12 news-title mt-1">
+                                    <h3>{{ record.title|raw }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            {% endspaceless %}
+            {% else %}
+            No news
+            {% endfor %}
+        </div>
+        <div class="row">
+            {{ records.render|raw }}
+        </div>
+    </div>
+
+	{% endif %}
+</div>

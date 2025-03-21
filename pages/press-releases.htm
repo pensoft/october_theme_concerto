@@ -1,0 +1,87 @@
+url = "/press-releases"
+layout = "default"
+title = "Press releases"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList mediaPressReleasesList]
+modelClass = "pensoft\Media\Models\Pressreleases"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+==
+<?php
+use Pensoft\Media\Models\Pressreleases;
+use Pensoft\Media\Models\PressCategory;
+
+function onStart(){
+$this['categories'] = PressCategory::get();
+
+$categoryId = input('categoryId', 'all');
+
+if ($categoryId !== 'all' && !is_numeric($categoryId)) {
+return redirect('media-center/press-releases');
+}
+
+$this['categoryId'] = $categoryId;
+if ($categoryId === 'all') {
+$records = Pressreleases::orderBy('date', 'desc')->get();
+} else {
+$records = Pressreleases::where('category_id', $categoryId)->get();
+}
+
+$this['press_items'] = $records;
+
+}
+?>
+==
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-1">
+            <a href="{{'news-media'|page}}" class="go-back"></a>
+        </div>
+        <div class="col-xs-11"><h1 class="display-1">PRESS RELEASSES</h1></div>
+    </div>
+
+
+    <div class="category-tabs-container mb-2">
+        {% if categories.count > 0 %}
+        <div class="row category-tabs" id="category-tabs">
+            <a href="{{ 'press-releasses'|page }}?categoryId=all" class="{{ 'all' == categoryId ? 'active' : '' }}">All Press Releases</a>
+            {% for category in categories %}
+            <a href="{{ 'press-releasses'|page }}?categoryId={{ category.id }}" class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.title }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+        <div class="row">
+            {% for record in press_items %}
+            {% spaceless %}
+            <div class="col-md-12 col-xs-12 press-relies-item">
+                <div class="date">{{record.date|date('j F Y')}}</div>
+                <h3 class="card-title">{{record.name}}</h3>
+                <div class="body">{{record.description | raw}}</div>
+                <div class="row link mt-1">
+                    {% for link in record.link %}
+                    <a href="{{link.url}}" target="_blank" class="btn btn-primary" style="margin-right: 10px;">{{link.text}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% endspaceless %}
+            {% else %}
+            No news
+            {% endfor %}
+        </div>
+        <div class="row">
+            {{ records.render|raw }}
+        </div>
+    </div>

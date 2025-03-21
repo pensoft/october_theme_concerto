@@ -1,0 +1,86 @@
+url = "/partners"
+layout = "default"
+title = "Partners"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+header_image = "about.jpg"
+
+[jumbotron partners]
+jumbotron = "partners"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron projects]
+jumbotron = "concerto-partners-are-involved-series-projects-listed-below"
+title = 0
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Partners\Models\Partners;
+use Rainlab\User\Models\User as Profiles;
+
+function onStart(){
+	$this['partners'] =  Partners::where('type', 1)->get();
+	$this['supporting_partners'] =  Partners::where('type', 4)->get();
+
+}
+
+function onPartners(){
+$this['partners'] = [];
+$this['code'] = post('code');
+if(post('code')){
+$this['partners'] =  Partners::whereRaw('country_code ILIKE \'%'.post('code').'%\'')->get();
+}
+$this['insider_members'] = new class {
+public function getIM($id) {
+return Profiles::where('is_visible', 1)->where('partner_id', $id)->orderBy('name')->get();
+}
+};
+}
+
+function onSinglePartner(){
+$this['partners'] = [];
+if(post('partner_id')){
+$this['partners'] =  Partners::where('id', post('partner_id'))->get();
+}
+$this['insider_members'] = new class {
+public function getIM($id) {
+return Profiles::where('is_visible', 1)->where('partner_id', $id)->orderBy('name')->get();
+}
+};
+}
+?>
+==
+<div class="container-fluid partners_background">
+
+    <div class="container">
+        <span class="tooltiptext" id="tooltip">Bulgaria</span>
+        <div class="row">
+            <div class="col-md-5 col-xs-12 partners_intro">
+                {% component 'partners' %}
+            </div>
+            <div class="col-md-7 col-xs-12">
+                <div class="svg_map">
+                {% partial 'components/svg' %}
+            </div></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 partners_list">
+
+                <div class="row container partners-map-container">
+                    <div id="mycomponentpartners" class="row">
+<!--                        {% partial 'components/partners_list' partners=partners %}-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% component 'projects' %}
+
+
+    </div>
+</div>

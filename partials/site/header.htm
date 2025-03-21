@@ -1,0 +1,101 @@
+[menu]
+start = "id-1"
+activeNode = 0
+listItemClasses = "nav-item"
+primaryClasses = "navbar-nav"
+secondaryClasses = "dropdown-menu"
+numberOfLevels = 2
+
+[jumbotron header_intro]
+jumbotron = "intro"
+background = "transperant"
+templates = "template1"
+description_limit = 0
+
+==
+
+<div class="header-menu-container">
+    <div class="container">
+        <nav class="navbar" id="headernavbar">
+        <div id="menuToggle">
+            <input type="checkbox" />
+            <span></span>
+            <span></span>
+            <span></span>
+            {% component 'menu' %}
+        </div>
+        <a href="{{'home'|page}}" class="navbar-brand" style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain;">
+        </a>
+        <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
+            {% component 'menu' %}
+        </div>
+        <div class="search-and-social-media hidden-xs">
+            <ul class="navbar-nav">
+                <li class="nav-item social">
+                    <a class="search-btn" onclick="showSearchForm();"></a>
+                </li>
+            </ul>
+        </div>
+        <div id="search" class="search" style="display: none;">
+            <div class="container">
+                <div class="close-search" onclick="hideSearchForm();">&#10006;</div>
+                <form class="input-group align-items-start" action="{{ url('search')}}" method="get">
+                    <input class="form-control search_input" style="color: #000;" name="q" type="text" autocomplete="on" placeholder="Search">
+                    <button class="btn pr p-search big header-text-grey-search-btn" type="submit"></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    </div>
+</div>
+
+
+{% if page_id == 'home' and tag_line%}
+<div class="header-image {{page_id}}">
+    <div class="container">
+        <div class="row hero_container">
+            <div class="col-md-6 col-xs-12">
+                <div class="jumbotron" data-aos="fade-right">
+                    <div class="intro">
+                        <h1 class="underline" data-aos="fade-up">{{tag_line|raw}}</h1>
+                        <p data-aos="fade-up">{% component 'header_intro' %}</p>
+                    </div>
+                    <div class="social-media-container">
+                        Find us on social networks
+                        <div class="icons">
+                            {% if this.theme.facebook_url %}
+                            <a href="{{facebook_url}}" target="_blank" class="pr p-secondary p-facebook normal" target="_blank"></a>
+                            {% endif %}
+                            {% if this.theme.twitter_url %}
+                            <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter small" target="_blank"></a>
+                            {% endif %}
+                            {% if this.theme.linkedin_url %}
+                            <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank"></a>
+                            {% endif %}
+                            {% if this.theme.youtube_url %}
+                            <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
+                            {% endif %}
+                            {% if this.theme.instagram_url %}
+                            <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank"></a>
+                            {% endif %}
+                            {% if this.theme.bluesky_url %}
+                            <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky small"></a>
+                            {% endif %}
+                            {% if this.theme.threads_url %}
+                            <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads small"></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="plant"></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="project_dedicated">
+                    We’re a project dedicated to<br> enhancing climate model precision
+                </div>
+            </div>
+            <a class="mouse" href="{{'about'|page}}"></a>
+        </div>
+    </div>
+</div>
+{% endif %}

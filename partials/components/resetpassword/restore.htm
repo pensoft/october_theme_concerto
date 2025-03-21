@@ -1,0 +1,20 @@
+<form
+		class="ui form"
+		method="post"
+		data-request="onRestorePassword"
+		data-request-success="alert('Password reset request has been sent. Please check you email!');"
+        data-request-redirect="/login"
+		>
+	<div class="field">
+		<input name="email" type="email" id="userRestoreEmail" placeholder="Enter your email">
+	</div>
+
+	<div class="mt-1 ">
+            <button type="submit" class="btn btn-primary">Restore password</button>
+	</div>
+
+	<div class="">
+		<a class="btn btn-link" href="/login">Return to login</a>
+
+	</div>
+</form>

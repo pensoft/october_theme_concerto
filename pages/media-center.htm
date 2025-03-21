@@ -1,0 +1,131 @@
+url = "/media-center"
+layout = "default"
+title = "Media center"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<?php
+use Pensoft\Media\Models\MediaLogos;
+use Pensoft\Media\Models\Flyers;
+use Pensoft\Media\Models\Newsletters;
+use Pensoft\Media\Models\Presentations;
+use Pensoft\Media\Models\Pressreleases;
+use Pensoft\Media\Models\Videos;
+
+function onStart(){
+	$this['logos'] =  MediaLogos::get();
+	$this['flyers'] =  Flyers::get();
+	$this['newsletters'] =  Newsletters::get();
+	$this['presentations'] =  Presentations::get();
+	$this['pressreleases'] =  Pressreleases::get();
+	$this['videos'] =  Videos::get();
+}
+?>
+==
+<div class="container media-center-container">
+    <h1 class="display-1">Media center</h1>
+    <div class="row">
+        {% if logos.count() %}
+        <div class="col-sm-4 col-xs-12 media_item logos_item">
+            <div class="card-container">
+                <a href="{{url('media-center')}}/brand-materials" title="Brand Kit">
+                    <div class="card_image_container" title="Brand Kit">
+                        <div class="card_bg">
+                            <span class="card_icon"></span>
+                        </div>
+                    </div>
+                    <div class="label_and_link">
+                        <span class="media_label">Brand Kit</span>
+                        <span class="read-more-arrow"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if flyers.count() %}
+        <div class="col-sm-4 col-xs-12 media_item flyers_item">
+            <div class="card-container">
+                <a href="{{url('media-center')}}/promotional-materials" title="Promotional materials">
+                    <div class="card_image_container" title="Promotional materials"><div class="card_bg"><span class="card_icon"></span></div></div>
+                    <div class="label_and_link">
+                        <span class="media_label">Promotional materials</span>
+                        <span class="read-more-arrow"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if newsletters.count() %}
+        <div class="col-sm-4 col-xs-12 media_item newsletter_item">
+            <div class="card-container">
+                <a href="{{url('media-center')}}/newsletters" title="Newsletters">
+                    <div class="card_image_container" title="Newsletters">
+                        <div class="card_bg"><span class="card_icon"></span>
+                        </div>
+                    </div>
+                    <div class="label_and_link">
+                        <span class="media_label">Newsletters</span>
+                        <span class="read-more-arrow"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if pressreleases.count() %}
+        <div class="col-sm-4 col-xs-12 media_item press_item">
+            <div class="card-container">
+                <a href="{{url('media-center')}}/press-releases" title="Press releases">
+                    <div class="card_image_container" title="Press releases">
+                        <div class="card_bg">
+                            <span class="card_icon"></span>
+                        </div>
+                    </div>
+                    <div class="label_and_link">
+                        <span class="media_label">Press releases</span>
+                        <span class="read-more-arrow"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+
+
+        {% if videos.count() %}
+        <div class="col-sm-4 col-xs-12 media_item video_item">
+            <div class="card-container">
+                <a href="{{url('media-center')}}/videos" title="Videos">
+                    <div class="card_image_container" title="Videos">
+                        <div class="card_bg"><span class="card_icon"></span>
+                        </div>
+                    </div>
+                    <div class="label_and_link">
+                        <span class="media_label">Videos</span>
+                        <span class="read-more-arrow"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if presentations.count() %}
+        <div class="col-sm-4 col-xs-12 media_item video_item">
+            <div class="card-container">
+                <a href="{{url('media-center')}}/infographics" title="Infographics">
+                    <div class="card_image_container" title="Infographics"><div class="card_bg"><span class="card_icon"></span></div></div>
+                    <div class="label_and_link">
+                        <span class="media_label">Infographics</span>
+                        <span class="read-more-arrow"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+    <p>&nbsp;</p>
+</div>

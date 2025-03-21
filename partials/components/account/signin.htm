@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-xs-12">
+        {{ form_ajax('onSignin') }}
+        <div class="ui form space_top">
+            <div class="fields">
+                <div class="field">
+                    <input
+                        name="login"
+                        type="text"
+                        id="userSigninLogin"
+                        placeholder="Enter Your Email" />
+                </div>
+                <div class="field">
+                    <input
+                        name="password"
+                        type="password"
+                        id="userSigninPassword"
+                        placeholder="Enter Your Password" />
+                </div>
+            </div>
+        </div>
+
+        <div class="space_top">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+
+        <div class="row space_top">
+            <div class="col-xs-12 col-sm">
+                {% if rememberLoginMode == 'ask' %}
+                <div class="ui form" style="float: left;">
+                    <div class="field inline align-items-baseline">
+                        <input id="remember" name="remember" type="checkbox" value="1" />
+                        <span class="mark"></span>
+                        <label for="remember">Remember Me</label>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-xs-12 col-sm">
+                <a class="no-padding btn-bold" style="float: right;" href="/forgot">Forgot Your Password?</a>
+            </div>
+        </div>
+
+
+        {{ form_close() }}
+    </div>
+</div>
