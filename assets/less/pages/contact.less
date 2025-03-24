@@ -29,12 +29,25 @@
         flex-direction: column;
         justify-content: space-evenly;
 
+
+        .breakpoint-large-down({
+            padding: 40px 0 40px 40px !important;
+            justify-self: center;
+            width: 90%;
+            flex-basis: 90%;
+            margin: 30px auto 0 auto;
+        });
+
         .contact_label{
             text-transform: uppercase;
         }
         .profle_position{
             text-transform: uppercase;
             font-size: 26px;
+            .breakpoint-large-down({
+                font-size: 25px;
+                margin: 30px 0;
+            });
         }
         .profle_name{
             font-size: 20px;
@@ -60,6 +73,11 @@
         }
 
         .social-networks{
+            .breakpoint-large-down({
+                font-size: 25px;
+                margin: 30px 0 0 0;
+            });
+
             .icons{
                 align-items: start;
                 justify-content: start;
@@ -139,5 +157,9 @@
         }
         .conserto_together{
         }
+
+        .breakpoint-large-down({
+            max-width: 78%;
+        });
     }
 }

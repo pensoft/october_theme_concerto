@@ -61,28 +61,29 @@ function onStart(){
     <div class="container">
         <h1 class="project">PROJECT STRUCTURE</h1>
     </div>
-</div>
+    <div class="container">
+        <div class="container" id="work-packages">
+            <h1 class="display-1">Work Packages</h1>
+            <div class="row top-xs work_packages">
+                {% for key, item in records %}
+                <div class="accordion-border key_{{key}}"><!-- 1 --><!-- css 1 -->
+                    <div class="row middle-xs accordion-toggle">
+                        <div class="col-xs-1 green_bullet">{{item.prefix}}</div>
 
+                        <div class="col-xs start-xs">{{item.title}}</div>
 
-<div class="container">
-    <div class="container" id="work-packages">
-        <h1 class="display-1">Work Packages</h1>
-        <div class="row top-xs work_packages">
-            {% for key, item in records %}
-            <div class="accordion-border key_{{key}}"><!-- 1 --><!-- css 1 -->
-                <div class="row middle-xs accordion-toggle">
-                    <div class="col-xs-1 green_bullet">{{item.prefix}}</div>
+                        <div class="col-xs-2 center-xs plusminus"><span class="plus"></span></div>
+                    </div>
 
-                    <div class="col-xs start-xs">{{item.title}}</div>
-
-                    <div class="col-xs-2 center-xs plusminus"><span class="plus"></span></div>
+                    <div class="accordion-content" style="display: none;">
+                        {{item.body|raw}}
+                    </div>
                 </div>
-
-                <div class="accordion-content" style="display: none;">
-                    {{item.body|raw}}
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>
+
+
+

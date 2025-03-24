@@ -279,25 +279,43 @@
 
 
 .clouds{
-    background: url("../../assets/images/Clouds.png") bottom center no-repeat;
+    background: url("../../assets/images/Clouds.png") top 35vh center no-repeat;
     background-size: contain;
-    padding: 80px 0;
+    padding: 0px 0;
 
+    .breakpoint-laptop-down({
+        background: url("../../assets/images/Clouds.png") top 51vh center no-repeat;
+        background-size: contain;
+        padding: 0px 0;
+    });
+
+    .container:has(.project){
+        padding: 0;
+    }
     h1.project{
         font-size: 64px;
         text-transform: uppercase;
         text-align: center;
         font-weight: normal;
         width: 100%;
-        padding: 200px 0!important;
+        padding: 0 0 100px 0!important;
         background: url("../../assets/images/Arrow_Project Structure.svg") center no-repeat;
         background-size: 67px;
-        background-position: center calc(~'50% + 97px');
+        background-position: center calc(~'50% + 57px');
+        margin-bottom: 0;
+        .breakpoint-large-down({
+            background: url("../../assets/images/Arrow_Project Structure.svg") center no-repeat;
+            background-size: 67px;
+            background-position: center calc(~'50% + 100px');
+        });
     }
 
 
     .about_project{
         width: 90%;
+        .breakpoint-large-down({
+            width: 100%;
+        });
         h1{
             border-radius: 8px;
             background: @link-color;
@@ -316,6 +334,10 @@
     .about_background{
         width: 90%;
         float: right;
+        .breakpoint-large-down({
+            width: 100%;
+            float: unset;
+        });
         h1{
             border-radius: 8px;
             background: @info-color;

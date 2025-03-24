@@ -108,6 +108,14 @@
     .partner_cover, .partner_info{
         background: @secondary-color;
         border-radius: 8px;
+
+        .btn-primary.website{
+            margin: 20px auto;
+            background: @green-color;
+            background-color: @green-color;
+            border-color: @green-color;
+            //@green-color
+        }
     }
 
     .partner_cover {
@@ -120,7 +128,8 @@
 
         .breakpoint-large-down({
             padding: 30px;
-            margin: 10px;
+            margin: 10px 0;
+            height: auto;
             max-width: -webkit-fill-available;
         });
 
@@ -181,18 +190,30 @@
         display: inline-block;
     }
 
+    .col-xs-12{
+        .breakpoint-large-down({
+            padding: 0!important;
+        });
+    }
+
 }
 
 .subtitle{
     color: @green-color!important;
     font-size: 26px;
     margin: 50px 0 0 0;
+    .breakpoint-large-down({
+        margin: 0 auto;
+    });
 }
 
 .subdescription{
     font-size: 20px;
     margin: 20px 0;
     font-weight: 600;
+    .breakpoint-large-down({
+        text-align: center;
+    });
 }
 
 .supporting_partners{
@@ -206,6 +227,10 @@
         justify-content: center;
         width: fit-content;
         margin-bottom: 40px;
+
+        .breakpoint-large-down({
+            margin: 0 auto 40px auto;
+        });
 
         .supp_partner_image{
             width: 240px;
@@ -238,6 +263,7 @@
 
         .website{
             margin: 20px auto;
+
         }
     }
 }
