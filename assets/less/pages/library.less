@@ -308,33 +308,6 @@
 }
 
 .library {
-    .form-control.search::placeholder {
-        color: #B8B8B8 !important;
-    }
-
-    .ui.form .field {
-
-        input,
-        select {
-            height: 47px !important;
-            border: 1px solid @border-color !important;
-            border-radius: 8px !important;
-            background: #ffffff;
-            position: unset !important;
-            width: 100%;
-            font-size: 18px !important;
-            color: @heading-text-color;
-            box-sizing: border-box;
-            padding: 0.7rem 1rem;
-            line-height: 1.3em;
-
-        }
-
-
-
-
-
-    }
 
     .no-records {
         text-align: center;
@@ -351,37 +324,62 @@
         -webkit-appearance: none !important;
         -moz-appearance: none !important;
         appearance: none !important;
-        padding: 10px !important;
-        border: 1px solid #ccc !important;
-        border-radius: 20px !important;
-        font-size: 16px !important;
         outline: none !important;
         width: 150px !important;
         background: url("../../assets/images/library-arrow.svg") center no-repeat !important;
-        background-color: white !important;
+        background-color: rgba(236, 241, 250, 0.25) !important;
         background-size: 11px !important;
         background-position: calc(100% - 10px) center !important;
-        option:hover {
-            background-color: @info-color!important;
-        }
-    }
-
-    option{
-        &:hover{
-            background: @info-color;
-        }
-        &:focus {
-            background: @info-color;
-        }
+        height: 47px !important;
+        border: 1px solid @border-color !important;
+        border-radius: 8px !important;
+        position: unset !important;
+        font-size: 18px !important;
+        color: @heading-text-color!important;
+        box-sizing: border-box;
+        padding: 0.7rem 1rem;
+        line-height: 1.3em;
     }
 
     select::-ms-expand {
         display: none;
     }
 
+    select option:checked,
+    select option:hover {
+        box-shadow: 0 0 10px 100px #000 inset;
+    }
+
     .breakpoint-large-down({
         margin-right: unset;
     });
+
+    .form-control.search::placeholder {
+        color: #B8B8B8 !important;
+    }
+
+    .ui.form .field {
+
+        input,
+        select {
+            height: 47px !important;
+            border: 1px solid @border-color !important;
+            border-radius: 8px !important;
+            position: unset !important;
+            width: 100%;
+            font-size: 18px !important;
+            color: @heading-text-color;
+            box-sizing: border-box;
+            padding: 0.7rem 1rem;
+            line-height: 1.3em;
+
+            option:hover{
+                background-color: limegreen !important;
+                color: purple !important;
+            }
+        }
+
+    }
 }
 
 #searchLibrary {
@@ -403,7 +401,7 @@
         width: 100%;
         font-size: 18px;
         color: @heading-text-color;
-        background-color: #ffffff;
+        background-color: rgba(236, 241, 250, 0.25);
         border-radius: 0px 0px 0px 0px;
         -moz-border-radius: 0px 0px 0px 0px;
         -webkit-border-radius: 0px 0px 0px 0px;
@@ -439,7 +437,7 @@
     padding: 0;
     height: 47px;
     width: 67px;
-    background: white url(../../assets/images/library-search.svg) center no-repeat;
+    background: rgba(236, 241, 250, 0.25) url(../../assets/images/library-search.svg) center no-repeat;
     background-size: 22px;
 }
 
@@ -476,13 +474,9 @@
     p:has(.edit-link) {
         display: none;
     }
-}
 
-//.container:has(.tabs) {
-//    .breakpoint-large-down({
-//        padding: 0 !important;
-//    });
-//}
+
+}
 
 .library .tabs{
     display: flex;

@@ -389,6 +389,9 @@ ul.pagination{
                     background-size: 100%;
                     background: url("../../assets/images/Leaves.png") bottom right no-repeat;
                     background-size: contain;
+                    .breakpoint-large-down({
+                        right: -30px;
+                    });
                 }
 
                 .social-media-container{
@@ -541,7 +544,6 @@ ul.pagination{
                 }
             }
             .col-md-6{
-                margin-bottom: 52px;
                 padding: 0;
 
                 .breakpoint-large-down({
@@ -944,7 +946,7 @@ footer .align-items-center{
         width: 100%;
         display: flex;
         background: @navbar-background-color;
-        z-index: 5;
+        z-index: 6;
     });
 }
 

@@ -287,9 +287,9 @@ $(document).ready(function() {
             $content.show();
             // $content.slideDown(speed);
             //scroll to element
-            $('html, body').animate({
-                scrollTop:  activeTab.offset().top - $('header').height()
-            }, speed);
+            // $('html, body').animate({
+            //     scrollTop:  activeTab.offset().top - $('header').height()
+            // }, speed);
         }
 
         // Bind the click event handler
