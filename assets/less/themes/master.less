@@ -366,6 +366,7 @@ ul.pagination{
                 font-weight: 400;
                 height: calc(~'100% - 96px');
                 width: calc(~'95% - 147px');
+                z-index: 5;
                 h1{
                     span{
                         content: ' ';
@@ -382,9 +383,10 @@ ul.pagination{
                 .plant{
                     position: absolute;
                     bottom: 0;
-                    right: -8%;
-                    width: 60%;
-                    height: 80%;
+                    right: -16%;
+                    width: 80%;
+                    height: 100%;
+                    background-size: 100%;
                     background: url("../../assets/images/Leaves.png") bottom right no-repeat;
                     background-size: contain;
                 }
@@ -396,6 +398,7 @@ ul.pagination{
                     float: left;
                     font-weight: 600;
                     margin-bottom: 50px;
+                    z-index: 2;
 
                     .icons{
                         display: flex;
@@ -437,6 +440,7 @@ ul.pagination{
                 font-size: 16px;
                 line-height: 1.35em;
                 justify-self: end;
+                z-index: 3;
                 .breakpoint-large-down({
                     background: none;
                 });
@@ -808,6 +812,7 @@ ul.pagination{
     justify-content: space-between;
     font-size: 32px;
     line-height: 1.35em;
+    font-weight: 600;
     .breakpoint-large-down({
       text-align: center;
     });
@@ -842,7 +847,7 @@ ul.pagination{
         display: flex;
         align-items: center;
         width: fit-content;
-        float: right;
+        margin-top: 30px;
         i{
             background: url("../../assets/images/arrow-subscribe.svg") no-repeat;
             content: ' ';

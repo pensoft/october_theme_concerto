@@ -207,7 +207,7 @@ $(document).ready(function() {
             autoplaySpeed: 1000,
             centerMode: true,
             // centerPadding: '50px',
-            slidesToShow: 6,
+            slidesToShow: 8,
             focusOnSelect: false,
             dots: false,
             infinite: true,
@@ -284,7 +284,8 @@ $(document).ready(function() {
         });
 
         if(activeTab.length){
-            $content.slideDown(speed);
+            $content.show();
+            // $content.slideDown(speed);
             //scroll to element
             $('html, body').animate({
                 scrollTop:  activeTab.offset().top - $('header').height()
@@ -294,9 +295,10 @@ $(document).ready(function() {
         // Bind the click event handler
         $(this).find("a").click(function (e) {
             if($(this).hasClass('active')) {
-                $content.slideDown({
-                    scrollTop: $content.offset().top - $('header').height()
-                }, speed);
+                $content.show();
+                // $content.slideDown({
+                //     scrollTop: $content.offset().top - $('header').height()
+                // }, speed);
                 var screenSize = getScreenSize();
                 if (screenSize.width < 800) {
                     // scroll to element
@@ -324,9 +326,10 @@ $(document).ready(function() {
 
             // Make the tab active.
             $active.addClass('active');
-            $content.slideDown({
-                scrollTop: $content.offset().top - $('header').height()
-            }, speed);
+            $content.show();
+            // $content.slideDown({
+            //     scrollTop: $content.offset().top - $('header').height()
+            // }, speed);
 
             // Prevent the anchor\'s default click action
             e.preventDefault();
