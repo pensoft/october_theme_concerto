@@ -17,15 +17,16 @@
     width: 100%
 }
 
-.container {
-    display: flex;
-    flex-wrap: wrap;
-}
+//.container {
+//    display: flex;
+//    flex-wrap: wrap;
+//}
 
 
 .library-item {
     width: 50%;
     margin: 20px 0;
+    position: relative;
 
     .breakpoint-large-down({
         width: 100%;
@@ -157,9 +158,9 @@
 }
 
 .library .container {
-    padding: 0;
-    width: 100%;
-    display: block;
+    //padding: 0;
+    //width: 100%;
+    //display: block;
 
     .row.center-xs.mb-1 {
         position: relative;
@@ -221,6 +222,12 @@
         width: 45px;
         height: 45px;
         padding: 0;
+        background: @green-color;
+
+        &:hover {
+            background: @heading-text-color;
+
+        }
 
             .p-download {
                 margin-bottom: 0;
@@ -236,11 +243,6 @@
                 content: ' ';
                 height: 50px;
 
-                &:hover {
-                    background: @heading-text-color url("../../assets/images/Icon_Download.svg") left center no-repeat;
-                    background-size: 17px;
-
-                }
             }
     }
 

@@ -1,4 +1,4 @@
-url = "/media-center/promotional-materials"
+url = "/promotional-materials"
 layout = "default"
 title = "Promotional materials"
 is_hidden = 0
@@ -64,7 +64,11 @@ return Response::download($pathToFile, $fileName, $headers);
 ?>
 ==
 <div class="container">
-    <h1 class="display-1">Promotional materials</h1>
+    <div class="row">
+        <div class="col-xs-1">
+            <a href="/brand-materials" class="go-back"></a>
+        </div>
+        <div class="col-xs-11 arrow_project_news"><h1 class="display-1">PROMOTIONAL MATERIALS</h1></div>
         {% set records = mediaFlyersList %}
         {% set displayColumn = mediaFlyersList.displayColumn %}
         {% set noRecordsMessage = mediaFlyersList.noRecordsMessage %}
@@ -74,12 +78,7 @@ return Response::download($pathToFile, $fileName, $headers);
 
         {% if records.count() %}
         <div class="row">
-            <div class="col-md-1 col-xs-12">
-                <div class="go-back">
-                    <a href="{{'media-center'|page}}" class="read-more-arrow"></a>
-                </div>
-            </div>
-            <div class="col-md-11 col-xs-12">
+            <div class="col-md-12 col-xs-12">
                 <div class="row">
                     {% for record in records %}
                     <div class="col-md-4 col-xs-12 mb-4">

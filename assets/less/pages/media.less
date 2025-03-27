@@ -52,9 +52,19 @@
         &.newsletters_inner_label{
             background: @green-color url("../../assets/images/Newsletter_Placeholder-Icon-inner.svg") center no-repeat;
             background-size: 117px;
+            border-radius: 10px;
             //&:hover{
             //    background-size: 24%;
             //}
+
+            img{
+                width: 550px;
+                max-width: 100%;
+                height: 280px;
+                object-fit: contain;
+                background: @secondary-color;
+                border-radius: 8px;
+            }
         }
 
 
@@ -206,31 +216,32 @@
         border-radius: 8px;
         border: none;
         font-weight: 600;
-        width: 105px;
-        height: 50px!important;
+        width: 95px;
+        height: 46px!important;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        font-size: 14px;
         float: right;
 
         &.download {
             margin-bottom: 0;
             padding: 0 20px 0 44px;
-            width: 105px;
-            height: 50px!important;
+            width: 95px;
+            height: 46px!important;
             transition: all 0.5s ease-in-out;
             line-height: 1em;
             text-transform: uppercase;
+            font-weight: 600;
 
             &:before {
                 background: url("../../assets/images/Icon_Download.svg") left center no-repeat;
-                background-size: 17px;
-                transition: all 0.5s ease-in-out;
+                background-size: 14px;
+                transition: all 0.5sease-in-out;
                 width: 20px;
                 height: 20px;
-                left: 17px;
-                top: 16px;
+                left: 23px;
+                top: 13px;
                 position: absolute;
                 content: ' ';
             }
@@ -239,11 +250,72 @@
                 background: @heading-text-color;
                 &:before {
                     background: url("../../assets/images/Icon_Download.svg") left center no-repeat;
-                    background-size: 17px;
+                    background-size: 14px;
                 }
             }
         }
     }
 }
 
+
+.videos{
+    iframe, video{
+    width: 90%;
+        height: 320px;
+    border-radius: 8px;
+        background-color: @primary-color!important;
+    }
+
+    .card_title{
+        color: @green-color;
+        font-size: 20px;
+    }
+
+
+    .btn-primary {
+        overflow: hidden;
+        position: relative;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        width: fit-content;
+        height: 46px!important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        margin:  0 auto;
+
+        &.download {
+            margin-bottom: 0;
+            padding: 0 20px 0 44px;
+            width: fit-content;
+            height: 46px!important;
+            transition: all 0.5s ease-in-out;
+            line-height: 1em;
+            text-transform: uppercase;
+            font-weight: 600;
+
+            &:before {
+                background: url("../../assets/images/Icon_Download.svg") left center no-repeat;
+                background-size: 14px;
+                transition: all 0.5sease-in-out;
+                width: 20px;
+                height: 20px;
+                left: 23px;
+                top: 13px;
+                position: absolute;
+                content: ' ';
+            }
+
+            &:hover {
+                background: @heading-text-color;
+                &:before {
+                    background: url("../../assets/images/Icon_Download.svg") left center no-repeat;
+                    background-size: 14px;
+                }
+            }
+        }
+    }
+}
 

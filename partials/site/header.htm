@@ -15,7 +15,7 @@ description_limit = 0
 ==
 
 <div class="header-menu-container">
-    <div class="container">
+    <div class="container1200">
         <nav class="navbar" id="headernavbar">
         <div id="menuToggle">
             <input type="checkbox" />
@@ -26,9 +26,11 @@ description_limit = 0
         </div>
         <a href="{{'home'|page}}" class="navbar-brand" style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain;">
         </a>
+            <div class="container">
         <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
             {% component 'menu' %}
         </div>
+            </div>
         <div class="search-and-social-media hidden-xs">
             <ul class="navbar-nav">
                 <li class="nav-item social">

@@ -1,4 +1,4 @@
-url = "/media-center/brand-materials"
+url = "/brand-materials"
 layout = "default"
 title = "Brand kit"
 is_hidden = 0
@@ -85,9 +85,25 @@ return Response::download($pathToFile, $fileName, $headers);
         {% spaceless %}
         <div class="col-md-6 col-xs-12 mb-2">
             <div class="material_item">
+                {% if record.name == 'Videos' %}
+                <a href="/videos">
+                    <div class="logo-container {{record.name}}">
+                        <img src="{{record.logo_image.path}}" title="{{record.name}}">
+                    </div>
+                </a>
+                {% elseif record.name == 'PROMOTIONAL MATERIALS' %}
+                <a href="/promotional-materials">
+                    <div class="logo-container {{record.name}}">
+                        <img src="{{record.logo_image.path}}" title="{{record.name}}">
+                    </div>
+                </a>
+                {% else %}
                 <div class="logo-container {{record.name}}">
                     <img src="{{record.logo_image.path}}" title="{{record.name}}">
                 </div>
+                {% endif %}
+
+
 
 
                 {% if record.name == 'LOGO' %}
@@ -107,7 +123,17 @@ return Response::download($pathToFile, $fileName, $headers);
 
                 {% endif %}
                 <div class="row between-md around-xs middle-xs">
+                    {% if record.name == 'Videos' %}
+                    <a href="/videos">
                     <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
+                    </a>
+                    {% elseif record.name == 'PROMOTIONAL MATERIALS' %}
+                    <a href="/promotional-materials">
+                        <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
+                    </a>
+                    {% else %}
+                    <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
+                    {% endif %}
                     {% if record.file_jpg %}
                     <div class="col-md end-md around-xs">
                         {{form_open({ request: 'onDownloadFile' }) }}

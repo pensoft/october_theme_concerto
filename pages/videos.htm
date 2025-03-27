@@ -1,4 +1,4 @@
-url = "/media-center/videos"
+url = "/videos"
 layout = "default"
 title = "Videos"
 is_hidden = 0
@@ -74,46 +74,44 @@ return Response::download($pathToFile, $fileName, $headers);
 {% set records = mediaVideosList %}
 
 <div class="container">
-    <h1 class="display-1">Videos</h1>
-    {% if records.count() %}
     <div class="row">
-        <div class="col-md-1 col-xs-12">
-            <div class="go-back">
-                <a href="{{'media-center'|page}}" class="read-more-arrow"></a>
-            </div>
+        <div class="col-xs-1">
+            <a href="/brand-materials" class="go-back"></a>
         </div>
-        <div class="col-md-11 col-xs-12">
-            <div class="row">
-                {% for record in records %}
-                <div class="col-md-6 col-xs-12">
+        <div class="col-xs-11 arrow_project_news"><h1 class="display-1">VIDEOS</h1></div>
 
+        {% if records.count() %}
+                <div class="row">
+                    {% for record in records %}
+                    <div class="col-md-6 col-xs-12">
+                        <div class="card-container">
+                            {% if record.file %}
+                            <video controls=""><source src="{{record.file.path}}" type="video/mp4"></video>
 
+                            <p class="card_title">{{record.name}}</p>
 
-                    {% if record.youtube_url %}
-                    <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}" width="100%" height="267"></iframe>
-                    {% endif %}
+                            <p><a class="btn btn-primary download" href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}">Download</a></p>
 
-                    {% if record.vimeo_url %}
-                    <iframe width="100%" height="267" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            src="{{record.vimeo_url}}">
-                    </iframe>
+                            {% endif %}
 
-                    {% endif %}
-                    <p class="card_title">{{ record.name|length > 65 ? record.name|striptags|slice(0, 65)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : record.name|striptags|replace({"&nbsp;": " ", ".": ". "})  }}</p>
-                    {% if record.file %}
-                    <div class="links">
-                            <!--<video controls="" width="100%" height="267"><source src="{{record.file.path}}" type="video/mp4"></video>-->
-                            <a class="btn btn-secondary" href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}">Download</a>
+                            {% if record.youtube_url %}
+                            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}" width="100%" height="320"></iframe>
+
+                            <p>&nbsp;</p>
+                            {% endif %}
+
+                            {% if record.vimeo_url %}
+                            <iframe  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    src="{{record.vimeo_url}}">
+                            </iframe>
+                            <p>&nbsp;</p>
+                            {% endif %}
                         </div>
                     </div>
-                    {% endif %}
+                    {% endfor %}
                 </div>
-
-                {% else %}
-                {{ noRecordsMessage }}
-                {% endfor %}
-            </div>
-        </div>
-    </div>
     {% endif %}
+    </div>
+
+
 </div>

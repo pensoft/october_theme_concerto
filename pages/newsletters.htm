@@ -1,4 +1,4 @@
-url = "/media-center/newsletters"
+url = "/newsletters"
 layout = "default"
 title = "Newsletters"
 is_hidden = 0
@@ -83,7 +83,7 @@ return Response::download($pathToFile, $fileName, $headers);
         {% spaceless %}
         <div class="col-md-6 col-xs-12 mb-2">
                 <div class="news_media_item newsletters_inner_label">
-
+                    <img src="{{ record.newsletter_image.thumb(550, 280, {'mode': 'crop'})}}" alt="{{record.name}}">
                 </div>
                 <div class="links">
                     {% if record.url %}
