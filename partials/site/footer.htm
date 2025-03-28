@@ -42,15 +42,15 @@ description_limit = 0
                         {% endif %}
                         {% if enable_linkedin and linkedin_url %}
                         <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank">LinkedIn</a>
-                        {% endif %}
-                        {% if enable_youtube and youtube_url %}
-                        <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank">YouTube</a>
-                        {% endif %}
+                        {% endif %}                       
                         {% if enable_instagram and instagram_url %}
                         <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank">Instagram</a>
                         {% endif %}
                         {% if this.theme.bluesky_url %}
                         <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky normal">BlueSky</a>
+                        {% endif %}
+                        {% if enable_youtube and youtube_url %}
+                        <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank">YouTube</a>
                         {% endif %}
                         {% if this.theme.threads_url %}
                         <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads normal">Threads</a>

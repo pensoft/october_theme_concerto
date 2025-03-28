@@ -11,9 +11,7 @@ jumbotron = "intro"
 background = "transperant"
 templates = "template1"
 description_limit = 0
-
 ==
-
 <div class="header-menu-container">
     <div class="container1200">
         <nav class="navbar" id="headernavbar">
@@ -74,14 +72,14 @@ description_limit = 0
                             {% if this.theme.linkedin_url %}
                             <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank"></a>
                             {% endif %}
-                            {% if this.theme.youtube_url %}
-                            <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
-                            {% endif %}
                             {% if this.theme.instagram_url %}
                             <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank"></a>
                             {% endif %}
                             {% if this.theme.bluesky_url %}
                             <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky small"></a>
+                            {% endif %}
+                            {% if this.theme.youtube_url %}
+                            <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
                             {% endif %}
                             {% if this.theme.threads_url %}
                             <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads small"></a>
