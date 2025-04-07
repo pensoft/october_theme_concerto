@@ -68,7 +68,10 @@ $this['press_items'] = $records;
             <div class="col-md-12 col-xs-12 press-relies-item">
                 <div class="date">{{record.date|date('j F Y')}}</div>
                 <h3 class="card-title">{{record.name}}</h3>
-                <div class="body">{{record.description | raw}}</div>
+                <div class="body partner_description">
+                    {{record.description | raw}}
+                </div>
+                <p><a class="read-more" onclick="toggleExpandReadMore(this);">Read less</a></p>
                 <div class="row link mt-1">
                     {% for link in record.link %}
                     <a href="{{link.url}}" target="_blank" class="btn btn-primary" style="margin-right: 10px;">{{link.text}}</a>

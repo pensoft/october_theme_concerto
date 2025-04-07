@@ -96,6 +96,47 @@
 
 
 .press-releases{
+    .partner_description{
+        height: 95px;
+        overflow: hidden;
+        font-size: 16px;
+        position: relative;
+        color: @heading-text-color;
+        &.expand{
+            height: auto;
+            //overflow: visible;
+            &:after{
+                height: 0px;
+            }
+        }
+        &:after{
+            width: 100%;
+            height: 100%;
+            content: ' ';
+            //background: transparent linear-gradient(180deg, rgba(236, 241, 250, 0) 0%, rgba(236, 241, 250, 1) 100%) 0% 0% no-repeat padding-box;
+            background: transparent linear-gradient(180deg, rgba(236, 241, 250, 0) 0%, rgba(236, 241, 250, 1) 100%) 0% 0% no-repeat padding-box;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: all 0.5s ease-in-out;
+        }
+    }
+
+    .read-more {
+        font-size: 16px;
+        &:after{
+            content: ' ';
+            background: url(../../assets/images/arrow-up.svg) center no-repeat;
+            background-size: 20px;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            position: absolute;
+            top: 2px;
+            transition: all 0.3sease-in-out;
+        }
+    }
+
     .category-tabs-container{
         display: flex;
         justify-content: start;
