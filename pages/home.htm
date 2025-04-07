@@ -134,8 +134,7 @@ function onStart(){
                         <a class="row news-item" href="#{{highlight.slug}}">
                             {% set numberOfWords = highlight.content|striptags|split(' ')|length %}
                             {% set readtime = (numberOfWords / 250) %}
-
-                            <div class="col-md-3 col-xs-12 news-category">{{highlight.categories[0].name}}</div>
+                            <div class="col-md-4 col-xs-12 news-category">{{highlight.categories[0].name}}</div>
                             <div class="col-md-3 col-xs-12 news-date">{{ highlight.published_at|date('d M Y') }}</div>
                             <div class="col-md-3 col-xs-12 news-date">{{ readtime|round }} Min Read</div>
 
