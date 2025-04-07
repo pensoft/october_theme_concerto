@@ -71,7 +71,7 @@ $this['press_items'] = $records;
                 <div class="body partner_description">
                     {{record.description | raw}}
                 </div>
-                <p><a class="read-more" onclick="toggleExpandReadMore(this);">Read less</a></p>
+                <p><a class="read-more" onclick="toggleExpandReadMore(this);">Read more</a></p>
                 <div class="row link mt-1">
                     {% for link in record.link %}
                     <a href="{{link.url}}" target="_blank" class="btn btn-primary" style="margin-right: 10px;">{{link.text}}</a>
