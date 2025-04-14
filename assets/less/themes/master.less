@@ -354,11 +354,12 @@ ul.pagination{
 
 
     &.home {
-
+        overflow: hidden;
+        height: fit-content;
         .hero_container{
             display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
+            //justify-content: space-between;
+            //margin-top: 50px;
             position: relative;
             .jumbotron{
                 position: relative;
@@ -371,6 +372,24 @@ ul.pagination{
                 height: calc(~'100% - 96px');
                 width: calc(~'95% - 147px');
                 z-index: 5;
+                .breakpoint-large-down({
+                    top: 120px;
+                    padding: 28px 28px 28px 28px;
+                    height: auto;
+                    width: auto;
+                    position: relative;
+                    justify-content: space-between;
+                    display: flex;
+                    flex-direction: column;
+
+                });
+
+                .intro{
+
+                }
+
+
+
                 h1{
                     span{
                         content: ' ';
@@ -382,6 +401,11 @@ ul.pagination{
                         top: 1.4em;
                         right: 2em;
                         margin-left: 10px;
+                        .breakpoint-large-down({
+                            top: 4.4em;
+                            left: 0em;
+                            position: relative;
+                        });
                     }
                 }
 
@@ -391,11 +415,12 @@ ul.pagination{
                     right: -16%;
                     width: 75%;
                     height: 100%;
-                    background-size: 100%;
                     background: url("../../assets/images/Leaves.png") bottom right no-repeat;
                     background-size: contain;
                     .breakpoint-large-down({
                         right: -30px;
+                        background: url("../../assets/images/Leaves.png") bottom right no-repeat;
+                        background-size: 65%;
                     });
                 }
 
@@ -407,6 +432,11 @@ ul.pagination{
                     font-weight: 600;
                     margin-bottom: 50px;
                     z-index: 2;
+
+
+                    .breakpoint-large-down({
+                        margin-bottom: 0;
+                    });
 
                     .icons{
                         display: flex;
@@ -472,8 +502,6 @@ ul.pagination{
                     width: 52px;
                     height: 60px;
                     bottom: -4px;
-
-
 
                 }
                 .breakpoint-large-down({
@@ -641,9 +669,11 @@ ul.pagination{
                     display: flex;
                     align-items: center;
                     border-radius: 50px;
-                    font-family: 'Segoe UI Variable';
 
-                    //margin-left: -10px;
+                    .breakpoint-large-down({
+                        width: 114px;
+                        height: 30px;
+                    });
 
                     &::before{
                         width: 22px;
@@ -760,28 +790,6 @@ ul.pagination{
 
 }
 
-
-
-
-.highlight {
-    background-color: #f8f9fa;
-    padding: @padding-base-space;
-
-    .pre {
-        padding: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        background-color: transparent;
-        border: 0;
-        overflow: auto;
-
-        .code {
-            font-size: inherit;
-            color: #212529;
-            word-break: normal;
-        }
-    }
-}
 .container-fluid {
     &.banner {
         margin-top: @margin-base-space-home * 3;
@@ -805,23 +813,12 @@ ul.pagination{
     });
 }
 
-.twitter-widget {
-    max-height: 444px;
-    max-width: 91%;
-    //width: 83%;
-    margin: 50px auto 0 auto;
-    overflow-y: scroll;
-    border-radius: 10px;
-  .breakpoint-large-down({
-    width: auto;
-  });
-}
 
-.social-media-container{
-    background-position: right 30px;
-    display: block;
-    float: right;
-}
+//.social-media-container{
+//    background-position: right 30px;
+//    display: block;
+//    float: right;
+//}
 .subscribe-container {
     display: flex;
     align-items: center;
@@ -912,13 +909,13 @@ ul.pagination{
     }
 }
 
-.content_static_list{
-  list-style-type: none;
-  display: flex;
-  padding: 0;
-  margin-top: @margin-base-space * 4;
-  justify-content: space-between;
-}
+//.content_static_list{
+//  list-style-type: none;
+//  display: flex;
+//  padding: 0;
+//  margin-top: @margin-base-space * 4;
+//  justify-content: space-between;
+//}
 
 .ui-widget-content{
   border: none!important;
@@ -955,7 +952,7 @@ footer .align-items-center{
         padding: 0;
     }
     .breakpoint-large-down({
-        height: 100px;
+        height: 80px;
         position: fixed;
         width: 100%;
         display: flex;
