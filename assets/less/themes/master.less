@@ -359,8 +359,13 @@ ul.pagination{
         .hero_container{
             display: flex;
             //justify-content: space-between;
-            //margin-top: 50px;
+            margin-top: 50px;
             position: relative;
+
+            .breakpoint-large-down({
+                margin-top: 0px;
+            });
+
             .jumbotron{
                 position: relative;
                 background: url("../../assets/images/yellow.png") bottom right no-repeat;
@@ -385,7 +390,9 @@ ul.pagination{
                 });
 
                 .intro{
-
+                    p{
+                        min-height: 300px;
+                    }
                 }
 
 
@@ -505,7 +512,6 @@ ul.pagination{
 
                 }
                 .breakpoint-large-down({
-
                     display: none;
                 });
             }
