@@ -122,7 +122,7 @@ return Response::download($pathToFile, $fileName, $headers);
                 {% set labelPDF = 'Download' %}
 
                 {% endif %}
-                <div class="row between-md around-xs middle-xs">
+                <div class="row between-md">
                     {% if record.name == 'Videos' %}
                     <a href="/videos">
                     <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
