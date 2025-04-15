@@ -102,6 +102,14 @@ h1.display-1, h1{
             padding-left: 0px;
         });
     }
+
+    .subcontainer{
+        h1{
+            .breakpoint-large-down({
+                padding-left: 0px;
+            });
+        }
+    }
 }
 
 h2.underline{
@@ -399,6 +407,12 @@ ul.pagination{
                             min-height: unset;
                         });
                     }
+
+                    h1{
+                        .breakpoint-large-down({
+                            padding-left: 0;
+                        });
+                    }
                 }
 
 
@@ -494,6 +508,9 @@ ul.pagination{
                 z-index: 3;
                 .breakpoint-large-down({
                     background: none;
+                    justify-content: flex-start;
+                    margin-top: 20px;
+                    align-items: flex-start;
                 });
             }
 
@@ -840,6 +857,7 @@ ul.pagination{
     font-weight: 600;
     .breakpoint-large-down({
       text-align: center;
+        font-size: 25px;
     });
     .breakpoint-large-down({
       justify-content: unset;
@@ -857,6 +875,7 @@ ul.pagination{
 
         .breakpoint-large-down({
             margin: 0 auto 30px auto;
+            font-size: 25px;
         });
     }
 

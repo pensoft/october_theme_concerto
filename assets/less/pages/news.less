@@ -17,6 +17,16 @@ nav:not(.navbar){
     .arrow_project_news{
         background: url("../../assets/images/Arrow_Project News_Big.svg") top right no-repeat;
         background-size: 51px;
+
+        .breakpoint-large-down({
+            background: none;
+        });
+
+        h1{
+            .breakpoint-large-down({
+                margin-top: 4px;
+            });
+        }
     }
 
     .single-news-item{
@@ -65,6 +75,8 @@ nav:not(.navbar){
         .go-back{
             .breakpoint-large-down({
                 margin-left: 26px;
+                position: relative;
+                z-index: 9;
             });
         }
 
@@ -78,6 +90,7 @@ nav:not(.navbar){
             margin: 30px auto;
             .breakpoint-large-down({
                 padding: 0!important;
+                font-size: 30px;
             });
         }
 
@@ -487,6 +500,9 @@ nav:not(.navbar){
             line-height: 1.2em;
             color: @heading-text-color;
             font-weight: 600;
+            .breakpoint-large-down({
+                font-size: 25px;
+            });
         }
 
         &.active, &:hover{
