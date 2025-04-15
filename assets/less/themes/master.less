@@ -90,7 +90,7 @@ h1.display-1, h1{
     font-weight: 600;
     font-size: 32px;
     .breakpoint-large-down({
-        //padding-left: 18px;
+        padding-left: 18px;
     });
 }
 
@@ -98,6 +98,9 @@ h1.display-1, h1{
     h1.display-1{
         text-align: center;
         margin-bottom: 30px;
+        .breakpoint-large-down({
+            padding-left: 0px;
+        });
     }
 }
 
