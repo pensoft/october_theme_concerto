@@ -45,6 +45,10 @@
     width: 98%;
     background: @secondary-color;
     border-radius: 8px;
+    .breakpoint-large-down({
+        margin: 20px auto;
+        width: 90%;
+    });
 }
 
 .mission .accordion-border{
@@ -62,6 +66,7 @@
     .col-xs.start-xs{
         .breakpoint-large-down({
             padding: 10px;
+            font-size: 18px;
         });
     }
     &:focus{
@@ -81,7 +86,7 @@
         line-height: 1.25em;
         .breakpoint-large-down({
             padding: 10px;
-            font-size: 22px;
+            font-size: 18px;
         });
     }
 
@@ -98,7 +103,8 @@
         font-weight: 600;
         transition: all 0.5s ease-in-out;
         .breakpoint-large-down({
-            min-width: 100px;
+            min-width: 90px;
+            font-size: 22px;
         });
 
     }
@@ -143,6 +149,8 @@
         .breakpoint-large-down({
             position: absolute;
             right: 5px;
+            width: 35px;
+            height: 35px;
         });
     }
     .plus{

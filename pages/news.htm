@@ -130,7 +130,6 @@ $this['related'] = $related;
 
 <div class="container840">
 	<div class="single-news-item">
-
         <div class="row">
             <div class="col-xs-1">
                 <a href="/news" class="go-back"></a>
@@ -146,6 +145,12 @@ $this['related'] = $related;
                         <span class="news-date">{{readtime|round}} min read</span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+
                 <h1 class="display-1">{{article.title}}</h1>
             <div class="col-xs-12 news-img-container">
                 <img src="{{ article.cover.path }}" />
@@ -206,9 +211,9 @@ $this['related'] = $related;
                         {% set readtime = (numberOfWords / 250) %}
                         <div class="news-container col-xs-12">
                             <div class="row mt-1 mb-3">
-                                <div class="col-md-4 col-xs-5 news-date">{{record.published_at | date('d F Y') }}</div>
-                                <div class="col-md-4 col-xs-3 news-category">{{record.categories[0].name}}</div>
-                                <div class="col-md-4 col-xs-4 end-md center-xs news-read">{{readtime|round}} min read</div>
+                                <div class="col-md-4 col-xs-6 news-date">{{record.published_at | date('d F Y') }}</div>
+                                <div class="col-md-4 col-xs-6 news-category center-md end-xs">{{record.categories[0].name}}</div>
+                                <div class="col-md-4 col-xs-12 end-md center-xs news-read">{{readtime|round}} min read</div>
                                 <div class="col-xs-12 news-title mt-1">
                                     <h3>{{ record.title|raw }}</h3>
                                 </div>

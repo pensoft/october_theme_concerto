@@ -31,6 +31,12 @@ nav:not(.navbar){
             color: @heading-text-color;
             padding: 0;
             margin-right: 30px;
+            .breakpoint-large-down({
+                font-size: 17px;
+                margin-right: 10px;
+            });
+
+
 
         }
         .news-date{
@@ -40,6 +46,26 @@ nav:not(.navbar){
             padding: 0;
             margin-right: 30px;
             opacity: 0.65;
+            .breakpoint-large-down({
+                font-size: 17px;
+                margin-right: 0px;
+                width: 100%;
+                display: block;
+            });
+
+            &:last-of-type{
+                .breakpoint-large-down({
+                    width: 100%;
+                    display: block;
+                    margin-right: 0px;
+                });
+            }
+        }
+
+        .go-back{
+            .breakpoint-large-down({
+                margin-left: 26px;
+            });
         }
 
 
@@ -50,6 +76,9 @@ nav:not(.navbar){
             line-height: 125%; /* 27.5px */
             text-align: center;
             margin: 30px auto;
+            .breakpoint-large-down({
+                padding: 0!important;
+            });
         }
 
         .news-img-container{
@@ -65,6 +94,7 @@ nav:not(.navbar){
         .news-content{
             padding: 30px 0;
             font-size: 20px;
+            line-height: 1.5em;
         }
 
         .caption{
@@ -225,6 +255,10 @@ nav:not(.navbar){
                     justify-content: center;
                     height: 20px;
                     border-right: 1px solid rgba(23, 23, 23, 0.65);
+                    .breakpoint-large-down({
+                        border-right: none;
+                        justify-content: end;
+                    });
 
                 }
                 .news-date{
@@ -248,6 +282,9 @@ nav:not(.navbar){
                     display: flex;
                     align-items: end;
                     opacity: 0.65;
+                    .breakpoint-large-down({
+                        margin-top: 10px;
+                    });
                 }
 
                 .news-title{
