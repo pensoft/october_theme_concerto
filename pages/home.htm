@@ -61,29 +61,29 @@ function onStart(){
             <div class="homepage_tabs">
                 <div>
                     <h2>Principles</h2>
-                    <a class="" href="#vision">Vision</a>
-                    <a class="" href="#mission">Mission</a>
-                    <a class="" href="#goals">Goals</a>
+                    <a class="tablink" onclick="openTab(event, 'vision')" href="javascript: void(0);">Vision</a>
+                    <a class="tablink" onclick="openTab(event, 'mission')" href="javascript: void(0);">Mission</a>
+                    <a class="tablink" onclick="openTab(event, 'goals')" href="javascript: void(0);">Goals</a>
                 </div>
                 {% component 'principles' %}
             </div>
         </div>
         <div class="col-md-7 col-xs-12">
-            <div class="vision" id="vision">
+            <div class="vision tab_content" id="vision">
                 <div class="row middle-xs">
                     <div class="col-md-3 col-xs-12"><h1>Vision</h1></div>
                     <div class="col-md col-xs-12"><a class="button" href="{{'about'|page}}">Convergance</a></div>
                 </div>
                 {% component 'vision' %}
             </div>
-            <div class="mission" id="mission">
+            <div class="mission tab_content" id="mission" style="display: none;">
                 <div class="row middle-xs">
                     <div class="col-md-3 col-xs-12"><h1>Mission</h1></div>
                     <div class="col-md col-xs-12"><a class="button" href="{{'about'|page}}">Precision</a></div>
                 </div>
                 {% component 'mission' %}
             </div>
-            <div class="goals" id="goals">
+            <div class="goals tab_content" id="goals" style="display: none;">
                 <div class="row middle-xs">
                     <div class="col-md-3 col-xs-12"><h1>Goals</h1></div>
                     <div class="col-md col-xs-12"><a class="button" href="{{'about'|page}}">Advancement</a></div>

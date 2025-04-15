@@ -194,31 +194,32 @@ $(document).ready(function() {
 
         if(activeTab.length){
             $content.show();
-            // $content.slideDown(speed);
+            $content.slideDown(speed);
             //scroll to element
-            // $('html, body').animate({
-            //     scrollTop:  activeTab.offset().top - $('header').height() + offset_top
-            // }, speed);
+            $('html, body').animate({
+                scrollTop:  activeTab.offset().top - $('header').height() + offset_top
+            }, speed);
         }
 
         // Bind the click event handler
         $(this).find("a").click(function (e) {
             if($(this).hasClass('active')) {
                 $content.show();
-                // $content.slideDown({
-                //     scrollTop: $content.offset().top - $('header').height() + offset_top
-                // }, speed);
+                $content.slideDown({
+                    scrollTop: $content.offset().top - $('header').height() + offset_top
+                }, speed);
                 var screenSize = getScreenSize();
                 if (screenSize.width < 800) {
+                    console.log(123);
                     // scroll to element
-                    // $('html, body').animate({
-                    //     scrollTop: $content.offset().top - $('header').height() + 300  // mobile
-                    // }, speed);
+                    $('html, body').animate({
+                        scrollTop: $content.offset().top - $('header').height() + 300  // mobile
+                    }, speed);
                 }else{
                     //scroll to element icons top
-                    // $('html, body').animate({
-                    //     scrollTop:  $content.offset().top - $('header').height() + 300
-                    // }, speed);
+                    $('html, body').animate({
+                        scrollTop:  $content.offset().top - $('header').height() + 300
+                    }, speed);
                 }
                 e.preventDefault();
                 return false;
@@ -249,6 +250,21 @@ $(document).ready(function() {
 
 
 });
+
+
+function openTab(evt, tabName) {
+    var i, x, tablinks;
+    x = document.getElementsByClassName("tab_content");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
 
 function toggleExpandReadMore(el){
     var link = $(el);
