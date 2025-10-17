@@ -21,6 +21,7 @@
         color: white!important;
         margin: 0 auto 40px auto;
         text-align: center;
+        padding-left: 0!important;
     }
 
     .coordinator_info{
@@ -171,6 +172,20 @@
             });
         }
         .conserto_together{
+               img{
+                   margin: 0 auto;
+                   display: block;
+                   .breakpoint-large-down({
+                       display: none;
+                   });
+               }
+                .breakpoint-large-down({
+                       background: url('../../assets/images/Together-For-a-Better-Future2.svg') center no-repeat;
+                       background-size: contain;
+                       width: 90%;
+                       height: 90px;
+                        margin: 0 auto;
+                   });
         }
 
         .breakpoint-large-down({
