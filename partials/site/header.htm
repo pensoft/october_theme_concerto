@@ -14,41 +14,59 @@ description_limit = 0
 ==
 <div class="header-menu-container">
     <div class="container1200">
-        <nav class="navbar" id="headernavbar">
-        <div id="menuToggle">
-            <input type="checkbox" />
-            <span></span>
-            <span></span>
-            <span></span>
-            {% component 'menu' %}
-        </div>
-        <a href="{{'home'|page}}" class="navbar-brand" style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain;">
-        </a>
+        <nav class="navbar" id="headernavbar" aria-label="Main navigation">
+            <button class="navbar-toggler" type="button" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle navigation menu" id="navbarToggleBtn">
+                <div id="menuToggle">
+                    <input type="checkbox" id="menu-checkbox" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+
+            <a href="{{'home'|page}}" class="navbar-brand" aria-label="Go to homepage">
+                <span class="sr-only">Project Home</span>
+                <div style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain; width: 100%; height: 100%;" role="img" aria-label="Project logo"></div>
+            </a>
+
             <div class="container">
-        <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
-            {% component 'menu' %}
-        </div>
+                <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
+                    {% component 'menu' %}
+                </div>
             </div>
-        <div class="search-and-social-media hidden-xs">
-            <ul class="navbar-nav">
-                <li class="nav-item social">
-                    <a class="search-btn" onclick="showSearchForm();"></a>
-                </li>
-            </ul>
-        </div>
-        <div id="search" class="search" style="display: none;">
-            <div class="container">
-                <div class="close-search" onclick="hideSearchForm();">&#10006;</div>
-                <form class="input-group align-items-start" action="{{ url('search')}}" method="get">
-                    <input class="form-control search_input" style="color: #000;" name="q" type="text" autocomplete="on" placeholder="Search">
-                    <button class="btn pr p-search big header-text-grey-search-btn" type="submit"></button>
-                </form>
+
+            <div class="mobile-menu" id="mobileMenu" style="display: none;" aria-hidden="true">
+                {% component 'menu' %}
             </div>
-        </div>
-    </nav>
+
+            <div class="search-and-social-media hidden-xs">
+                <ul class="navbar-nav">
+                    <li class="nav-item social">
+                        <button type="button" class="search-btn" onclick="showSearchForm();" aria-label="Open search form">
+                            <span class="sr-only">Search</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="search" class="search" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-heading" aria-hidden="true">
+                <div class="container">
+                    <button class="close-search" onclick="hideSearchForm();" aria-label="Close search form">
+                        <span aria-hidden="true">&#10006;</span>
+                    </button>
+                    <h2 id="search-heading" class="sr-only">Search</h2>
+                    <form class="input-group align-items-start" action="{{ url('search')}}" method="get" role="search">
+                        <label for="search-input" class="sr-only">Search query</label>
+                        <input class="form-control search_input" id="search-input" style="color: #000;" name="q" type="search" autocomplete="off" placeholder="Search" aria-label="Enter search query">
+                        <button class="btn pr p-search big header-text-grey-search-btn" type="submit" aria-label="Submit search">
+                            <span class="sr-only">Search</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
     </div>
 </div>
-
 
 {% if page_id == 'home' and tag_line%}
 <div class="header-image {{page_id}}">
@@ -58,43 +76,59 @@ description_limit = 0
                 <div class="jumbotron" data-aos="fade-right">
                     <div class="intro">
                         <h1 class="underline" data-aos="fade-up">{{tag_line|raw}}</h1>
-                        <p></p>
+                        <p>&nbsp;</p>
                     </div>
-                    <div class="social-media-container">
-                        Find us on social networks
+                    <nav class="social-media-container" aria-label="Social media links">
+                        <p>Find us on social networks</p>
                         <div class="icons">
                             {% if this.theme.facebook_url %}
-                            <a href="{{facebook_url}}" target="_blank" class="pr p-secondary p-facebook normal" target="_blank"></a>
+                            <a href="{{facebook_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-facebook normal" aria-label="Follow us on Facebook (opens in new window)">
+                                <span class="sr-only">Facebook</span>
+                            </a>
                             {% endif %}
                             {% if this.theme.twitter_url %}
-                            <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter small" target="_blank"></a>
+                            <a href="{{twitter_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-twitter small" aria-label="Follow us on Twitter (opens in new window)">
+                                <span class="sr-only">Twitter</span>
+                            </a>
                             {% endif %}
                             {% if this.theme.linkedin_url %}
-                            <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank"></a>
+                            <a href="{{linkedin_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-linkedin normal" aria-label="Follow us on LinkedIn (opens in new window)">
+                                <span class="sr-only">LinkedIn</span>
+                            </a>
                             {% endif %}
                             {% if this.theme.instagram_url %}
-                            <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank"></a>
+                            <a href="{{instagram_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-instagram normal" aria-label="Follow us on Instagram (opens in new window)">
+                                <span class="sr-only">Instagram</span>
+                            </a>
                             {% endif %}
                             {% if this.theme.bluesky_url %}
-                            <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky small"></a>
+                            <a href="{{this.theme.bluesky_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-bluesky small" aria-label="Follow us on Bluesky (opens in new window)">
+                                <span class="sr-only">Bluesky</span>
+                            </a>
                             {% endif %}
                             {% if this.theme.youtube_url %}
-                            <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
+                            <a href="{{youtube_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-youtube normal" aria-label="Subscribe to our YouTube channel (opens in new window)">
+                                <span class="sr-only">YouTube</span>
+                            </a>
                             {% endif %}
                             {% if this.theme.threads_url %}
-                            <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads small"></a>
+                            <a href="{{this.theme.threads_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-threads small" aria-label="Follow us on Threads (opens in new window)">
+                                <span class="sr-only">Threads</span>
+                            </a>
                             {% endif %}
                         </div>
-                    </div>
-                    <div class="plant"></div>
+                    </nav>
+                    <div class="plant" aria-hidden="true"></div>
                 </div>
             </div>
             <div class="col-md-6 col-xs-12">
-                <div class="project_dedicated">
-                    We’re a project dedicated to<br> enhancing climate model precision
-                </div>
+                <p class="project_dedicated">
+                    We're a project dedicated to<br> enhancing climate model precision
+                </p>
             </div>
-            <a class="mouse" href="{{'about'|page}}"></a>
+            <a class="mouse" href="{{'about'|page}}" aria-label="Learn more about our project">
+                <span class="sr-only">Scroll down to learn more</span>
+            </a>
         </div>
     </div>
 </div>

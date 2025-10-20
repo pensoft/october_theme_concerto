@@ -12,68 +12,94 @@ background = "transperant"
 templates = "template3"
 description_limit = 0
 ==
-<div class="container-fluid border-box dark-background">
-    <div class="container">
-        <div class="row middle-xs">
-            <div class="col-md-3 col-xs-12 start-md center-xs"><img src="{{'Concerto_LOGO_Footer.svg'|media}}" class="footer_logo"></div>
-            <div class="col-md-7 col-xs-12 start-md center-xs">
-                {% component 'footer_menu' %}
+<footer role="contentinfo">
+    <section class="container-fluid border-box dark-background">
+        <div class="container">
+            <div class="row middle-xs">
+                <div class="col-md-3 col-xs-12 start-md center-xs">
+                    <a href="{{'home'|page}}" aria-label="Go to homepage">
+                        <img src="{{'Concerto_LOGO_Footer.svg'|media}}" class="footer_logo" alt="Concerto Project logo" loading="lazy">
+                    </a>
+                </div>
+                <nav class="col-md-7 col-xs-12 start-md center-xs" aria-label="Footer navigation">
+                    {% component 'footer_menu' %}
+                </nav>
+                <div class="col-md-2 col-xs-12 end-md center-xs social-networks-footer-container">
+                    <nav class="social-networks" aria-label="Social media links">
+                        <div class="icons">
+                            {% if enable_facebook and facebook_url %}
+                            <a href="{{facebook_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-facebook normal" aria-label="Follow us on Facebook (opens in new window)">
+                                <span class="sr-only">Facebook</span>
+                            </a>
+                            {% endif %}
+                            {% if enable_twitter and twitter_url %}
+                            <a href="{{twitter_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-twitter normal" aria-label="Follow us on Twitter (opens in new window)">
+                                <span class="sr-only">Twitter</span>
+                            </a>
+                            {% endif %}
+                            {% if enable_linkedin and linkedin_url %}
+                            <a href="{{linkedin_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-linkedin normal" aria-label="Follow us on LinkedIn (opens in new window)">
+                                <span class="sr-only">LinkedIn</span>
+                            </a>
+                            {% endif %}
+                            {% if enable_instagram and instagram_url %}
+                            <a href="{{instagram_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-instagram normal" aria-label="Follow us on Instagram (opens in new window)">
+                                <span class="sr-only">Instagram</span>
+                            </a>
+                            {% endif %}
+                            {% if this.theme.bluesky_url %}
+                            <a href="{{this.theme.bluesky_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-bluesky normal" aria-label="Follow us on Bluesky (opens in new window)">
+                                <span class="sr-only">Bluesky</span>
+                            </a>
+                            {% endif %}
+                            {% if enable_youtube and youtube_url %}
+                            <a href="{{youtube_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-youtube normal" aria-label="Subscribe to our YouTube channel (opens in new window)">
+                                <span class="sr-only">YouTube</span>
+                            </a>
+                            {% endif %}
+                            {% if this.theme.threads_url %}
+                            <a href="{{this.theme.threads_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-threads normal" aria-label="Follow us on Threads (opens in new window)">
+                                <span class="sr-only">Threads</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </nav>
+                </div>
             </div>
-            <div class="col-md-2 col-xs-12 end-md center-xs social-networks-footer-container">
-                <div class="social-networks">
-                    <div class="icons">
-                        {% if enable_facebook and facebook_url %}
-                        <a href="{{facebook_url}}" target="_blank" class="pr p-secondary p-facebook normal" target="_blank"></a>
+            <div class="row middle-xs">
+                <div class="col-md-3 col-xs-12 start-md center-xs">
+                    {% if (footer_funds_flag != null or footer_funds_text != '') %}
+                    <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 col-sm col-xs-12">
+                        {% if footer_funds_flag %}
+                        <img class="mr-0 mr-lg-1" src="{{ footer_funds_flag }}" alt="European Union flag" loading="lazy"/>
                         {% endif %}
-                        {% if enable_twitter and twitter_url %}
-                        <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter normal" target="_blank"></a>
-                        {% endif %}
-                        {% if enable_linkedin and linkedin_url %}
-                        <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank"></a>
-                        {% endif %}
-                        {% if enable_instagram and instagram_url %}
-                        <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank"></a>
-                        {% endif %}
-                        {% if this.theme.bluesky_url %}
-                        <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky normal"></a>
-                        {% endif %}
-                        {% if enable_youtube and youtube_url %}
-                        <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
-                        {% endif %}
-                        {% if this.theme.threads_url %}
-                        <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads normal"></a>
-                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-9 col-xs-12">
+                    <div class="funding-text">
+                        {% component 'footer_funds' %}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row middle-xs">
-            <div class="col-md-3 col-xs-12 start-md center-xs">
-                {% if (footer_funds_flag != null or footer_funds_text != '') %}
-                <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 col-sm col-xs-12">
-                    {% if footer_funds_flag %}
-                    <img class="mr-0 mr-lg-1" src="{{ footer_funds_flag }}"/>
-                    {% endif %}
+    </section>
+
+    <section class="container-fluid border-box light-background">
+        <div class="container">
+            <div class="row end-md center-xs">
+                <div class="col-md-4 col-xs-12 end-md center-xs privacy_policy_container">
+                    <a href="{{'privacy-policy'|page}}">Privacy policy</a>
                 </div>
-
-                {% endif %}
-            </div>
-
-            <div class="col-md-9 col-xs-12">
-                <div class="funding-text">
-                    {% component 'footer_funds' %}
+                <div class="col-md-4 col-xs-12 powered-by end-md center-xs">
+                    <span>Designed and powered by
+                        <a href="https://pensoft.net/" target="_blank" rel="noopener noreferrer" aria-label="Pensoft (opens in new window)">
+                            <img class="pensoft_logo" src="{{ 'assets/images/Pensoft_logo_black.svg'|theme }}" alt="Pensoft logo" loading="lazy" />
+                        </a>
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="container-fluid border-box light-background">
-    <div class="container">
-        <div class="row end-md center-xs">
-            <div class="col-md-4 col-xs-12 end-md center-xs privacy_policy_container"><a href="{{'privacy-policy'|page}}">Privacy policy</a></div>
-            <div class="col-md-4 col-xs-12 powered-by end-md center-xs"><span>Designed and powered by <a href="https://pensoft.net/" target="_blank">
-                    <img class="pensoft_logo" src="{{ 'assets/images/Pensoft_logo_black.svg'|theme }}" /></a>
-                </span></div>
-        </div>
-    </div>
-</div>
+    </section>
+</footer>
