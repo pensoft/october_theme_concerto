@@ -63,131 +63,145 @@ return Response::download($pathToFile, $fileName, $headers);
 }
 ?>
 ==
-<div class="container">
+<section aria-labelledby="project-materials-heading">
+    <div class="container">
 
-    {% set records = mediaLogosList %}
-    {% set displayColumn = mediaLogosList.displayColumn %}
-    {% set noRecordsMessage = mediaLogosList.noRecordsMessage %}
-    {% set detailsPage = mediaLogosList.detailsPage %}
-    {% set detailsKeyColumn = mediaLogosList.detailsKeyColumn %}
-    {% set detailsUrlParameter = mediaLogosList.detailsUrlParameter %}
+        {% set records = mediaLogosList %}
+        {% set displayColumn = mediaLogosList.displayColumn %}
+        {% set noRecordsMessage = mediaLogosList.noRecordsMessage %}
+        {% set detailsPage = mediaLogosList.detailsPage %}
+        {% set detailsKeyColumn = mediaLogosList.detailsKeyColumn %}
+        {% set detailsUrlParameter = mediaLogosList.detailsUrlParameter %}
 
-    {% if records.count() %}
-    <div class="row">
-        <div class="col-xs-1">
-            <a href="{{'news-media'|page}}" class="go-back"></a>
-        </div>
-        <div class="col-xs-11"><h1 class="display-1">PROJECT MATERIALS</h1></div>
-    </div>
-
-    <div class="row between-md around-xs">
-        {% for record in records %}
-        {% spaceless %}
-        <div class="col-md-6 col-xs-12 mb-2">
-            <div class="material_item">
-                {% if record.name == 'Videos' %}
-                <a href="/videos">
-                    <div class="logo-container {{record.name}}">
-                        <img src="{{record.logo_image.path}}" title="{{record.name}}">
-                    </div>
+        {% if records.count() %}
+        <div class="row">
+            <div class="col-xs-1">
+                <a href="{{'news-media'|page}}" class="go-back" aria-label="Go back to News & Media">
+                    <span class="sr-only">Back</span>
                 </a>
-                {% elseif record.name == 'PROMOTIONAL MATERIALS' %}
-                <a href="/promotional-materials">
-                    <div class="logo-container {{record.name}}">
-                        <img src="{{record.logo_image.path}}" title="{{record.name}}">
-                    </div>
-                </a>
-                {% else %}
-                <div class="logo-container {{record.name}}">
-                    <img src="{{record.logo_image.path}}" title="{{record.name}}">
-                </div>
-                {% endif %}
-
-
-
-
-                {% if record.name == 'LOGO' %}
-                {% set className = 'btn-primary download' %}
-                {% set labelJPG = 'JPG' %}
-                {% set labelPNG = 'PNG' %}
-                {% set labelSVG = 'SVG' %}
-                {% set labelZIP = 'ZIP' %}
-                {% set labelPDF = 'PDF' %}
-                {% else %}
-                {% set className = 'btn-primary download' %}
-                {% set labelJPG = 'Download' %}
-                {% set labelPNG = 'Download' %}
-                {% set labelSVG = 'Download' %}
-                {% set labelZIP = 'Download' %}
-                {% set labelPDF = 'Download' %}
-
-                {% endif %}
-                <div class="row between-md">
-                    {% if record.name == 'Videos' %}
-                    <a href="/videos">
-                    <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
-                    </a>
-                    {% elseif record.name == 'PROMOTIONAL MATERIALS' %}
-                    <a href="/promotional-materials">
-                        <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
-                    </a>
-                    {% else %}
-                    <div class="col-md col-xs-12"><h2>{{record.name}}</h2></div>
-                    {% endif %}
-                    {% if record.file_jpg %}
-                    <div class="col-md end-md around-xs">
-                        {{form_open({ request: 'onDownloadFile' }) }}
-                        <input type="hidden" value="{{record.file_jpg.id}}" name="id">
-                        <button type="submit" data-attach-loading class="{{className}}">{{labelJPG}}</button>
-                        {{ form_close() }}
-                    </div>
-                    {% endif %}
-                    {% if record.file_png %}
-                    <div class="col-md end-md around-xs">
-                        {{form_open({ request: 'onDownloadFile' }) }}
-                        <input type="hidden" value="{{record.file_png.id}}" name="id">
-                        <button type="submit" data-attach-loading class="{{className}}">{{labelPNG}}</button>
-                        {{ form_close() }}
-                    </div>
-                    {% endif %}
-
-                    {% if record.file_eps %}
-                    <div class="col-md end-md around-xs">
-                        {{form_open({ request: 'onDownloadFile' }) }}
-                        <input type="hidden" value="{{record.file_eps.id}}" name="id">
-                        <button type="submit" data-attach-loading class="{{className}}">{{labelSVG}}</button>
-                        {{ form_close() }}
-                    </div>
-                    {% endif %}
-
-                    {% if record.file_zip %}
-                    <div class="col-md end-md around-xs">
-                        {{form_open({ request: 'onDownloadFile' }) }}
-                        <input type="hidden" value="{{record.file_zip.id}}" name="id">
-                        <button type="submit" data-attach-loading class="{{className}}">{{labelZIP}}</button>
-                        {{ form_close() }}
-                    </div>
-                    {% endif %}
-
-                    {% if record.file_pdf %}
-                    <div class="col-md end-md around-xs">
-                        <a href="{{record.file_pdf.path}}" target="_blank" class="{{className}}">{{labelPDF}}</a>
-                    </div>
-                    {% endif %}
-
-                </div>
+            </div>
+            <div class="col-xs-11">
+                <h1 id="project-materials-heading">Project Materials</h1>
             </div>
         </div>
 
-        {% endspaceless %}
-        {% else %}
-        No news
-        {% endfor %}
-    </div>
-    <div class="row">
-        {{ records.render|raw }}
-    </div>
+        <div class="row between-md around-xs">
+            {% for record in records %}
+            {% spaceless %}
+            <article class="col-md-6 col-xs-12 mb-2">
+                <div class="material_item">
+                    {% if record.name == 'Videos' %}
+                    <a href="/videos" aria-label="Browse {{record.name}}">
+                        <div class="logo-container {{record.name}}">
+                            <img src="{{record.logo_image.path}}" alt="{{record.name}} icon">
+                        </div>
+                    </a>
+                    {% elseif record.name == 'PROMOTIONAL MATERIALS' %}
+                    <a href="/promotional-materials" aria-label="Browse promotional materials">
+                        <div class="logo-container {{record.name}}">
+                            <img src="{{record.logo_image.path}}" alt="Promotional materials icon">
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="logo-container {{record.name}}">
+                        <img src="{{record.logo_image.path}}" alt="{{record.name}} preview">
+                    </div>
+                    {% endif %}
 
-    {% endif %}
+                    {% if record.name == 'LOGO' %}
+                    {% set className = 'btn-primary download' %}
+                    {% set labelJPG = 'JPG' %}
+                    {% set labelPNG = 'PNG' %}
+                    {% set labelSVG = 'SVG' %}
+                    {% set labelZIP = 'ZIP' %}
+                    {% set labelPDF = 'PDF' %}
+                    {% else %}
+                    {% set className = 'btn-primary download' %}
+                    {% set labelJPG = 'Download' %}
+                    {% set labelPNG = 'Download' %}
+                    {% set labelSVG = 'Download' %}
+                    {% set labelZIP = 'Download' %}
+                    {% set labelPDF = 'Download' %}
+                    {% endif %}
 
-</div>
+                    <div class="row between-md">
+                        {% if record.name == 'Videos' %}
+                        <div class="col-md col-xs-12">
+                            <a href="/videos">
+                                <h2>{{record.name}}</h2>
+                            </a>
+                        </div>
+                        {% elseif record.name == 'PROMOTIONAL MATERIALS' %}
+                        <div class="col-md col-xs-12">
+                            <a href="/promotional-materials">
+                                <h2>{{record.name|title}}</h2>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="col-md col-xs-12">
+                            <h2>{{record.name|title}}</h2>
+                        </div>
+                        {% endif %}
+
+                        {% if record.file_jpg %}
+                        <div class="col-md end-md around-xs">
+                            {{form_open({ request: 'onDownloadFile' }) }}
+                            <input type="hidden" value="{{record.file_jpg.id}}" name="id">
+                            <button type="submit" data-attach-loading class="{{className}}" aria-label="Download {{record.name}} as {{labelJPG}}">{{labelJPG}}</button>
+                            {{ form_close() }}
+                        </div>
+                        {% endif %}
+
+                        {% if record.file_png %}
+                        <div class="col-md end-md around-xs">
+                            {{form_open({ request: 'onDownloadFile' }) }}
+                            <input type="hidden" value="{{record.file_png.id}}" name="id">
+                            <button type="submit" data-attach-loading class="{{className}}" aria-label="Download {{record.name}} as {{labelPNG}}">{{labelPNG}}</button>
+                            {{ form_close() }}
+                        </div>
+                        {% endif %}
+
+                        {% if record.file_eps %}
+                        <div class="col-md end-md around-xs">
+                            {{form_open({ request: 'onDownloadFile' }) }}
+                            <input type="hidden" value="{{record.file_eps.id}}" name="id">
+                            <button type="submit" data-attach-loading class="{{className}}" aria-label="Download {{record.name}} as {{labelSVG}}">{{labelSVG}}</button>
+                            {{ form_close() }}
+                        </div>
+                        {% endif %}
+
+                        {% if record.file_zip %}
+                        <div class="col-md end-md around-xs">
+                            {{form_open({ request: 'onDownloadFile' }) }}
+                            <input type="hidden" value="{{record.file_zip.id}}" name="id">
+                            <button type="submit" data-attach-loading class="{{className}}" aria-label="Download {{record.name}} as {{labelZIP}}">{{labelZIP}}</button>
+                            {{ form_close() }}
+                        </div>
+                        {% endif %}
+
+                        {% if record.file_pdf %}
+                        <div class="col-md end-md around-xs">
+                            <a href="{{record.file_pdf.path}}" target="_blank" rel="noopener noreferrer" class="{{className}}" aria-label="Download {{record.name}} as PDF (opens in new window)">{{labelPDF}}</a>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </article>
+
+            {% endspaceless %}
+            {% else %}
+            <div class="col-xs-12">
+                <p>No materials available at this time.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <nav aria-label="Materials pagination" class="row">
+            {{ records.render|raw }}
+        </nav>
+
+        {% endif %}
+
+    </div>
+</section>

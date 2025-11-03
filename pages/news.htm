@@ -126,112 +126,144 @@ $this['related'] = $related;
 ==
 
 
-	{% if is_detail_page %}
+{% if is_detail_page %}
 
-<div class="container840">
-	<div class="single-news-item">
-        <div class="row">
-            <div class="col-xs-1">
-                <a href="/news" class="go-back"></a>
+<article aria-labelledby="article-title">
+    <div class="container840">
+        <div class="single-news-item">
+            <div class="row">
+                <div class="col-xs-1">
+                    <a href="/news" class="go-back" aria-label="Go back to Project News">
+                        <span class="sr-only">Back</span>
+                    </a>
+                </div>
+                <div class="col-xs-11">
+                    <div class="row middle-xs center-xs">
+                        <div class="col-xs-12 center-xs">
+                            {% set numberOfWords = article.content|striptags|split(' ')|length %}
+                            {% set readtime = (numberOfWords / 250) %}
+
+                            <time class="news-date" datetime="{{article.published_at|date('Y-m-d')}}">{{article.published_at | date('d F Y') }}</time>
+                            <span class="news-category">{{article.categories[0].name}}</span>
+                            <span class="news-date">{{readtime|round}} min read</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-11">
-                <div class="row middle-xs center-xs">
-                    <div class="col-xs-12 center-xs">
-                        {% set numberOfWords = article.content|striptags|split(' ')|length %}
-                        {% set readtime = (numberOfWords / 250) %}
 
-                        <span class="news-date">{{article.published_at | date('d F Y') }}</span>
-                        <span class="news-category">{{article.categories[0].name}}</span>
-                        <span class="news-date">{{readtime|round}} min read</span>
+            <div class="row">
+                <div class="col-xs-12">
+                    <header>
+                        <h1 id="article-title">{{article.title}}</h1>
+                    </header>
+
+                    <div class="col-xs-12 news-img-container">
+                        <img src="{{ article.cover.path }}" alt="{{article.title}}" />
+                    </div>
+
+                    <div class="col-xs-12 news-content">
+                        {{article.content|raw}}
+
+                        <div class="col-xs col-md start-md start-xs share_container">
+                            <span class="share_label">Share</span>
+                            <a href="https://www.linkedin.com/shareArticle?url={{page_url}}"
+                               class="pr p-linkedin small"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="Share on LinkedIn (opens in new window)">
+                                <span class="sr-only">LinkedIn</span>
+                            </a>
+                            <a href="https://bsky.app/intent/compose?text={{article.title}}+{{page_url}}"
+                               class="pr p-bluesky small"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="Share on Bluesky (opens in new window)">
+                                <span class="sr-only">Bluesky</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</article>
 
+{% else %}
+
+<section aria-labelledby="project-news-heading">
+    <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-
-                <h1 class="display-1">{{article.title}}</h1>
-            <div class="col-xs-12 news-img-container">
-                <img src="{{ article.cover.path }}" />
+            <div class="col-xs-1">
+                <a href="{{'news-media'|page}}" class="go-back" aria-label="Go back to News & Media">
+                    <span class="sr-only">Back</span>
+                </a>
             </div>
-            <div class="col-xs-12 news-content">
-                {{article.content|raw}}
-
-                <div class="col-xs col-md start-md start-xs share_container">
-                    <span class="share_label">Share</span>
-                    <a href="https://www.linkedin.com/shareArticle?url={{page_url}}" class="pr p-linkedin small"></a>
-                    <a href="https://bsky.app/intent/compose?text={{article.title}}+{{page_url}}" class="pr p-bluesky small"></a>
-                </div>
-
+            <div class="col-xs-11 arrow_project_news">
+                <h1 id="project-news-heading">Project News</h1>
             </div>
         </div>
 
+        <nav aria-label="News categories" class="category-tabs-container mb-2">
+            {% if categories.count > 0 %}
+            <div class="row category-tabs" id="category-tabs" role="tablist">
+                <a href="{{ 'news'|page }}"
+                   role="tab"
+                   aria-selected="{{ 'all' == categoryId ? 'true' : 'false' }}"
+                   class="{{ 'all' == categoryId ? 'active' : '' }}">All News</a>
+                {% for category in categories %}
+                <a href="{{ 'news'|page }}?categoryId={{ category.id }}"
+                   role="tab"
+                   aria-selected="{{ category.id == categoryId ? 'true' : 'false' }}"
+                   class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </nav>
 
-	</div>
-</div>
-
-	{% else %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-xs-1">
-            <a href="{{'news-media'|page}}" class="go-back"></a>
-        </div>
-        <div class="col-xs-11 arrow_project_news"><h1 class="display-1">PROJECT NEWS</h1></div>
-    </div>
-
-
-    <div class="category-tabs-container mb-2">
-        {% if categories.count > 0 %}
-        <div class="row category-tabs" id="category-tabs">
-            <a href="{{ 'news'|page }}" class="{{ 'all' == categoryId ? 'active' : '' }}">All News</a>
-            {% for category in categories %}
-            <a href="{{ 'news'|page }}?categoryId={{ category.id }}" class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.name }}</a>
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
-
-    <div class="news-list">
-
-        <div class="row">
-            {% for record in records %}
-            {% spaceless %}
-            <div class="col-md-6 col-xs-12 news-item">
-                <div class="row news_column">
-
-                    <a href="{{'news'|page}}/{{record.slug}}">
-                        {% if record.cover %}
-                        <div class="news-image col-xs-12 center-xs">
-                            <img class="news-img-top" src="{{record.cover.getThumb(550, 280, {'mode': 'crop'})}}">
-                        </div>
-                        {% endif %}
-                        {% set numberOfWords = record.content|striptags|split(' ')|length %}
-                        {% set readtime = (numberOfWords / 250) %}
-                        <div class="news-container col-xs-12">
-                            <div class="row mt-1 mb-3">
-                                <div class="col-md-4 col-xs-6 news-date">{{record.published_at | date('d F Y') }}</div>
-                                <div class="col-md-4 col-xs-6 news-category center-md end-xs">{{record.categories[0].name}}</div>
-                                <div class="col-md-4 col-xs-12 end-md center-xs news-read">{{readtime|round}} min read</div>
-                                <div class="col-xs-12 news-title mt-1">
-                                    <h3>{{ record.title|raw }}</h3>
+        <div class="news-list">
+            <div class="row">
+                {% for record in records %}
+                {% spaceless %}
+                <article class="col-md-6 col-xs-12 news-item">
+                    <div class="row news_column">
+                        <a href="{{'news'|page}}/{{record.slug}}" aria-label="Read article: {{record.title|striptags}}">
+                            {% if record.cover %}
+                            <div class="news-image col-xs-12 center-xs">
+                                <img class="news-img-top"
+                                     src="{{record.cover.getThumb(550, 280, {'mode': 'crop'})}}"
+                                     alt="{{record.title|striptags}}">
+                            </div>
+                            {% endif %}
+                            {% set numberOfWords = record.content|striptags|split(' ')|length %}
+                            {% set readtime = (numberOfWords / 250) %}
+                            <div class="news-container col-xs-12">
+                                <div class="row mt-1 mb-3">
+                                    <time class="col-md-4 col-xs-6 news-date" datetime="{{record.published_at|date('Y-m-d')}}">{{record.published_at | date('d F Y') }}</time>
+                                    <div class="col-md-4 col-xs-6 news-category center-md end-xs">{{record.categories[0].name}}</div>
+                                    <div class="col-md-4 col-xs-12 end-md center-xs news-read">{{readtime|round}} min read</div>
+                                    <div class="col-xs-12 news-title mt-1">
+                                        <h2>{{ record.title|raw }}</h2>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                </article>
+
+                {% endspaceless %}
+                {% else %}
+                <div class="col-xs-12">
+                    <p>No news articles available at this time.</p>
                 </div>
+                {% endfor %}
             </div>
 
-            {% endspaceless %}
-            {% else %}
-            No news
-            {% endfor %}
-        </div>
-        <div class="row">
-            {{ records.render|raw }}
+            <nav aria-label="News pagination" class="row">
+                {{ records.render|raw }}
+            </nav>
         </div>
     </div>
-</div>
-	{% endif %}
+</section>
+
+{% endif %}
 

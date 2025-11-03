@@ -63,42 +63,55 @@ return Response::download($pathToFile, $fileName, $headers);
 }
 ?>
 ==
-<div class="container">
-    <div class="row">
-        <div class="col-xs-1">
-            <a href="/brand-materials" class="go-back"></a>
-        </div>
-        <div class="col-xs-11 arrow_project_news"><h1 class="display-1">PROMOTIONAL MATERIALS</h1></div>
-        {% set records = mediaFlyersList %}
-        {% set displayColumn = mediaFlyersList.displayColumn %}
-        {% set noRecordsMessage = mediaFlyersList.noRecordsMessage %}
-        {% set detailsPage = mediaFlyersList.detailsPage %}
-        {% set detailsKeyColumn = mediaFlyersList.detailsKeyColumn %}
-        {% set detailsUrlParameter = mediaFlyersList.detailsUrlParameter %}
-
-        {% if records.count() %}
+<section aria-labelledby="promotional-materials-heading">
+    <div class="container">
         <div class="row">
-            <div class="col-md-12 col-xs-12">
-                <div class="row">
-                    {% for record in records %}
-                    <div class="col-md-4 col-xs-12 mb-4">
-                        <div class="all_container">
-                            <div class="flyer-container {{record.name}}">
-                                <img src="{{record.flyer_image.path}}" title="{{record.name}}">
-                            </div>
-                            <p>{{record.name}}</p>
+            <div class="col-xs-1">
+                <a href="/brand-materials" class="go-back" aria-label="Go back to Brand Materials">
+                    <span class="sr-only">Back</span>
+                </a>
+            </div>
+            <div class="col-xs-11 arrow_project_news">
+                <h1 id="promotional-materials-heading">Promotional Materials</h1>
+            </div>
 
-                        </div>
-                        <div class="links">
-                            {{form_open({ request: 'onDownloadFile' }) }}
-                            <input type="hidden" value="{{record.file.id}}" name="id">
-                            <button type="submit" data-attach-loading class="btn btn-secondary">Download</button>
-                            {{ form_close() }}
-                        </div>
+            {% set records = mediaFlyersList %}
+            {% set displayColumn = mediaFlyersList.displayColumn %}
+            {% set noRecordsMessage = mediaFlyersList.noRecordsMessage %}
+            {% set detailsPage = mediaFlyersList.detailsPage %}
+            {% set detailsKeyColumn = mediaFlyersList.detailsKeyColumn %}
+            {% set detailsUrlParameter = mediaFlyersList.detailsUrlParameter %}
+
+            {% if records.count() %}
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="row">
+                        {% for record in records %}
+                        <article class="col-md-4 col-xs-12 mb-4">
+                            <div class="all_container">
+                                <div class="flyer-container {{record.name}}">
+                                    <img src="{{record.flyer_image.path}}" alt="{{record.name}} preview">
+                                </div>
+                                <h2>{{record.name}}</h2>
+                            </div>
+                            <div class="links">
+                                {{form_open({ request: 'onDownloadFile' }) }}
+                                <input type="hidden" value="{{record.file.id}}" name="id">
+                                <button type="submit" data-attach-loading class="btn btn-secondary" aria-label="Download {{record.name}}">Download</button>
+                                {{ form_close() }}
+                            </div>
+                        </article>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>{{noRecordsMessage ?: 'No promotional materials available at this time.'}}</p>
+                </div>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
-</div>
+    </div>
+</section>

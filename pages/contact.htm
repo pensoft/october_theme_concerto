@@ -23,52 +23,55 @@ function onStart(){
 ==
 {% component 'siteSearchInclude' %}
 
-<div class="container-fluid contact_container">
+<section aria-labelledby="contact-heading">
+    <div class="container-fluid contact_container">
 
-<div class="container840">
-    <h1 class="display-1">CONTACT</h1>
-    <div class="row">
-		{% for profile in profiles %}
+        <div class="container840">
+            <h1 id="contact-heading">Contact</h1>
 
-            <div class="col-md-6 col-xs-12">
-                <div class="coordinator_info">
-                    {% if profile.avatar %}
-                    <img src="{{profile.avatar.thumb(400, 350, {'mode' : 'crop' })}}" class="fr-fic fr-dii">
-                    {% else %}
-                    <img src="{{'CMS_icons_avatar.svg'|media}}" class="fr-fic fr-dii">
-                    {% endif %}
-
-                    <div>
-                        {% if profile.position %}<div class="profle_position">{{profile.position}}</div>{% endif %}
-                        {% if profile.names %}<div class="profle_name">{{profile.names}}</div>{% endif %}
-                        {% if profile.department %}<div class="profle_department">{{profile.department}}</div>{% endif %}
-
-                        {% if profile.email %}
-                        <a href="mailto:{{profile.email}}" class="profle_email" target="_blank">
-                            <i></i> {{profile.email}}
-                        </a>
+            <div class="row">
+                {% for profile in profiles %}
+                <article class="col-md-6 col-xs-12">
+                    <div class="coordinator_info">
+                        {% if profile.avatar %}
+                        <img src="{{profile.avatar.thumb(400, 350, {'mode' : 'crop' })}}"
+                             alt="{{profile.names}}"
+                             class="fr-fic fr-dii">
+                        {% else %}
+                        <img src="{{'CMS_icons_avatar.svg'|media}}"
+                             alt="Default avatar"
+                             class="fr-fic fr-dii">
                         {% endif %}
+
+                        <div>
+                            {% if profile.names %}<h2 class="profle_name">{{profile.names}}</h2>{% endif %}
+                            {% if profile.position %}<p class="profle_position">{{profile.position}}</p>{% endif %}
+                            {% if profile.department %}<p class="profle_department">{{profile.department}}</p>{% endif %}
+
+                            {% if profile.email %}
+                            <a href="mailto:{{profile.email}}"
+                               class="profle_email"
+                               aria-label="Email {{profile.names}}">
+                                <span aria-hidden="true"><i></i></span> {{profile.email}}
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-
+                </article>
+                {% endfor %}
             </div>
-
-
-		{% endfor %}
-
-    </div>
-
-
-</div>
-
-
-    <div class="container together">
-        <img src="{{'Concerto_Contact.svg'|media}}" class="conserto_logo" />
-
-        <div class="conserto_together">
-        <img src="{{'Together-For-a-Better-Future.svg'|media}}" />
         </div>
-        
-    </div>
 
-</div>
+        <div class="container together">
+            <img src="{{'Concerto_Contact.svg'|media}}"
+                 alt="CONCERTO project logo"
+                 class="conserto_logo" />
+
+            <div class="conserto_together">
+                <img src="{{'Together-For-a-Better-Future.svg'|media}}"
+                     alt="Together For a Better Future" />
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -73,45 +73,78 @@ return Response::download($pathToFile, $fileName, $headers);
 
 {% set records = mediaVideosList %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-1">
-            <a href="/brand-materials" class="go-back"></a>
-        </div>
-        <div class="col-xs-11 arrow_project_news"><h1 class="display-1">VIDEOS</h1></div>
+<section aria-labelledby="videos-heading">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-1">
+                <a href="/brand-materials" class="go-back" aria-label="Go back to Brand Materials">
+                    <span class="sr-only">Back</span>
+                </a>
+            </div>
+            <div class="col-xs-11 arrow_project_news">
+                <h1 id="videos-heading">Videos</h1>
+            </div>
 
-        {% if records.count() %}
-                <div class="row">
-                    {% for record in records %}
-                    <div class="col-md-6 col-xs-12">
-                        <div class="card-container">
-                            {% if record.file %}
-                            <video controls=""><source src="{{record.file.path}}" type="video/mp4"></video>
+            {% if records.count() %}
+            <div class="row">
+                {% for record in records %}
+                <article class="col-md-6 col-xs-12">
+                    <div class="card-container">
+                        {% if record.file %}
+                        <video controls aria-label="{{record.name}}">
+                            <source src="{{record.file.path}}" type="video/mp4">
+                            <track kind="captions" src="{{record.captions_path}}" srclang="en" label="English">
+                            <p>Your browser doesn't support HTML5 video. <a href="{{record.file.path}}">Download the video</a> instead.</p>
+                        </video>
 
-                            <p class="card_title">{{record.name}}</p>
+                        <h2 class="card_title">{{record.name}}</h2>
 
-                            <p><a class="btn btn-primary download" href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}">Download</a></p>
+                        <p>
+                            <a class="btn btn-primary download"
+                               href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}"
+                               aria-label="Download {{record.name}} video"
+                               download>Download</a>
+                        </p>
+                        {% endif %}
 
-                            {% endif %}
+                        {% if record.youtube_url %}
+                        <iframe
+                            src="{{record.youtube_url}}"
+                            width="100%"
+                            height="320"
+                            title="{{record.name}} - YouTube video"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                        </iframe>
 
-                            {% if record.youtube_url %}
-                            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}" width="100%" height="320"></iframe>
+                        <h2 class="card_title">{{record.name}}</h2>
+                        {% endif %}
 
-                            <p>&nbsp;</p>
-                            {% endif %}
+                        {% if record.vimeo_url %}
+                        <iframe
+                            src="{{record.vimeo_url}}"
+                            width="100%"
+                            height="320"
+                            title="{{record.name}} - Vimeo video"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                        </iframe>
 
-                            {% if record.vimeo_url %}
-                            <iframe  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    src="{{record.vimeo_url}}">
-                            </iframe>
-                            <p>&nbsp;</p>
-                            {% endif %}
-                        </div>
+                        <h2 class="card_title">{{record.name}}</h2>
+                        {% endif %}
                     </div>
-                    {% endfor %}
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>No videos available at this time.</p>
                 </div>
-    {% endif %}
+            </div>
+            {% endif %}
+        </div>
     </div>
-
-
-</div>
+</section>

@@ -40,51 +40,82 @@ $this['press_items'] = $records;
 }
 ?>
 ==
-<div class="container">
+<section aria-labelledby="press-releases-heading">
+    <div class="container">
 
-    <div class="row">
-        <div class="col-xs-1">
-            <a href="{{'news-media'|page}}" class="go-back"></a>
+        <div class="row">
+            <div class="col-xs-1">
+                <a href="{{'news-media'|page}}" class="go-back" aria-label="Go back to News & Media">
+                    <span class="sr-only">Back</span>
+                </a>
+            </div>
+            <div class="col-xs-11">
+                <h1 id="press-releases-heading">Press Releases</h1>
+            </div>
         </div>
-        <div class="col-xs-11"><h1 class="display-1">PRESS RELEASES</h1></div>
-    </div>
 
-
-    <div class="category-tabs-container mb-2">
-        {% if categories.count > 0 %}
-        <div class="row category-tabs" id="category-tabs">
-            <a href="{{ 'press-releasses'|page }}?categoryId=all" class="{{ 'all' == categoryId ? 'active' : '' }}">All Press Releases</a>
-            {% for category in categories %}
-            <a href="{{ 'press-releasses'|page }}?categoryId={{ category.id }}" class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.title }}</a>
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
-
+        <nav aria-label="Press release categories" class="category-tabs-container mb-2">
+            {% if categories.count > 0 %}
+            <div class="row category-tabs" id="category-tabs" role="tablist">
+                <a href="{{ 'press-releasses'|page }}?categoryId=all"
+                   role="tab"
+                   aria-selected="{{ 'all' == categoryId ? 'true' : 'false' }}"
+                   class="{{ 'all' == categoryId ? 'active' : '' }}">All Press Releases</a>
+                {% for category in categories %}
+                <a href="{{ 'press-releasses'|page }}?categoryId={{ category.id }}"
+                   role="tab"
+                   aria-selected="{{ category.id == categoryId ? 'true' : 'false' }}"
+                   class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.title }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </nav>
 
         <div class="row">
             {% for record in press_items %}
             {% spaceless %}
-            <div class="col-md-12 col-xs-12 press-relies-item">
-                <div class="date">{{record.date|date('j F Y')}}</div>
-                <h3 class="card-title">{{record.name}}</h3>
-                <div class="body partner_description">
+            <article class="col-md-12 col-xs-12 press-relies-item">
+                <time class="date" datetime="{{record.date|date('Y-m-d')}}">{{record.date|date('j F Y')}}</time>
+                <h2 class="card-title">{{record.name}}</h2>
+                <div
+                    class="body partner_description"
+                    id="press-desc-{{loop.index}}"
+                    aria-expanded="false">
                     {{record.description | raw}}
                 </div>
-                <p><a class="read-more" onclick="toggleExpandReadMore(this);">Read more</a></p>
+                <p>
+                    <a
+                        class="read-more"
+                        aria-expanded="false"
+                        aria-controls="press-desc-{{loop.index}}"
+                        aria-label="Read more about {{record.name}}"
+                        onclick="toggleExpandReadMore(this);"
+                    >
+                        Read more
+                    </a>
+                </p>
                 <div class="row link mt-1">
                     {% for link in record.link %}
-                    <a href="{{link.url}}" target="_blank" class="btn btn-primary" style="margin-right: 10px;">{{link.text}}</a>
+                    <a href="{{link.url}}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-primary"
+                       style="margin-right: 10px;"
+                       aria-label="{{link.text}} (opens in new window)">{{link.text}}</a>
                     {% endfor %}
                 </div>
-            </div>
+            </article>
 
             {% endspaceless %}
             {% else %}
-            No news
+            <div class="col-xs-12">
+                <p>No press releases available at this time.</p>
+            </div>
             {% endfor %}
         </div>
-        <div class="row">
+
+        <nav aria-label="Press releases pagination" class="row">
             {{ records.render|raw }}
-        </div>
+        </nav>
     </div>
+</section>

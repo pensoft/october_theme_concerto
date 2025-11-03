@@ -62,56 +62,67 @@ return Response::download($pathToFile, $fileName, $headers);
 }
 ?>
 ==
-<div class="container">
-		{% set records = mediaNewslettersList %}
-		{% set displayColumn = mediaNewslettersList.displayColumn %}
-		{% set noRecordsMessage = mediaNewslettersList.noRecordsMessage %}
-		{% set detailsPage = mediaNewslettersList.detailsPage %}
-		{% set detailsKeyColumn = mediaNewslettersList.detailsKeyColumn %}
-		{% set detailsUrlParameter = mediaNewslettersList.detailsUrlParameter %}
+<section aria-labelledby="newsletters-heading">
+    <div class="container">
+        {% set records = mediaNewslettersList %}
+        {% set displayColumn = mediaNewslettersList.displayColumn %}
+        {% set noRecordsMessage = mediaNewslettersList.noRecordsMessage %}
+        {% set detailsPage = mediaNewslettersList.detailsPage %}
+        {% set detailsKeyColumn = mediaNewslettersList.detailsKeyColumn %}
+        {% set detailsUrlParameter = mediaNewslettersList.detailsUrlParameter %}
 
         {% if records.count() %}
-    <div class="row">
-        <div class="col-xs-1">
-            <a href="{{'news-media'|page}}" class="go-back"></a>
+        <div class="row">
+            <div class="col-xs-1">
+                <a href="{{'news-media'|page}}" class="go-back" aria-label="Go back to News & Media">
+                    <span class="sr-only">Back</span>
+                </a>
+            </div>
+            <div class="col-xs-11">
+                <h1 id="newsletters-heading">Newsletters</h1>
+            </div>
         </div>
-        <div class="col-xs-11"><h1 class="display-1">NEWSLETTERS</h1></div>
-    </div>
 
-    <div class="row between-md around-xs">
-        {% for record in records %}
-        {% spaceless %}
-        <div class="col-md-6 col-xs-12 mb-2">
+        <div class="row between-md around-xs">
+            {% for record in records %}
+            {% spaceless %}
+            <article class="col-md-6 col-xs-12 mb-2">
                 <div class="news_media_item newsletters_inner_label">
-                    <img src="{{ record.newsletter_image.thumb(550, 280, {'mode': 'crop'})}}" alt="{{record.name}}">
+                    <img src="{{ record.newsletter_image.thumb(550, 280, {'mode': 'crop'})}}"
+                         alt="{{record.name}} newsletter cover">
                 </div>
+                <h2 class="sr-only">{{record.name}}</h2>
                 <div class="links">
                     {% if record.url %}
-                    <a href="{{record.url}}" target="_blank" class="btn btn-secondary">{{record.name}}</a>
+                    <a href="{{record.url}}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-secondary"
+                       aria-label="View {{record.name}} newsletter (opens in new window)">{{record.name}}</a>
                     {% endif %}
                     {% if record.file %}
 
-<!--                    {{form_open({ request: 'onDownloadFile' }) }}-->
-<!--                    <input type="hidden" value="{{record.file.id}}" name="id">-->
-<!--                    <button type="submit" data-attach-loading class="btn btn-secondary">{{record.name}}</button>-->
-<!--                    {{ form_close() }}-->
+                    <!--                    {{form_open({ request: 'onDownloadFile' }) }}-->
+                    <!--                    <input type="hidden" value="{{record.file.id}}" name="id">-->
+                    <!--                    <button type="submit" data-attach-loading class="btn btn-secondary">{{record.name}}</button>-->
+                    <!--                    {{ form_close() }}-->
 
                     {% endif %}
                 </div>
+            </article>
+
+            {% endspaceless %}
+            {% else %}
+            <div class="col-xs-12">
+                <p>{{noRecordsMessage ?: 'No newsletters available at this time.'}}</p>
+            </div>
+            {% endfor %}
         </div>
 
-        {% endspaceless %}
-        {% else %}
-        No news
-        {% endfor %}
-    </div>
-    <div class="row">
-        {{ records.render|raw }}
-    </div>
-
-
-
-
+        <nav aria-label="Newsletters pagination" class="row">
+            {{ records.render|raw }}
+        </nav>
 
         {% endif %}
-</div>
+    </div>
+</section>

@@ -1,35 +1,48 @@
-
 {% for partner in partners %}
 <div class="col-md-6 col-xs-12">
-    <div class="partner-item">
+    <article class="partner-item" aria-labelledby="partner-{{loop.index}}-heading">
         <div class="row middle-xs">
             <div class="col-md-5 col-xs-12">
-    <!--            <div class="partner_cover">-->
-                    <img src="{{partner.cover.path}}">
-    <!--            </div>-->
+                <img src="{{partner.cover.path}}" alt="{{partner.instituion}} logo">
             </div>
-            <div class="col-md-7 col-xs-12 start-md center-xs instituion-title">{{partner.instituion}}</div>
+            <div class="col-md-7 col-xs-12 start-md center-xs instituion-title">
+                <h3 id="partner-{{loop.index}}-heading">{{partner.instituion}}</h3>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-xs-12">
-    <!--            <div class="partner_info">-->
+                <div
+                    class="partner_description"
+                    id="partner-desc-{{loop.index}}"
+                    aria-expanded="false">
+                    {{partner.content|raw}}
+                </div>
+                <p>
+                    <a
+                        class="read-more"
+                        aria-expanded="false"
+                        aria-controls="partner-desc-{{loop.index}}"
+                        aria-label="Read more about {{partner.instituion}}"
+                        onclick="toggleExpandReadMore(this);"
+                    >
+                        Read more
+                    </a>
+                </p>
 
-                    <div class="partner_description">
-                        {{partner.content|raw}}
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 start-md center-xs">
+                        <a
+                            href="{{partner.instituion_url}}"
+                            class="btn btn-primary website"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visit {{partner.instituion}} website (opens in new window)">
+                            Visit website
+                        </a>
                     </div>
-                    <p><a class="read-more" onclick="toggleExpandReadMore(this);">Read more</a></p>
-
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12 start-md center-xs">
-                            <a href="{{partner.instituion_url}}" class="btn btn-primary website">
-                                Visit website
-                            </a>
-                        </div>
-                    </div>
-
-    <!--            </div>-->
+                </div>
             </div>
         </div>
-    </div>
+    </article>
 </div>
 {% endfor %}

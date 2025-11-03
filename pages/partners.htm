@@ -58,29 +58,41 @@ return Profiles::where('is_visible', 1)->where('partner_id', $id)->orderBy('name
 <div class="container-fluid partners_background">
 
     <div class="container">
-        <span class="tooltiptext" id="tooltip">Bulgaria</span>
-        <div class="row">
-            <div class="col-md-5 col-xs-12 partners_intro">
-                {% component 'partners' %}
+        <section aria-labelledby="partners-heading">
+            <div role="tooltip" id="tooltip" aria-live="polite" aria-atomic="true" hidden>
+                <span class="tooltiptext">Bulgaria</span>
             </div>
-            <div class="col-md-7 col-xs-12">
-                <div class="svg_map">
-                {% partial 'components/svg' %}
-            </div></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-xs-12 partners_list">
 
-                <div class="row container partners-map-container">
-                    <div id="mycomponentpartners" class="row">
-                        {% partial 'components/partners_list' partners=partners %}
+            <div class="row">
+                <div class="col-md-5 col-xs-12 partners_intro">
+                    <h1 id="partners-heading" class="sr-only">Partners</h1>
+                    {% component 'partners' %}
+                </div>
+                <div class="col-md-7 col-xs-12">
+                    <div class="svg_map" role="img" aria-label="Interactive map of partner locations across Europe">
+                        {% partial 'components/svg' %}
                     </div>
                 </div>
             </div>
-        </div>
 
-        {% component 'projects' %}
+            <div class="row">
+                <div class="col-md-12 col-xs-12 partners_list">
+                    <section aria-labelledby="partners-list-heading">
+                        <h2 id="partners-list-heading" class="sr-only">Partner Organizations List</h2>
+                        <div class="row container partners-map-container">
+                            <div id="mycomponentpartners" class="row">
+                                {% partial 'components/partners_list' partners=partners %}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
 
+            <section aria-labelledby="related-projects-heading">
+                <h2 id="related-projects-heading" class="sr-only">Related Projects</h2>
+                {% component 'projects' %}
+            </section>
+        </section>
 
     </div>
 </div>

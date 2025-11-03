@@ -130,31 +130,31 @@ function onStart(){
             </div>
             <div class="news_list_homepage">
                 {% for highlight in highlights %}
-                    <div class="">
-                        <a class="row news-item" href="#{{highlight.slug}}">
-                            {% set numberOfWords = highlight.content|striptags|split(' ')|length %}
-                            {% set readtime = (numberOfWords / 250) %}
-                            <div class="col-md-4 col-xs-12 news-category">{{highlight.categories[0].name}}</div>
-                            <div class="col-md-3 col-xs-12 news-date">{{ highlight.published_at|date('d M Y') }}</div>
-                            <div class="col-md-3 col-xs-12 news-date">{{ readtime|round }} Min Read</div>
+                <div class="">
+                    <a class="row news-item" href="#{{highlight.slug}}">
+                        {% set numberOfWords = highlight.content|striptags|split(' ')|length %}
+                        {% set readtime = (numberOfWords / 250) %}
+                        <div class="col-md-4 col-xs-12 news-category">{{highlight.categories[0].name}}</div>
+                        <div class="col-md-3 col-xs-12 news-date">{{ highlight.published_at|date('d M Y') }}</div>
+                        <div class="col-md-3 col-xs-12 news-date">{{ readtime|round }} Min Read</div>
 
-    <!--                        <div class="col-md-12 col-xs-12 news-title">{{ highlight.title|length > 100 ? highlight.title|slice(0, 100)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : highlight.title|replace({"&nbsp;": " ", ".": ". "})  }}</div>-->
-                            <div class="col-md-12 col-xs-12 news-title">{{ highlight.title|raw }}</div>
-                        </a>
-                        <a href="{{'news'|page}}/{{highlight.slug}}" class="read-more">Read More</a>
-                    </div>
+                        <!--                        <div class="col-md-12 col-xs-12 news-title">{{ highlight.title|length > 100 ? highlight.title|slice(0, 100)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : highlight.title|replace({"&nbsp;": " ", ".": ". "})  }}</div>-->
+                        <div class="col-md-12 col-xs-12 news-title">{{ highlight.title|raw }}</div>
+                    </a>
+                    <a href="{{'news'|page}}/{{highlight.slug}}" class="read-more">Read More</a>
+                </div>
                 {% endfor %}
             </div>
         </div>
         <div class="col-md-6 col-xs-12 news_right_col">
             {% for highlight in highlights %}
-                <div id="{{highlight.slug}}">
-                    <img alt="{{ highlight.title }}" src="{{highlight.cover.thumb(550,645,{'mode':'crop'})}}">
-                    <div class="news-desc">
-                        <div>{{ highlight.content|raw  }}</div>
-                        <a href="{{'news'|page}}/{{highlight.slug}}" class="read-more">Read More</a>
-                    </div>
+            <div id="{{highlight.slug}}">
+                <img alt="{{ highlight.title }}" src="{{highlight.cover.thumb(550,645,{'mode':'crop'})}}">
+                <div class="news-desc">
+                    <div>{{ highlight.content|raw  }}</div>
+                    <a href="{{'news'|page}}/{{highlight.slug}}" class="read-more">Read More</a>
                 </div>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -167,7 +167,7 @@ function onStart(){
     <div class="row middle-xs">
         <div class="col-md-5 col-xs-12 middle-xs"><div class="newsletter_title">Newsletter</div></div>
         <div class="col-md-7 col-xs-12 middle-xs">Subscribe to our newsletter to get the latest updates and milestones from CONCERTO
-        <br>
+            <br>
             <div class="subscribe-btn"><a href="{{this.theme.subscribe}}" target="_blank" class="btn btn-primary">Subscribe <i></i></a></div>
         </div>
     </div>
