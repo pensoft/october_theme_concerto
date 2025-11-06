@@ -15,29 +15,47 @@ description_limit = 0
 <div class="header-menu-container">
     <div class="container1200">
         <nav class="navbar" id="headernavbar" aria-label="Main navigation">
-            <a class="navbar-toggler" type="button" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle navigation menu" id="navbarToggleBtn">
-                <div id="menuToggle">
-                    <input type="checkbox" id="menu-checkbox" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </a>
 
+            <div id="menuToggle" aria-label="Toggle navigation menu">
+                <input type="checkbox" />
+                <span></span>
+                <span></span>
+                <span></span>
+                {% component 'menu' %}
+            </div>
             <a href="{{'home'|page}}" class="navbar-brand" aria-label="Go to homepage">
                 <span class="sr-only">Project Home</span>
                 <div style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain; width: 100%; height: 100%;" role="img" aria-label="Project logo"></div>
             </a>
-
             <div class="container">
                 <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
                     {% component 'menu' %}
                 </div>
             </div>
 
-            <div class="mobile-menu" id="mobileMenu" style="display: none;" aria-hidden="true">
-                {% component 'menu' %}
-            </div>
+<!--            <div aria-controls="mobileMenu"  aria-label="Toggle navigation menu" id="navbarToggleBtn">-->
+<!--                <div id="menuToggle">-->
+<!--                    <input type="checkbox" id="menu-checkbox" aria-hidden="true">-->
+<!--                    <span></span>-->
+<!--                    <span></span>-->
+<!--                    <span></span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <a href="{{'home'|page}}" class="navbar-brand" aria-label="Go to homepage">-->
+<!--                <span class="sr-only">Project Home</span>-->
+<!--                <div style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain; width: 100%; height: 100%;" role="img" aria-label="Project logo"></div>-->
+<!--            </a>-->
+
+<!--            <div class="container">-->
+<!--                <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">-->
+<!--                    {% component 'menu' %}-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="mobile-menu" id="mobileMenu" style="display: none;" aria-hidden="true">-->
+<!--                {% component 'menu' %}-->
+<!--            </div>-->
 
             <div class="search-and-social-media hidden-xs">
                 <ul class="navbar-nav">
