@@ -44,7 +44,10 @@ use Pensoft\Partners\Models\Partners as Partner;
 
 function onStart(){
 
-    $this['highlights'] = Article::news()->where('published', 'true')->orderBy('published_at', 'desc')->take(3)->get()->map(function($item){
+    $this['highlights'] = Article::news()
+    ->where('published_at', '<=', 'now')
+    ->where('published', 'true')
+->orderBy('published_at', 'desc')->take(3)->get()->map(function($item){
         $item->href = $item->slug;
         return $item;
     });
