@@ -252,6 +252,19 @@ $(document).ready(function() {
 });
 
 
+function expandBiography(el){
+    $el = $(el) // read-more link
+    $body  = $el.parent().parent().find('.body');
+    if($body.is(':visible')){
+        $body.slideUp(300);
+        $el.addClass('expanded');
+    }else{
+        $body.slideDown(300);
+        $el.removeClass('expanded');
+    }
+}
+
+
 function openTab(evt, tabName) {
     var i, x, tablinks;
     x = document.getElementsByClassName("tab_content");
