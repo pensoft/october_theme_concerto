@@ -7,54 +7,64 @@
         margin-top: 10px;
         margin-bottom: 20px;
     }
+    .media_item_container{
+        width: 550px;
+        height: 440px;
+        overflow: hidden;
+        border-radius: 8px;
+    }
     .news_media_item{
         border-radius: 8px;
-        background: @green-color url("../../assets/images/Project-News_Placeholder-Icon.svg") center no-repeat;
-        background-size: 117px;
+        background: @secondary-color url("../../assets/images/News_Concerto_Media.png") center no-repeat;
+        background-size: cover;
         width: 550px;
-        height: 280px;
+        height: 440px;
         max-width: 100%;
         content: '';
         transition: all 0.3s ease-in-out;
 
         &.news_label{
-            background: @green-color url("../../assets/images/Project-News_Placeholder-Icon.svg") center no-repeat;
-            background-size: 117px;
+            background: @secondary-color url("../../assets/images/News_Concerto_Media.png") center no-repeat;
+            background-size: contain;
+            transition: all 0.3s ease-in-out;
             &:hover{
-                background-size: 24%;
+                transform: scale(1.1);
             }
         }
 
         &.newsletters_label{
-            background: @green-color url("../../assets/images/Newsletters_Placeholder-Icon.svg") center no-repeat;
-            background-size: 117px;
+            background: @secondary-color url("../../assets/images/Newsletters_Concerto_Media.png") center no-repeat;
+            background-size: contain;
+            transition: all 0.3s ease-in-out;
             &:hover{
-                background-size: 24%;
+                transform: scale(1.1);
             }
         }
 
         &.press_label{
-            background: @green-color url("../../assets/images/Press-Releases_Placeholder-Icon.svg") center no-repeat;
-            background-size: 117px;
+            background: @secondary-color url("../../assets/images/Press releases_Concerto_Media.png") center no-repeat;
+            background-size: 90%;
+            transition: all 0.3s ease-in-out;
             &:hover{
-                background-size: 24%;
+                transform: scale(1.1);
             }
         }
 
         &.materials_label{
-            background: @green-color url("../../assets/images/Project-Materials_Placeholder-Icon.svg") center no-repeat;
-            background-size: 117px;
+            background: @secondary-color url("../../assets/images/Roll up_Concerto_Media.png") center no-repeat;
+            background-size: contain;
+            transition: all 0.3s ease-in-out;
             &:hover{
-                background-size: 24%;
+                transform: scale(1.1);
             }
         }
 
         &.newsletters_inner_label{
-            background: @green-color url("../../assets/images/Newsletter_Placeholder-Icon-inner.svg") center no-repeat;
-            background-size: 117px;
+            background: @secondary-color url("../../assets/images/Newsletter_Placeholder-Icon-inner.svg") center no-repeat;
+            background-size: contain;
             border-radius: 10px;
             //&:hover{
-            //    background-size: 24%;
+            //    transform: scale(1.1);
             //}
 
             img{
@@ -96,7 +106,7 @@
 
 .newsletters{
     .news_media_item{
-        height: 280px;
+        height: 440px;
         .breakpoint-large-down({
             height: auto;
             background: none!important;
