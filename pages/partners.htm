@@ -24,25 +24,29 @@ use Pensoft\Partners\Models\Partners;
 use Pensoft\Cardprofiles\Models\Profiles;
 
 function onStart(){
-	$this['partners'] =  Partners::where('type', 1)->get();
-	$this['supporting_partners'] =  Partners::where('type', 4)->get();
+	$this['partners'] = Partners::where('type', 1)->get();
+    $this['members'] = Profiles::where('category_id', 2)->get();
 
-    $this['members'] = Profiles::where('category_id',  2)->get();
+    // Group partners by country_code
+    $this['country_partners'] = Partners::where('type', 1)
+        ->get()
+        ->groupBy('country_code');
 
     $this['insider_members'] = new class {
         public function getIM($id) {
-            return Profiles::where('partner_id', $id)->where('category_id',  2)->orderBy('names')->get();
+            return Profiles::where('partner_id', $id)
+            ->where('category_id', 2)
+            ->orderBy('names')
+            ->get();
         }
     };
-
-
 }
 
 function onPartners(){
 $this['partners'] = [];
 $this['code'] = post('code');
 if(post('code')){
-$this['partners'] =  Partners::whereRaw('country_code ILIKE \'%'.post('code').'%\'')->get();
+$this['partners'] =  Partners::whereRaw('country_code ILIKE \'%'.post('code').'%\'')->where('type', 1)->get();
 }
 $this['insider_members'] = new class {
 public function getIM($id) {
@@ -54,7 +58,7 @@ return Profiles::where('partner_id', $id)->where('category_id',  2)->orderBy('na
 function onSinglePartner(){
 $this['partners'] = [];
 if(post('partner_id')){
-$this['partners'] =  Partners::where('id', post('partner_id'))->get();
+$this['partners'] =  Partners::where('id', post('partner_id'))->where('type', 1)->get();
 }
 $this['insider_members'] = new class {
 public function getIM($id) {
@@ -63,46 +67,176 @@ return Profiles::where('partner_id', $id)->where('category_id',  2)->orderBy('na
 };
 }
 
+
+function onGetPartnerLogos(){
+    $code = post('code');
+
+    if(!$code){
+        return response()->json([]);
+    }
+
+    $partners = Partners::whereRaw('country_code ILIKE \'%'.$code.'%\'')
+    ->where('type', 1)
+    ->get()
+    ->map(function($p){
+        return [
+            'id'   => $p->id,
+            'name' => $p->instituion,
+            'logo' => $p->cover ? $p->cover->path : null,
+        ];
+    });
+
+    return response()->json($partners);
+}
+
 ?>
 ==
 <div class="container-fluid partners_background">
 
     <div class="container">
         <section aria-labelledby="partners-heading">
-            <div role="tooltip" id="tooltip" aria-live="polite" aria-atomic="true" hidden>
-                <span class="tooltiptext">Bulgaria</span>
-            </div>
+            <span class="tooltiptext" id="tooltip" aria-live="polite">Bulgaria</span>
 
             <div class="row">
-                <div class="col-md-5 col-xs-12 partners_intro">
+                <div class="col-md-12 col-xs-12 partners_intro">
                     <h1 id="partners-heading" class="sr-only">Partners</h1>
                     {% component 'partners' %}
                 </div>
-                <div class="col-md-7 col-xs-12">
+                <div class="col-md-12 col-xs-12">
                     <div class="svg_map" role="img" aria-label="Interactive map of partner locations across Europe">
                         {% partial 'components/svg' %}
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12 col-xs-12 partners_list">
-                    <section aria-labelledby="partners-list-heading">
-                        <h2 id="partners-list-heading" class="sr-only">Partner Organizations List</h2>
-                        <div class="row container partners-map-container">
-                            <div id="mycomponentpartners" class="row">
-                                {% partial 'components/partners_list' partners=partners %}
+            {% for country_code, group in country_partners %}
+            <div class="control-popup modal fade"
+                 id="country_modal_{{ country_code|lower }}"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="country-modal-title-{{ country_code|lower }}"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close dialog">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M1 1L13 13M13 1L1 13" stroke="#FBFDFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="sr-only">Close</span>
+                        </button>
+
+                        <!-- Back button (hidden by default) -->
+                        <button type="button" class="back-btn" style="display:none;"
+                                aria-label="Back to partner info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+                                <path d="M7 1L1 7L7 13" stroke="#FBFDFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div class="row">
+                            <!-- LEFT: Partner logos -->
+                            <div class="col-md-4 col-xs-12 partner_logos_sidebar">
+                                <div class="partner_logos_list" data-count="{{ group|length }}">
+                                    {% for i, partner in group %}
+                                    <div class="partner_logo_item {% if loop.first %}active{% endif %}"
+                                         data-partner-id="{{ partner.id }}"
+                                         data-modal="{{ country_code|lower }}"
+                                         role="button"
+                                         tabindex="0"
+                                         aria-label="Show details for {{ partner.instituion }}">
+                                        <img src="{{ partner.cover.path }}" alt="{{ partner.instituion }} logo">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="country_label">{{ group[0].name }}</div>
+                            </div>
+
+                            <!-- RIGHT: Partner details -->
+                            <div class="col-md-8 col-xs-12 partner_detail_panels">
+                                {% for i, partner in group %}
+                                <div class="partner_detail_panel {% if loop.first %}active{% endif %}"
+                                     data-partner-id="{{ partner.id }}"
+                                     data-modal="{{ country_code|lower }}">
+
+                                    <!-- INFO VIEW -->
+                                    <div class="panel_info_view">
+                                        <div class="title_and_link">
+                                            <h3 class="partner_title">{{ partner.instituion }}</h3>
+                                            <div class="partner_description">{{ partner.content|raw }}</div>
+                                            <div class="partner_link">
+                                                {% if insider_members.getIM(partner.id).count > 0 %}
+                                                <a href="javascript:void(0);"
+                                                   class="btn btn-primary btn-view-members"
+                                                   data-partner-id="{{ partner.id }}"
+                                                   data-modal="{{ country_code|lower }}"
+                                                   aria-label="View {{ partner.instituion }} members">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                        <path d="M11.207 17.2419V15.5177C11.207 13.137 9.27707 11.2072 6.89644 11.2072C4.51582 11.2072 2.58594 13.137 2.58594 15.5177V17.2419H11.207ZM11.207 17.2419H18.1038V16.3798C18.1038 13.8404 16.1739 12.0693 13.7933 12.0693C12.5748 12.0693 11.4745 12.6085 10.6905 13.4754M9.48275 6.03455C9.48275 7.46292 8.32482 8.62085 6.89644 8.62085C5.46807 8.62085 4.31014 7.46292 4.31014 6.03455C4.31014 4.60617 5.46807 3.44824 6.89644 3.44824C8.32482 3.44824 9.48275 4.60617 9.48275 6.03455ZM15.5175 7.75875C15.5175 8.711 14.7455 9.48295 13.7933 9.48295C12.841 9.48295 12.0691 8.711 12.0691 7.75875C12.0691 6.8065 12.841 6.03455 13.7933 6.03455C14.7455 6.03455 15.5175 6.8065 15.5175 7.75875Z" stroke="#ECF1FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    Visit Members
+                                                </a>
+                                                {% endif %}
+
+                                                <a href="{{ partner.instituion_url }}"
+                                                   class="btn btn-primary"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   aria-label="Visit {{ partner.instituion }} website">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
+                                                        <path d="M7.24096 12.3557C7.0026 12.5689 6.81814 12.7116 6.62963 12.8159C5.70685 13.3262 4.56995 13.3262 3.64717 12.8159C3.30713 12.6278 2.98026 12.3146 2.32651 11.6884C1.67277 11.0621 1.3459 10.749 1.14957 10.4232C0.616809 9.53919 0.616809 8.45005 1.14957 7.56605C1.3459 7.2403 1.67277 6.92716 2.32651 6.30088L5.1384 3.60714C5.79214 2.98087 6.11902 2.66773 6.45906 2.47965C7.38183 1.96928 8.51874 1.96928 9.44151 2.47965C9.78156 2.66773 10.1084 2.98087 10.7622 3.60714C11.4159 4.23342 11.7428 4.54656 11.9391 4.87231C12.4719 5.75631 12.4719 6.84545 11.9391 7.72945C11.8303 7.91005 11.6813 8.08676 11.4588 8.3151M8.65962 5.63354C8.43709 5.86188 8.28813 6.03859 8.17929 6.21918C7.64653 7.10318 7.64653 8.19232 8.17929 9.07632C8.37561 9.40208 8.70249 9.71522 9.35623 10.3415C10.01 10.9678 10.3368 11.2809 10.6769 11.469C11.5997 11.9794 12.7366 11.9794 13.6593 11.469C13.9994 11.2809 14.3263 10.9678 14.98 10.3415L17.7919 7.64775C18.4456 7.02148 18.7725 6.70834 18.9688 6.38258C19.5016 5.49858 19.5016 4.40944 18.9688 3.52544C18.7725 3.19969 18.4456 2.88655 17.7919 2.26027C17.1381 1.634 16.8113 1.32086 16.4712 1.13278C15.5485 0.622405 14.4115 0.622405 13.4888 1.13278C13.3003 1.23705 13.1158 1.37975 12.8774 1.59293" stroke="#ECF1FA" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="bevel"/>
+                                                    </svg>
+                                                    Visit Website
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- MEMBERS VIEW (hidden by default) -->
+                                    {% if insider_members.getIM(partner.id).count > 0 %}
+                                        <div class="panel_members_view" style="display:none;">
+                                        <div class="partners_list_content">
+                                            {% for profile in insider_members.getIM(partner.id) %}
+                                            <article class="contact_info row">
+                                                <div class="col-md-3 col-xs-6 member_avatar">
+                                                    {% if profile.avatar %}
+                                                    <img alt="Photo of {{ profile.names }}" src="{{ profile.avatar|crop_image }}">
+                                                    {% else %}
+                                                    <img alt="Default avatar" src="{{ 'avatar.svg'|media }}" width="82" height="67" class="no-image">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-md-6 col-xs-6 coordinator_info">
+                                                    <h4>{{ profile.names }}</h4>
+                                                    {% if profile.position %}
+                                                    <div class="position">{{ profile.position }}</div>
+                                                    {% endif %}
+                                                    {% if profile.email %}
+                                                    <div class="position">
+                                                        <a href="mailto:{{ profile.email }}" target="_blank">{{ profile.email }}</a>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-md-3 col-xs-12">
+                                                    <div class="read-more" onclick="expandBiography(this);" aria-expanded="false">Biography</div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="body" style="display: none;">{{ profile.content|raw }}</div>
+                                                </div>
+                                            </article>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
-                    </section>
+                    </div>
                 </div>
             </div>
-
-            <section aria-labelledby="related-projects-heading">
-                <h2 id="related-projects-heading" class="sr-only">Related Projects</h2>
-                {% component 'projects' %}
-            </section>
+            {% endfor %}
         </section>
 
     </div>
 </div>
+

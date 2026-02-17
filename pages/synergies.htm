@@ -1,0 +1,259 @@
+url = "/synergies"
+layout = "default"
+title = "Synergies"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+header_image = "about.jpg"
+
+[jumbotron sister_projects]
+jumbotron = "our-sister-project"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron relevant_projects]
+jumbotron = "relevant-projects"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron esa_projects]
+jumbotron = "esa-cci-vp-esa-2021-2026"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron contact]
+jumbotron = "contact-our-project-coordinator"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Partners\Models\Partners;
+
+function onStart(){
+	$this['partners'] =  Partners::where('type', 1)->get();
+    $this['sister_projects'] =  Partners::where('type', 2)->get(); //transnational
+    $this['relevant_project'] =  Partners::where('type', 3)->get();  //virtual
+    $this['esa_projects'] =  Partners::where('type', 4)->get(); //supporting
+}
+?>
+==
+<div class="container sister_projects">
+    {% component 'sister_projects' %}
+    <div class="row center-xs">
+        {% for partner in sister_projects %}
+        <div class="col-md-3 col-xs-12">
+            <div class="project_item">
+                <a href="{{partner.instituion_url}}" alt="{{partner.instituion}}" target="_blank">
+                    <img src="{{partner.cover.path}}" alt="{{partner.instituion}} logo">
+                    <span class="cursor-label">Visit website</span>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container relevant_projects">
+    {% component 'relevant_projects' %}
+    <div class="row center-xs">
+        {% for j, partner in relevant_project %}
+        <div class="col-md-3 col-xs-12" data-project-index="{{j}}">
+            <div class="project_item">
+                <a data-toggle="modal"
+                   data-target="#partner_r{{j}}"
+                   aria-label="Read more about {{partner.instituion}}"
+                   alt="{{partner.instituion}}">
+                    <img src="{{partner.cover.path}}" alt="{{partner.instituion}} logo">
+                    <span class="cursor-label">Read more</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- modal stays the same -->
+        <div class="control-popup modal fade" id="partner_r{{j}}" tabindex="-1"
+             role="dialog"
+             aria-labelledby="modal-title-{{j}}"
+             aria-describedby="modal-content-{{j}}"
+             aria-hidden="true">
+            <!--            <div class="modal-backdrop-custom"></div>-->
+            <div class="modal-dialog" role="document">
+                <div class="modal-content center-xs">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close {{partner.instituion}} members dialog">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                            <path d="M16.3887 0.290956L9.00094 7.67954L1.61314 0.290956C1.43545 0.128339 1.20188 0.0405543 0.961087 0.0458903C0.72029 0.0512262 0.490836 0.149271 0.320525 0.3196C0.150215 0.489929 0.0521799 0.719407 0.0468446 0.96023C0.0415092 1.20105 0.129284 1.43465 0.291884 1.61235L7.67593 9.00094L0.29001 16.3876C0.199776 16.4736 0.127643 16.5768 0.0778516 16.6911C0.0280603 16.8054 0.00161536 16.9285 7.17197e-05 17.0531C-0.00147192 17.1778 0.0219169 17.3015 0.0688628 17.417C0.115809 17.5324 0.185364 17.6374 0.273442 17.7256C0.361519 17.8138 0.46634 17.8835 0.581743 17.9306C0.697146 17.9777 0.820803 18.0013 0.945444 17.9999C1.07008 17.9986 1.19319 17.9723 1.30754 17.9227C1.42188 17.873 1.52515 17.801 1.61127 17.7109L9.00094 10.3242L16.3887 17.7128C16.5664 17.8754 16.8 17.9632 17.0408 17.9579C17.2816 17.9525 17.511 17.8545 17.6813 17.6842C17.8517 17.5138 17.9497 17.2843 17.955 17.0435C17.9604 16.8027 17.8726 16.5691 17.71 16.3914L10.3222 9.00281L17.71 1.61235C17.8002 1.52635 17.8724 1.42318 17.9221 1.30889C17.9719 1.19461 17.9984 1.07152 17.9999 0.94687C18.0015 0.822218 17.9781 0.698515 17.9311 0.583033C17.8842 0.467551 17.8146 0.36262 17.7266 0.274408C17.6385 0.186196 17.5337 0.116484 17.4183 0.0693699C17.3029 0.0222553 17.1792 -0.00131087 17.0546 5.62491e-05C16.9299 0.00142337 16.8068 0.0276964 16.6925 0.077331C16.5781 0.126966 16.4749 0.19896 16.3887 0.289082V0.290956Z" fill="#00b89c"/>
+                        </svg>
+                        <span class="sr-only">Close</span>
+                    </button>
+
+                    <div class="row middle-xs" id="modal-content-{{j}}">
+                        <div class="col-md-5 col-xs-12">
+                            <div class="coordinator_image">
+                                <img src="{{partner.cover.path}}" alt="{{partner.instituion}} logo">
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-xs-12">
+                            <div class="title_and_link">
+                                <h3 class="partner_title" id="modal-title-{{j}}">{{partner.instituion}}</h3>
+                                <div class="partner_description">{{partner.content|raw}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="show-more-btn">
+        <button type="button" aria-expanded="false" class="btn btn-primary">
+            Show more
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10.834 3.33317V13.4748L15.4923 8.8165L16.6673 9.99984L10.0007 16.6665L3.33398 9.99984L4.50898 8.82484L9.16732 13.4748V3.33317H10.834Z" fill="#FBFDFF"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<div class="container esa_projects">
+    {% component 'esa_projects' %}
+    <div class="row center-xs">
+        {% for k, partner in esa_projects %}
+        <div class="col-md-3 col-xs-12">
+            <div class="project_item">
+                <a data-toggle="modal"
+                   data-target="#partner{{k}}"
+                   aria-label="Read more about {{partner.instituion}}"
+                   alt="{{partner.instituion}}">
+                    <img src="{{partner.cover.path}}" alt="{{partner.instituion}} logo">
+                    <span class="cursor-label">Read more</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="control-popup modal fade"
+             id="partner{{k}}"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="modal-title-{{k}}"
+             aria-describedby="modal-content-{{k}}"
+             aria-hidden="true">
+<!--            <div class="modal-backdrop-custom"></div>-->
+            <div class="modal-dialog" role="document">
+                <div class="modal-content center-xs">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close {{partner.instituion}} members dialog">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                            <path d="M16.3887 0.290956L9.00094 7.67954L1.61314 0.290956C1.43545 0.128339 1.20188 0.0405543 0.961087 0.0458903C0.72029 0.0512262 0.490836 0.149271 0.320525 0.3196C0.150215 0.489929 0.0521799 0.719407 0.0468446 0.96023C0.0415092 1.20105 0.129284 1.43465 0.291884 1.61235L7.67593 9.00094L0.29001 16.3876C0.199776 16.4736 0.127643 16.5768 0.0778516 16.6911C0.0280603 16.8054 0.00161536 16.9285 7.17197e-05 17.0531C-0.00147192 17.1778 0.0219169 17.3015 0.0688628 17.417C0.115809 17.5324 0.185364 17.6374 0.273442 17.7256C0.361519 17.8138 0.46634 17.8835 0.581743 17.9306C0.697146 17.9777 0.820803 18.0013 0.945444 17.9999C1.07008 17.9986 1.19319 17.9723 1.30754 17.9227C1.42188 17.873 1.52515 17.801 1.61127 17.7109L9.00094 10.3242L16.3887 17.7128C16.5664 17.8754 16.8 17.9632 17.0408 17.9579C17.2816 17.9525 17.511 17.8545 17.6813 17.6842C17.8517 17.5138 17.9497 17.2843 17.955 17.0435C17.9604 16.8027 17.8726 16.5691 17.71 16.3914L10.3222 9.00281L17.71 1.61235C17.8002 1.52635 17.8724 1.42318 17.9221 1.30889C17.9719 1.19461 17.9984 1.07152 17.9999 0.94687C18.0015 0.822218 17.9781 0.698515 17.9311 0.583033C17.8842 0.467551 17.8146 0.36262 17.7266 0.274408C17.6385 0.186196 17.5337 0.116484 17.4183 0.0693699C17.3029 0.0222553 17.1792 -0.00131087 17.0546 5.62491e-05C16.9299 0.00142337 16.8068 0.0276964 16.6925 0.077331C16.5781 0.126966 16.4749 0.19896 16.3887 0.289082V0.290956Z" fill="#00b89c"/>
+                        </svg>
+                        <span class="sr-only">Close</span>
+                    </button>
+
+                    <div class="row middle-xs" id="modal-content-{{k}}">
+                        <div class="col-md-5 col-xs-12">
+                            <div class="coordinator_image">
+                                <img src="{{partner.cover.path}}" alt="{{partner.instituion}} logo">
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-xs-12">
+                            <div class="title_and_link">
+                                <h3 class="partner_title" id="modal-title-{{k}}">{{partner.instituion}}</h3>
+                                <div class="partner_description">{{partner.content|raw}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container contact_project_coordinator">
+    {% component 'contact' %}
+</div>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.project_item a').forEach(function(link) {
+            var label = link.querySelector('.cursor-label');
+
+            link.addEventListener('mouseenter', function() {
+                label.style.opacity = '1';
+            });
+
+            link.addEventListener('mousemove', function(e) {
+                label.style.left = (e.clientX - 20) + 'px';
+                label.style.top = (e.clientY - 20) + 'px';
+            });
+
+            link.addEventListener('mouseleave', function() {
+                label.style.opacity = '0';
+            });
+        });
+
+
+
+        var limit = 4;
+
+        document.querySelectorAll('.relevant_projects').forEach(function(container) {
+            var items = container.querySelectorAll('.row.center-xs > .col-md-3');
+            var btn = container.querySelector('.show-more-btn button');
+
+            // nothing to toggle
+            if (items.length <= limit) {
+                if (btn) btn.parentElement.style.display = 'none';
+                return;
+            }
+
+            // initial state: hide items beyond limit
+            items.forEach(function(item, i) {
+                if (i >= limit) {
+                    item.classList.add('hidden-item');
+                } else {
+                    item.classList.add('visible-item');
+                }
+            });
+
+            var expanded = false;
+
+            btn.addEventListener('click', function() {
+                expanded = !expanded;
+
+                items.forEach(function(item, i) {
+                    if (i >= limit) {
+                        if (expanded) {
+                            item.classList.remove('hidden-item');
+                            item.classList.add('visible-item');
+                        } else {
+                            item.classList.remove('visible-item');
+                            item.classList.add('hidden-item');
+                        }
+                    }
+                });
+
+                btn.classList.toggle('expanded', expanded);
+                btn.innerHTML = expanded
+                    ? 'Show less <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10.834 3.33317V13.4748L15.4923 8.8165L16.6673 9.99984L10.0007 16.6665L3.33398 9.99984L4.50898 8.82484L9.16732 13.4748V3.33317H10.834Z" fill="#FBFDFF"/></svg>'
+                    : 'Show more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10.834 3.33317V13.4748L15.4923 8.8165L16.6673 9.99984L10.0007 16.6665L3.33398 9.99984L4.50898 8.82484L9.16732 13.4748V3.33317H10.834Z" fill="#FBFDFF"/></svg>';
+                btn.setAttribute('aria-expanded', expanded);
+            });
+        });
+
+    });
+</script>

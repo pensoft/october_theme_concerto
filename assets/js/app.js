@@ -762,6 +762,72 @@ function onMapCustomPartners(code) {
     });
 }
 
+
+
+var partnerCache = {};
+
+function handlePartnersSVGMapMouseMove(event) {
+    var parent = $(event.target).parent();
+    var title = parent.attr('title');
+    var country = parent.attr('slug');
+    var tooltip = document.getElementById("tooltip");
+
+    if (typeof title === "undefined") {
+        return tooltip.classList.remove("active");
+    }
+
+    var x = event.clientX;
+    var y = event.clientY;
+
+    tooltip.style.left = (x + 20) + "px";
+    tooltip.style.top = (y - 20) + "px";
+
+    // If cached, render logos right away
+    if (partnerCache[country]) {
+        renderTooltipLogos(tooltip, title, partnerCache[country]);
+        tooltip.classList.add("active");
+        return;
+    }
+
+    // Show title immediately while loading
+    tooltip.innerHTML = '<div class="tooltip_title">' + title + '</div>';
+    tooltip.classList.add("active");
+
+    // Prevent duplicate requests for the same country
+    partnerCache[country] = 'loading';
+
+    $.request('onGetPartnerLogos', {
+        data: { code: country }
+    }).done(function(response) {
+        var partners = response.result || response;
+        partnerCache[country] = partners;
+        renderTooltipLogos(tooltip, title, partners);
+    }).fail(function() {
+        delete partnerCache[country];
+    });
+}
+
+function renderTooltipLogos(tooltip, title, partners) {
+    var logosHtml = '';
+
+    if (partners && partners.length > 0) {
+        logosHtml = '<div class="tooltip_logos">';
+        partners.forEach(function(p) {
+            if (p.logo) {
+                logosHtml += '<div class="tooltip_logo_item">' +
+                    '<img src="' + p.logo + '" alt="' + p.name + '">' +
+                    '</div>';
+            }
+        });
+        logosHtml += '</div>';
+    }
+
+    tooltip.innerHTML =
+        '<div class="tooltip_title">' + title + '</div>' +
+        logosHtml;
+}
+
+
 function animateNumbers() {
     if (isScrolledIntoView($(".numbers")) && !viewed) {
         viewed = true;
@@ -844,3 +910,110 @@ function initMailingTooltip(){
 }
 
 init()
+
+
+// Partners page – logo switching, members view, back button
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Partner logo switching
+    document.querySelectorAll('.partner_logo_item').forEach(function(logo) {
+        logo.addEventListener('click', function() {
+            var partnerId = this.getAttribute('data-partner-id');
+            var modalId = this.getAttribute('data-modal');
+
+            // Reset to info view first
+            resetToInfoView(modalId);
+
+            // Update active logo
+            document.querySelectorAll('.partner_logo_item[data-modal="' + modalId + '"]')
+                .forEach(function(item) { item.classList.remove('active'); });
+            this.classList.add('active');
+
+            // Update active panel
+            document.querySelectorAll('.partner_detail_panel[data-modal="' + modalId + '"]')
+                .forEach(function(panel) { panel.classList.remove('active'); });
+            var target = document.querySelector('.partner_detail_panel[data-partner-id="' + partnerId + '"][data-modal="' + modalId + '"]');
+            if (target) target.classList.add('active');
+        });
+
+        logo.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+    });
+
+    // View Members button
+    document.querySelectorAll('.btn-view-members').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var modalId = this.getAttribute('data-modal');
+            var partnerId = this.getAttribute('data-partner-id');
+            var modal = document.getElementById('country_modal_' + modalId);
+            var panel = modal.querySelector('.partner_detail_panel[data-partner-id="' + partnerId + '"].active');
+
+            if (!panel) return;
+
+            // Hide info, show members
+            var infoView = panel.querySelector('.panel_info_view');
+            var membersView = panel.querySelector('.panel_members_view');
+
+            if (infoView) infoView.style.display = 'none';
+            if (membersView) membersView.style.display = 'block';
+
+            // Switch sidebar to single-logo mode
+            var sidebar = modal.querySelector('.partner_logos_sidebar');
+            sidebar.classList.add('members-view');
+
+            // Hide non-active logos
+            modal.querySelectorAll('.partner_logo_item[data-modal="' + modalId + '"]').forEach(function(item) {
+                if (!item.classList.contains('active')) {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show back button
+            var backBtn = modal.querySelector('.back-btn');
+            backBtn.style.display = 'block';
+        });
+    });
+
+    // Back button
+    document.querySelectorAll('.back-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var modal = this.closest('.control-popup');
+            var modalId = modal.id.replace('country_modal_', '');
+            resetToInfoView(modalId);
+        });
+    });
+
+    function resetToInfoView(modalId) {
+        var modal = document.getElementById('country_modal_' + modalId);
+        if (!modal) return;
+
+        // Show all info views, hide all members views
+        modal.querySelectorAll('.panel_info_view').forEach(function(v) { v.style.display = 'block'; });
+        modal.querySelectorAll('.panel_members_view').forEach(function(v) { v.style.display = 'none'; });
+
+        // Remove single-logo mode
+        var sidebar = modal.querySelector('.partner_logos_sidebar');
+        if (sidebar) sidebar.classList.remove('members-view');
+
+        // Restore all logos visibility
+        modal.querySelectorAll('.partner_logo_item').forEach(function(item) {
+            item.style.display = '';
+        });
+
+        // Hide back button
+        var backBtn = modal.querySelector('.back-btn');
+        if (backBtn) backBtn.style.display = 'none';
+    }
+
+    // Reset on modal close
+    $('.control-popup').on('hidden.bs.modal', function() {
+        var modalId = this.id.replace('country_modal_', '');
+        resetToInfoView(modalId);
+    });
+
+});
