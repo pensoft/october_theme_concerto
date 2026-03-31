@@ -54,23 +54,6 @@ $this['press_items'] = $records;
             </div>
         </div>
 
-        <nav aria-label="Press release categories" class="category-tabs-container mb-2">
-            {% if categories.count > 0 %}
-            <div class="row category-tabs" id="category-tabs" role="tablist">
-                <a href="{{ 'press-releasses'|page }}?categoryId=all"
-                   role="tab"
-                   aria-selected="{{ 'all' == categoryId ? 'true' : 'false' }}"
-                   class="{{ 'all' == categoryId ? 'active' : '' }}">All Press Releases</a>
-                {% for category in categories %}
-                <a href="{{ 'press-releasses'|page }}?categoryId={{ category.id }}"
-                   role="tab"
-                   aria-selected="{{ category.id == categoryId ? 'true' : 'false' }}"
-                   class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.title }}</a>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </nav>
-
         <div class="row">
             {% for record in press_items %}
             {% spaceless %}
