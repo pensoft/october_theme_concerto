@@ -37,6 +37,9 @@
         display: flex;
         justify-content: center;
         margin-bottom: 40px;
+        .breakpoint-large-down({
+            flex-direction: column;
+        });
     }
     p{
         margin-bottom: 0;
@@ -341,7 +344,8 @@
         align-items: center;
 
         .breakpoint-large-down({
-            max-width: fit-content;
+            padding: 24px 0;
+            max-width: 90vw;
         });
 
         .close{
@@ -384,7 +388,7 @@
 
             h3 {
                 color: #FBFDFF;
-                font-family: "Segoe UI";
+                font-family: 'Segoe UI Variable';
                 font-size: 20px;
                 font-weight: 600;
                 line-height: 1.65;
@@ -395,7 +399,7 @@
 
             .partner_description {
                 color: #FBFDFF;
-                font-family: "Segoe UI";
+                font-family: 'Segoe UI Variable';
                 font-size: 18px;
                 font-weight: 300;
                 line-height: 1.65;
@@ -404,6 +408,11 @@
                 overflow-y: auto;
                 margin-bottom: 20px;
                 padding-right: 20px;
+                .breakpoint-large-down({
+                    padding-right: 0px;
+                    max-height: 28vh;
+                    margin-bottom: 0;
+                });
                 /* WebKit */
                 &::-webkit-scrollbar {
                     width: 6px;
@@ -449,6 +458,7 @@
                     .breakpoint-large-down({
                         margin-right: 0px;
                         margin-top: 10px;
+                        justify-content: center;
                     });
 
                     &:hover{
@@ -761,7 +771,7 @@
 
             .country_label {
                 color: #002547;
-                font-family: "Segoe UI";
+                font-family: 'Segoe UI Variable';
                 font-size: 16px;
                 font-weight: 600;
                 margin-top: 12px;
@@ -837,6 +847,7 @@
             padding: 25px;
             .breakpoint-large-down({
                 padding-left: 0;
+                padding: 0;
             });
         }
 
@@ -869,7 +880,7 @@
                     .coordinator_info {
                         h4 {
                             color: #FBFDFF;
-                            font-family: "Segoe UI";
+                            font-family: 'Segoe UI Variable';
                             font-size: 20px;
                             font-style: normal;
                             font-weight: 600;
@@ -929,7 +940,7 @@
                     .body {
                         margin-top: 20px;
                         color: #FBFDFF;
-                        font-family: "Segoe UI";
+                        font-family: 'Segoe UI Variable';
                         font-size: 18px;
                         font-weight: 300;
                         line-height: 1.65;
