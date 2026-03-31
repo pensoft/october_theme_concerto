@@ -52,7 +52,7 @@ $(document).ready(function() {
             if(checked){
                 $('#menu').show("slide", { direction: "right" }, 400);
                 $('#search').hide();
-                $('#menu, #menu *').css({
+                $('#menu').css({
                     'visibility': 'visible'
                 });
                 $('body', 'html').css({
@@ -921,6 +921,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var partnerId = this.getAttribute('data-partner-id');
             var modalId = this.getAttribute('data-modal');
 
+
             // Reset to info view first
             resetToInfoView(modalId);
 
@@ -928,6 +929,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.partner_logo_item[data-modal="' + modalId + '"]')
                 .forEach(function(item) { item.classList.remove('active'); });
             this.classList.add('active');
+
 
             // Update active panel
             document.querySelectorAll('.partner_detail_panel[data-modal="' + modalId + '"]')

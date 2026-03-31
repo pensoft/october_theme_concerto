@@ -351,6 +351,17 @@
         .close{
             top: 11px;
             right: 11px;
+            .breakpoint-large-down({
+                top: -2px;
+                right: 1px;
+                z-index: 999;
+            });
+            svg{
+                .breakpoint-large-down({
+                    width: 50px;
+                    z-index: 999;
+                });
+            }
         }
 
         .row.middle-xs {
@@ -854,6 +865,8 @@
         // Members view
         .panel_members_view {
             animation: fadeIn 0.3s ease;
+            max-height: 50vh;
+            overflow-y: auto;
 
             .partners_list_content {
                 padding: 25px 0 25px 25px;
