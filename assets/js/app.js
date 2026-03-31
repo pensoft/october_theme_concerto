@@ -248,6 +248,11 @@ $(document).ready(function() {
         });
     });
 
+    $('.close').click(function (){
+        var tooltip = document.getElementById("tooltip");
+        tooltip.classList.remove("active");
+    });
+
 
 });
 
