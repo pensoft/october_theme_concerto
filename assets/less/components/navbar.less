@@ -59,6 +59,8 @@
 
     .navbar-nav{
         list-style-type: none;
+
+
         //.breakpoint-large-down({
         //    visibility: hidden;
         //});
@@ -114,10 +116,10 @@
             width: 100%;
             //max-width: fit-content;
             flex-grow: 1;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            //padding-left: 0.5rem;
+            //padding-right: 0.5rem;
+            //padding-top: 1rem;
+            //padding-bottom: 1rem;
             //justify-content: space-around;
             background-color: inherit;
             flex-direction: column;
@@ -125,7 +127,12 @@
             align-items: center;
             z-index: @zindex-dropdown;
             font-size: 16px;
-            justify-content: space-evenly;
+            //justify-content: space-evenly;
+
+            height: 100px;
+            padding: 22px 0;
+            justify-content: center;
+            //gap: 60px;
 
             .breakpoint-large-down({
                 display: none;
@@ -155,6 +162,8 @@
                 &:hover, &.active {
                     border-radius: 8px;
                     border: none;
+                    //background: rgba(251, 253, 255, 0.15);
+                    color: #171717;
                     background: #BFFF60;
                     text-align: center;
                     font-family: 'Segoe UI Variable';
@@ -188,7 +197,7 @@
                     border: none;
                     text-align: center;
                     font-family: 'Segoe UI Variable';
-                    //font-size: 18px;
+                    font-size: 18px;
                     font-style: normal;
                     font-weight: 400;
                     line-height: 20px; /* 111.111% */
@@ -205,6 +214,7 @@
                         //color: white!important;
                         border-radius: 8px;
                         border: none;
+                        //background: rgba(251, 253, 255, 0.15);
                         background: #BFFF60;
                         color: #171717!important;
                         text-align: center;
@@ -282,13 +292,63 @@
             }
         }
 
+        // Inline pill search (Figma 137:21889): magnifier icon + rounded outlined input
+        .navbar-search{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 0;
+        }
+
         .search-btn{
+            flex-shrink: 0;
             color: @navbar-color!important;
             background: url("../../assets/images/Search-Icon.svg") center no-repeat;
-            background-size: 20px;
-            width: 20px;
-            height: 20px;
-            margin-top: 10px;
+            background-size: 24px;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            opacity: 0.65;
+            transition: opacity 0.3s ease-in-out;
+
+            &:hover{
+                opacity: 1;
+            }
+        }
+
+        .navbar-search-input{
+            width: 90px;
+            height: 33px;
+            padding: 0 16px;
+            border: 1px solid rgba(251, 253, 255, 0.65);
+            border-radius: 43px;
+            background: transparent;
+            color: @navbar-color;
+            font-family: 'Segoe UI Variable';
+            font-size: 16px;
+            line-height: 1;
+            opacity: 0.65;
+            outline: none;
+            transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, border-color 0.3s ease-in-out;
+
+            &::placeholder{
+                color: rgba(251, 253, 255, 0.65);
+            }
+
+            // Expand on focus so the compact pill stays usable
+            &:focus{
+                width: 220px;
+                opacity: 1;
+                border-color: rgba(251, 253, 255, 1);
+            }
+
+            // Strip the native search field clear button for a clean pill
+            &::-webkit-search-cancel-button{
+                -webkit-appearance: none;
+                appearance: none;
+            }
         }
 
         .breakpoint-large-down({
@@ -333,6 +393,7 @@
                         &:hover > a {
                             border-radius: 8px;
                             border: none;
+                            //background: rgba(251, 253, 255, 0.15);
                             background: #BFFF60;
                             color: #171717!important;
                             text-align: center;
@@ -359,13 +420,13 @@
                             background-size: contain;
                             pointer-events: none;
                             transition: transform 0.3s ease;
-                            color: white!important;
+                            color: #171717!important;
 
                         }
 
                         li:hover {
                             background: none;
-                            color: white!important;
+                            color: #171717!important;
                         }
 
                         &:hover:after,&:focus:after{
@@ -429,7 +490,7 @@
                     &.active:after {
                         //transform: rotate(180deg);
                         margin-top: -5px;
-                        background: url('../../assets/images/arrow-down-menu-black.svg') no-repeat center center;
+                        background: url('../../assets/images/arrow-down-menu-white.svg') no-repeat center center;
                         background-size: contain;
                         color: white!important;
                     }

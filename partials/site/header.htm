@@ -25,7 +25,7 @@ description_limit = 0
             </div>
             <a href="{{'home'|page}}" class="navbar-brand" aria-label="Go to homepage">
                 <span class="sr-only">Project Home</span>
-                <div style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain; width: 100%; height: 100%;" role="img" aria-label="Project logo"></div>
+                <div style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain; width: 100%; min-width: 122px; height: 100%;" role="img" aria-label="Project logo"></div>
             </a>
             <div class="container">
                 <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
@@ -58,29 +58,13 @@ description_limit = 0
 <!--            </div>-->
 
             <div class="search-and-social-media hidden-xs">
-                <ul class="navbar-nav">
-                    <li class="nav-item social">
-                        <a type="button" class="search-btn" onclick="showSearchForm();" aria-label="Open search form">
-                            <span class="sr-only">Search</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div id="search" class="search" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-heading" aria-hidden="true">
-                <div class="container">
-                    <a class="close-search" onclick="hideSearchForm();" aria-label="Close search form">
-                        <span aria-hidden="true">&#10006;</span>
-                    </a>
-                    <h2 id="search-heading" class="sr-only">Search</h2>
-                    <form class="input-group align-items-start" action="{{ url('search')}}" method="get" role="search">
-                        <label for="search-input" class="sr-only">Search query</label>
-                        <input class="form-control search_input" id="search-input" style="color: #000;" name="q" type="search" autocomplete="off" placeholder="Search" aria-label="Enter search query">
-                        <button class="btn pr p-search big header-text-grey-search-btn" type="submit" aria-label="Submit search">
-                            <span class="sr-only">Search</span>
-                        </button>
-                    </form>
-                </div>
+                <form class="navbar-search" action="{{ url('search') }}" method="get" role="search">
+                    <label for="search-input" class="sr-only">Search query</label>
+                    <button class="search-btn" type="submit" aria-label="Submit search">
+                        <span class="sr-only">Search</span>
+                    </button>
+                    <input class="navbar-search-input" id="search-input" name="q" type="search" autocomplete="off" placeholder="" aria-label="Enter search query">
+                </form>
             </div>
         </nav>
     </div>
@@ -88,66 +72,46 @@ description_limit = 0
 
 {% if page_id == 'home' and tag_line%}
 <div class="header-image {{page_id}}">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="{{ 'assets/images/hero.mp4'|theme }}" type="video/mp4">
+    </video>
     <div class="container subcontainer">
         <div class="row hero_container">
-            <div class="col-md-6 col-xs-12">
-                <div class="jumbotron" data-aos="fade-right">
-                    <div class="intro">
-                        <h1 class="underline" data-aos="fade-up">{{tag_line|raw}}</h1>
-                        <p>&nbsp;</p>
-                    </div>
-                    <nav class="social-media-container" aria-label="Social media links">
-                        <p>Find us on social networks</p>
-                        <div class="icons">
-                            {% if this.theme.facebook_url %}
-                            <a href="{{facebook_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-facebook normal" aria-label="Follow us on Facebook (opens in new window)">
-                                <span class="sr-only">Facebook</span>
-                            </a>
-                            {% endif %}
-                            {% if this.theme.twitter_url %}
-                            <a href="{{twitter_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-twitter small" aria-label="Follow us on Twitter (opens in new window)">
-                                <span class="sr-only">Twitter</span>
-                            </a>
-                            {% endif %}
-                            {% if this.theme.linkedin_url %}
-                            <a href="{{linkedin_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-linkedin normal" aria-label="Follow us on LinkedIn (opens in new window)">
-                                <span class="sr-only">LinkedIn</span>
-                            </a>
-                            {% endif %}
-                            {% if this.theme.instagram_url %}
-                            <a href="{{instagram_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-instagram normal" aria-label="Follow us on Instagram (opens in new window)">
-                                <span class="sr-only">Instagram</span>
-                            </a>
-                            {% endif %}
-                            {% if this.theme.bluesky_url %}
-                            <a href="{{this.theme.bluesky_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-bluesky small" aria-label="Follow us on Bluesky (opens in new window)">
-                                <span class="sr-only">Bluesky</span>
-                            </a>
-                            {% endif %}
-                            {% if this.theme.youtube_url %}
-                            <a href="{{youtube_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-youtube normal" aria-label="Subscribe to our YouTube channel (opens in new window)">
-                                <span class="sr-only">YouTube</span>
-                            </a>
-                            {% endif %}
-                            {% if this.theme.threads_url %}
-                            <a href="{{this.theme.threads_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-threads small" aria-label="Follow us on Threads (opens in new window)">
-                                <span class="sr-only">Threads</span>
-                            </a>
-                            {% endif %}
-                        </div>
-                    </nav>
-                    <div class="plant" aria-hidden="true"></div>
+            <div class="intro" data-aos="fade-up">
+                <h1 class="underline white">{{tag_line|raw}}</h1>
+            </div>
+
+            <div class="hero_principles" data-aos="fade-up">
+                <nav class="hero_tabs" aria-label="Project principles">
+                    <a class="tablink active" onclick="openTab(event, 'vision')" href="javascript: void(0);">Vision</a>
+                    <a class="tablink" onclick="openTab(event, 'mission')" href="javascript: void(0);">Mission</a>
+                    <a class="tablink" onclick="openTab(event, 'goals')" href="javascript: void(0);">Goal</a>
+                </nav>
+                <div class="vision tab_content" id="vision">
+                    <h2 class="tab_title">Vision</h2>
+                    {% component 'vision' %}
+                </div>
+                <div class="mission tab_content" id="mission" style="display: none;">
+                    <h2 class="tab_title">Mission</h2>
+                    {% component 'mission' %}
+                </div>
+                <div class="goals tab_content" id="goals" style="display: none;">
+                    <h2 class="tab_title">Goal</h2>
+                    {% component 'goals' %}
                 </div>
             </div>
-            <div class="col-md-6 col-xs-12">
-                <p class="project_dedicated">
-                    We're a project dedicated to<br> enhancing climate model precision
-                </p>
-            </div>
-            <a class="mouse" href="{{'about'|page}}" aria-label="Learn more about our project">
-                <span class="sr-only">Scroll down to learn more</span>
-            </a>
         </div>
+    </div>
+</div>
+{% endif %}
+
+{% if page_id != 'home' and page_title %}
+<div class="header-image page-banner {{page_id}}">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="{{ 'assets/images/hero.mp4'|theme }}" type="video/mp4">
+    </video>
+    <div class="container">
+        <h1 class="page-banner-title">{{ page_title }}</h1>
     </div>
 </div>
 {% endif %}
