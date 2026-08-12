@@ -106,9 +106,11 @@ return Response::download($pathToFile, $fileName, $headers);
 
                         <p>
                             <a class="btn btn-primary download"
-                               href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}"
+                               href="{{record.file.path}}"
+                               target="_blank"
+                               rel="noopener noreferrer"
                                aria-label="Download {{record.name}} video"
-                               download>Download</a>
+                               download="{{record.name|replace({' ': '_'})}}.{{record.file.getExtension()}}">Download</a>
                         </p>
                         {% endif %}
 
