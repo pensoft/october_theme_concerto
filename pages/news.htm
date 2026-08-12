@@ -126,8 +126,6 @@ $this['related'] = $related;
 }
 ?>
 ==
-
-
 {% if is_detail_page %}
 
 <article aria-labelledby="article-title">
@@ -184,7 +182,7 @@ $this['related'] = $related;
                     <h2 class="related-title">Related News</h2>
                     <div class="related-list">
                         {% for item in related %}
-                        <a class="related-card" href="{{'news'|page}}/{{item.slug}}" aria-label="Read article: {{item.title|striptags}}">
+                        <a class="related-card" href="/news/{{item.slug}}" aria-label="Read article: {{item.title|striptags}}">
                             <div class="related-card-image">
                                 {% if item.cover %}
                                 <img src="{{item.cover.getThumb(720, 440, {'mode': 'crop'})}}" alt="{{item.title|striptags}}">
@@ -266,4 +264,3 @@ $this['related'] = $related;
 </section>
 
 {% endif %}
-
