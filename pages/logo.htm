@@ -145,7 +145,7 @@ return Response::download($pathToFile, $fileName, $headers);
 
                         {% if record.file_jpg %}
                         <div class="col-md end-md around-xs">
-                            <a href="{{record.file_jpg.path}}"
+                            <a href="{{record.file_jpg.path}}#file_name={{record.file_jpg.file_name}}"
                                class="{{className}}"
                                download="{{record.file_jpg.file_name}}"
                                target="_blank"
@@ -156,7 +156,7 @@ return Response::download($pathToFile, $fileName, $headers);
 
                         {% if record.file_png %}
                         <div class="col-md end-md around-xs">
-                            <a href="{{record.file_png.path}}"
+                            <a href="{{record.file_png.path}}#file_name={{record.file_png.file_name}}"
                                class="{{className}}"
                                download="{{record.file_png.file_name}}"
                                target="_blank"
@@ -167,7 +167,7 @@ return Response::download($pathToFile, $fileName, $headers);
 
                         {% if record.file_eps %}
                         <div class="col-md end-md around-xs">
-                            <a href="{{record.file_eps.path}}"
+                            <a href="{{record.file_eps.path}}#file_name={{record.file_eps.file_name}}"
                                class="{{className}}"
                                download="{{record.file_eps.file_name}}"
                                target="_blank"
@@ -178,7 +178,7 @@ return Response::download($pathToFile, $fileName, $headers);
 
                         {% if record.file_zip %}
                         <div class="col-md end-md around-xs">
-                            <a href="{{record.file_zip.path}}"
+                            <a href="{{record.file_zip.path}}#file_name={{record.file_zip.file_name}}"
                                class="{{className}}"
                                download="{{record.file_zip.file_name}}"
                                target="_blank"
@@ -189,7 +189,12 @@ return Response::download($pathToFile, $fileName, $headers);
 
                         {% if record.file_pdf %}
                         <div class="col-md end-md around-xs">
-                            <a href="{{record.file_pdf.path}}" target="_blank" rel="noopener noreferrer" class="{{className}}" aria-label="Download {{record.name}} as PDF (opens in new window)">{{labelPDF}}</a>
+                            <a href="{{record.file_pdf.path}}#file_name={{record.file_pdf.file_name}}"
+                               class="{{className}}"
+                               download="{{record.file_pdf.file_name}}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="Download {{record.name}} as PDF (opens in new window)">{{labelPDF}}</a>
                         </div>
                         {% endif %}
 

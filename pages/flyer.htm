@@ -96,7 +96,7 @@ return Response::download($pathToFile, $fileName, $headers);
                             </div>
                             <div class="links">
                                 {% if record.file %}
-                                <a href="{{record.file.path}}"
+                                <a href="{{record.file.path}}#file_name={{record.file.file_name}}"
                                    class="btn btn-secondary"
                                    download="{{record.file.file_name}}"
                                    target="_blank"
