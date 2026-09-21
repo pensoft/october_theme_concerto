@@ -1,0 +1,148 @@
+{#
+    Markup for the Pensoft.Results results_timeline component.
+
+    October resolves this by the component's alias, so the directory name must
+    stay in step with the alias the page declares it under ([results_timeline]).
+    Styles: assets/less/components/results-timeline.less
+    Behaviour: assets/js/results-timeline.js, put below so it only loads on
+    pages that actually render the timeline.
+#}
+{% put scripts %}
+    <script src="{{ 'assets/js/results-timeline.js'|theme }}"></script>
+{% endput %}
+
+{% set categories = __SELF__.categories() %}
+{% set phases = __SELF__.phases() %}
+{% set results = __SELF__.results() %}
+
+{% if results.count %}
+<section class="results-timeline" data-control="results-timeline">
+
+    {% if __SELF__.property('title') %}
+        <h2 class="results-timeline__title">{{ __SELF__.property('title') }}</h2>
+    {% endif %}
+
+    {% if categories.count %}
+        <div class="results-timeline__filters">
+            <span class="results-timeline__filters-label">{{ __SELF__.property('audienceLabel') }}</span>
+
+            <div class="results-timeline__toggles">
+                {% if __SELF__.property('showAllToggle') %}
+                    <button type="button"
+                            class="results-timeline__toggle is-active"
+                            data-category="all"
+                            aria-pressed="true">
+                        <span class="results-timeline__switch" aria-hidden="true"></span>
+                        <span class="results-timeline__toggle-label">{{ 'pensoft.results::lang.timeline.all'|trans }}</span>
+                    </button>
+                {% endif %}
+
+                {% for category in categories %}
+                    <button type="button"
+                            class="results-timeline__toggle"
+                            data-category="{{ category.id }}"
+                            aria-pressed="false">
+                        <span class="results-timeline__switch" aria-hidden="true"></span>
+                        <span class="results-timeline__toggle-label">{{ category.name }}</span>
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="results-timeline__canvas">
+        <div class="results-timeline__axis" aria-hidden="true"></div>
+
+        {% for phase in phases %}
+            <div class="results-timeline__phase" style="left: {{ phase.position_x }}%;">
+                <span class="results-timeline__phase-name">{{ phase.name }}</span>
+            </div>
+        {% endfor %}
+
+        {% for result in results %}
+            <div class="results-timeline__node results-timeline__node--{{ result.position }}"
+                 style="left: {{ result.position_x }}%; --rt-offset: {{ result.offset_y|default(86) }}px;"
+                 data-categories="{{ __SELF__.categoryIds(result) }}"
+                 data-result="{{ result.id }}">
+
+                <button type="button"
+                        class="results-timeline__node-button"
+                        aria-haspopup="dialog"
+                        aria-controls="results-timeline-dialog"
+                        aria-label="{{ result.title }}">
+                    <span class="results-timeline__node-icon">
+                        {% if result.icon %}
+                            <img src="{{ result.icon.path }}" alt="">
+                        {% elseif result.icon_class %}
+                            <i class="{{ result.icon_class }}" aria-hidden="true"></i>
+                        {% endif %}
+                    </span>
+                </button>
+
+                <span class="results-timeline__node-title">{{ result.title }}</span>
+
+                {% if result.month_label %}
+                    <span class="results-timeline__node-months">{{ result.month_label }}</span>
+                {% endif %}
+
+                <template class="results-timeline__node-details">
+                    {% if result.description %}
+                        <p class="results-timeline__dialog-intro">{{ result.description }}</p>
+                    {% endif %}
+
+                    {% if result.relevant_for %}
+                        <div class="results-timeline__accordion">
+                            <button type="button" class="results-timeline__accordion-toggle" aria-expanded="false">
+                                {{ 'pensoft.results::lang.timeline.relevant_for'|trans }}
+                                <span class="results-timeline__accordion-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="results-timeline__accordion-panel" hidden><div class="results-timeline__accordion-inner">{{ result.relevant_for|raw }}</div></div>
+                        </div>
+                    {% endif %}
+
+                    {% if result.how_used %}
+                        <div class="results-timeline__accordion">
+                            <button type="button" class="results-timeline__accordion-toggle" aria-expanded="false">
+                                {{ 'pensoft.results::lang.timeline.how_used'|trans }}
+                                <span class="results-timeline__accordion-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="results-timeline__accordion-panel" hidden><div class="results-timeline__accordion-inner">{{ result.how_used|raw }}</div></div>
+                        </div>
+                    {% endif %}
+
+                    {% if result.materials %}
+                        <div class="results-timeline__accordion">
+                            <button type="button" class="results-timeline__accordion-toggle" aria-expanded="false">
+                                {{ 'pensoft.results::lang.timeline.materials'|trans }}
+                                <span class="results-timeline__accordion-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="results-timeline__accordion-panel" hidden><div class="results-timeline__accordion-inner">{{ result.materials|raw }}</div></div>
+                        </div>
+                    {% endif %}
+                </template>
+            </div>
+        {% endfor %}
+
+        <p class="results-timeline__empty" hidden>{{ 'pensoft.results::lang.timeline.no_records'|trans }}</p>
+    </div>
+
+    <div class="results-timeline__dialog-backdrop" hidden>
+        <div class="results-timeline__dialog"
+             id="results-timeline-dialog"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="results-timeline-dialog-title">
+
+            <div class="results-timeline__dialog-header">
+                <h3 class="results-timeline__dialog-title" id="results-timeline-dialog-title"></h3>
+                <button type="button"
+                        class="results-timeline__dialog-close"
+                        aria-label="{{ 'pensoft.results::lang.timeline.close'|trans }}">&times;</button>
+            </div>
+
+            <div class="results-timeline__dialog-body"></div>
+        </div>
+    </div>
+
+</section>
+{% endif %}

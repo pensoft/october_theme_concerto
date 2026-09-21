@@ -35,6 +35,11 @@ jumbotron = "numbers"
 background = "transperant"
 templates = "template3"
 description_limit = 0
+
+[results_timeline]
+title = "What CONCERTO Achieved"
+audienceLabel = "Who is it relevant for?"
+showAllToggle = 1
 ==
 <?php
 use Pensoft\Articles\Models\Article;
@@ -79,6 +84,11 @@ function onStart(){
 <!-- Numbers -->
 <div class="container-fluid project-numbers-container">
     {% component "numbers" %}
+</div>
+
+<!-- What CONCERTO Achieved -->
+<div class="container-fluid results-timeline-container">
+    {% component "results_timeline" %}
 </div>
 
 

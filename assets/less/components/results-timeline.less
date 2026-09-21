@@ -1,0 +1,520 @@
+// Results timeline - "What CONCERTO Achieved"
+// Markup comes from the Pensoft.Results plugin (results_timeline component).
+// Named results-timeline to stay clear of the unrelated .timeline component.
+
+@results-timeline-accent: #00B89C;
+// Sampled from the design: the axis and the circle outlines are far dimmer
+// than the accent itself.
+@results-timeline-line: rgba(0, 184, 156, .22);
+@results-timeline-phase-border: fade(@results-timeline-accent, 20%); // #00B89C33
+@results-timeline-glass-from: fade(@results-timeline-accent, 0);
+@results-timeline-glass-to: rgba(2, 31, 55, .3);
+@results-timeline-node-fill: #00B89C;
+@results-timeline-node-size: 60px;
+@results-timeline-switch-off: #A5A5A5;
+
+@results-timeline-bg: #171717;
+@results-timeline-bg-tint-from: rgba(0, 32, 60, .55);
+@results-timeline-bg-tint-to: rgba(23, 23, 23, .55);
+
+@results-timeline-text: #FBFDFF;
+@results-timeline-muted: #7B8084;
+@results-timeline-hairline: fade(@results-timeline-text, 20%); // #FBFDFF33
+
+@results-timeline-canvas-width: 1440px;
+@results-timeline-node-offset: 86px;
+@results-timeline-node-width: 106px;
+@results-timeline-arrow-size: 11px;
+@results-timeline-icon-max: 30px;
+
+// The frosted surface shared by the phase circles and the pop-up: the same
+// wash and blur, differing only in their border and radius.
+.results-timeline-glass() {
+    background: linear-gradient(90deg, @results-timeline-glass-from 0%, @results-timeline-glass-to 106.18%);
+    -webkit-backdrop-filter: blur(35px);
+    backdrop-filter: blur(35px);
+}
+
+// Shared by the section and the modal backdrop so the two stay in step.
+// Figma lists the solid fill first, but in CSS the first layer paints on top
+// and an opaque one would hide the tint, so the two layers are reversed here.
+.results-timeline-surface() {
+    background:
+        linear-gradient(0deg, @results-timeline-bg-tint-from -2.8%, @results-timeline-bg-tint-to 88.46%),
+        linear-gradient(0deg, @results-timeline-bg, @results-timeline-bg);
+}
+
+.results-timeline {
+    position: relative;
+    padding: 60px 0 40px;
+
+    // Scoped to the component, as elsewhere in this theme. Fixed widths here are
+    // quoted from the design as outer sizes, so borders and padding have to sit
+    // inside them for the negative-margin centring to stay exact.
+    box-sizing: border-box;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    .results-timeline-surface();
+    color: @results-timeline-text;
+    overflow: hidden;
+
+    &__title {
+        margin: 0 0 40px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        color: @results-timeline-text;
+    }
+
+    // Audience toggles
+    // ---------------------------------------------------------------------
+
+    &__filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 20px;
+        max-width: @results-timeline-canvas-width;
+        margin: 0 auto 48px;
+        padding: 0 40px;
+    }
+
+    &__filters-label {
+        font-size: 18px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    &__toggles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+    }
+
+    &__toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: @results-timeline-text;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.2;
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: 2px solid @results-timeline-accent;
+            outline-offset: 4px;
+        }
+
+        &.is-active {
+            .results-timeline__switch {
+                background: @results-timeline-accent;
+
+                &::after {
+                    transform: translateX(26px);
+                }
+            }
+        }
+    }
+
+    &__switch {
+        position: relative;
+        display: inline-block;
+        flex: 0 0 auto;
+        width: 44px;
+        height: 18px;
+        border-radius: 9px;
+        background: @results-timeline-switch-off;
+        transition: background .2s ease;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: @results-timeline-text;
+            transition: transform .2s ease;
+        }
+    }
+
+    // Timeline canvas
+    // ---------------------------------------------------------------------
+
+    &__canvas {
+        position: relative;
+        max-width: @results-timeline-canvas-width;
+        height: 620px;
+        margin: 0 auto;
+    }
+
+    &__axis {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        margin-top: -1px;
+        background: @results-timeline-line;
+    }
+
+    // Sits above the axis so the line reads as passing behind the circle.
+    &__phase {
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 3px solid @results-timeline-phase-border;
+        border-radius: 50%; // a circle at this size, as per the 900px in the design
+        .results-timeline-glass();
+        text-align: center;
+    }
+
+    &__phase-name {
+        padding: 0 18px;
+        color: @results-timeline-accent;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    // Result nodes
+    // ---------------------------------------------------------------------
+
+    &__node {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: @results-timeline-node-width;
+        // Half the width back, so position_x lands on the node's centre.
+        margin-left: -(@results-timeline-node-width / 2);
+        text-align: center;
+        transition: opacity .25s ease, visibility .25s ease;
+
+        &.is-hidden {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+
+    // --rt-offset is set per node from the backend so neighbours can be
+    // staggered. It stays a CSS custom property rather than inline padding so
+    // the narrow-screen rules below can still flatten it. Escaped because LESS
+    // would otherwise read --rt-offset as arithmetic.
+    &__node--above {
+        bottom: 50%;
+        padding-bottom: ~"var(--rt-offset, @{results-timeline-node-offset})";
+        justify-content: flex-end;
+    }
+
+    &__node--below {
+        top: 50%;
+        padding-top: ~"var(--rt-offset, @{results-timeline-node-offset})";
+    }
+
+    // Solid accent at the bottom right fading out toward the top left. Both
+    // colour stops sit outside 0-100%, so the visible circle only shows the
+    // middle of the ramp and never reaches full opacity.
+    &__node-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: @results-timeline-node-size;
+        height: @results-timeline-node-size;
+        margin-bottom: 12px;
+        padding: 0;
+        border: 1px solid @results-timeline-hairline;
+        border-radius: 50%; // a circle at this size, as per the 900px in the design
+        background: linear-gradient(
+            339.37deg,
+            @results-timeline-node-fill -39.57%,
+            fade(@results-timeline-node-fill, 0) 81.84%
+        );
+        cursor: pointer;
+        transition: filter .2s ease, transform .2s ease;
+
+        &:hover,
+        &:focus-visible {
+            filter: brightness(1.25);
+            transform: scale(1.06);
+        }
+
+        &:focus-visible {
+            outline: 2px solid @results-timeline-accent;
+            outline-offset: 3px;
+        }
+    }
+
+    &__node-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: @results-timeline-accent;
+        font-size: 26px;
+
+        // Each icon keeps its own drawn size (they range 23-31px), capped so the
+        // two that overrun stay inside the circle. Scaling is proportional.
+        img {
+            width: auto;
+            height: auto;
+            max-width: @results-timeline-icon-max;
+            max-height: @results-timeline-icon-max;
+        }
+    }
+
+    &__node-title {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.22;
+        color: @results-timeline-text;
+    }
+
+    &__node-months {
+        margin-top: 4px;
+        font-size: 14px;
+        color: @results-timeline-muted;
+    }
+
+    &__empty {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding-top: 40px;
+        text-align: center;
+        color: @results-timeline-muted;
+    }
+
+    // Pop-up
+    // ---------------------------------------------------------------------
+
+    &__dialog-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: @zindex-modal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+
+        // The timeline stays visible behind the modal, dimmed. Measured off the
+        // design: the section surface at 85% over the live page, which is why
+        // the dark background reads unchanged while the text drops right back.
+        // It sits on a pseudo-element so only the dimming is faded - putting
+        // opacity on the backdrop itself would take the dialog down with it.
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            .results-timeline-surface();
+            opacity: .85;
+        }
+
+        &[hidden] {
+            display: none;
+        }
+    }
+
+    // The design is a fixed-size card, dark and neutral at the top left with a
+    // soft teal glow toward the bottom right. min() is escaped so LESS passes
+    // it through instead of evaluating its own min(); it keeps the card from
+    // outgrowing short viewports, where min-height would beat max-height.
+    &__dialog {
+        // Above the dimming pseudo-element, which is absolutely positioned and
+        // would otherwise paint over this static sibling.
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 461px;
+        min-height: ~"min(443px, 75vh)";
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 30px 34px 34px;
+        border: 1px solid @results-timeline-hairline;
+        border-radius: 8px;
+        .results-timeline-glass();
+        box-shadow: 0 18px 50px rgba(0, 0, 0, .5);
+    }
+
+    &__dialog-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    &__dialog-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: @results-timeline-text;
+    }
+
+    &__dialog-close {
+        flex: 0 0 auto;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: @results-timeline-accent;
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    &__dialog-intro {
+        margin: 0 0 16px;
+        font-size: 15px;
+        line-height: 1.57;
+        color: @results-timeline-text;
+    }
+
+    &__accordion + &__accordion {
+        margin-top: 12px;
+    }
+
+    // Sized to its label rather than stretched, as in the design.
+    &__accordion-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: auto;
+        padding: 13px 18px;
+        border: 0;
+        border-radius: 6px;
+        background: @results-timeline-accent;
+        color: @results-timeline-text;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.1;
+        text-align: left;
+        cursor: pointer;
+
+        &:hover,
+        &:focus-visible {
+            filter: brightness(1.08);
+        }
+
+        &[aria-expanded="true"] .results-timeline__accordion-arrow {
+            transform: rotate(-90deg);
+        }
+    }
+
+    // The span is empty, so the arrow is the element's own background rather
+    // than generated content. The SVG is filled @results-timeline-text to match
+    // the label beside it - recolouring the button means recolouring the file.
+    &__accordion-arrow {
+        display: inline-block;
+        flex: 0 0 auto;
+        width: @results-timeline-arrow-size;
+        height: @results-timeline-arrow-size;
+        background: url('../images/Arrow_Accordion.svg') no-repeat center;
+        background-size: contain;
+        transition: transform .2s ease;
+    }
+
+    // The height is driven from JS so the panel can animate to its content
+    // height. Padding lives on the inner element - on the panel itself it would
+    // stay visible once the height reaches zero.
+    &__accordion-panel {
+        height: 0;
+        overflow: hidden;
+        transition: height .28s ease;
+
+        &[hidden] {
+            display: none;
+        }
+    }
+
+    &__accordion-inner {
+        padding: 12px 2px 4px;
+        font-size: 15px;
+        line-height: 1.57;
+        color: @results-timeline-text;
+
+        a {
+            color: @results-timeline-accent;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .results-timeline__accordion-panel,
+    .results-timeline__accordion-arrow {
+        transition: none;
+    }
+}
+
+// Narrow screens - the absolute layout collapses into a simple stack
+// -------------------------------------------------------------------------
+
+.breakpoint-large-down({
+    .results-timeline__canvas {
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        height: auto;
+        padding: 0 20px;
+    }
+
+    .results-timeline__axis {
+        display: none;
+    }
+
+    .results-timeline__phase {
+        position: static;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 14px 0;
+        border: 0;
+        border-top: 1px solid @results-timeline-line;
+        border-radius: 0;
+        background: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    .results-timeline__node,
+    .results-timeline__node--above,
+    .results-timeline__node--below {
+        position: static;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        bottom: auto;
+        top: auto;
+    }
+
+    .results-timeline__node.is-hidden {
+        display: none;
+    }
+
+    .results-timeline__empty {
+        position: static;
+        padding-top: 0;
+    }
+
+    .results-timeline__dialog {
+        min-height: 0;
+        padding: 24px 22px 26px;
+    }
+});
