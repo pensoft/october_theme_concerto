@@ -53,12 +53,19 @@
     <div class="results-timeline__canvas">
         <div class="results-timeline__axis" aria-hidden="true"></div>
 
+        {# Carried as a custom property because it is the horizontal position on
+           wide screens and the vertical one once the timeline turns upright. #}
         {% for phase in phases %}
-            <div class="results-timeline__phase" style="left: {{ phase.position_x }}%;">
+            <div class="results-timeline__phase" style="--rt-phase-pos: {{ phase.position_x }}%;">
                 <span class="results-timeline__phase-name">{{ phase.name }}</span>
             </div>
         {% endfor %}
 
+        {# Wrapper is inert on wide screens (display: contents) and becomes the
+           two-column grid on narrow ones, where nodes alternate side by source
+           order. Keeping the nodes as its only children keeps that alternation
+           independent of how many phases there are. #}
+        <div class="results-timeline__nodes">
         {% for result in results %}
             <div class="results-timeline__node results-timeline__node--{{ result.position }}"
                  style="left: {{ result.position_x }}%; --rt-offset: {{ result.offset_y|default(86) }}px;"
@@ -122,6 +129,7 @@
                 </template>
             </div>
         {% endfor %}
+        </div>
 
         <p class="results-timeline__empty" hidden>{{ 'pensoft.results::lang.timeline.no_records'|trans }}</p>
     </div>

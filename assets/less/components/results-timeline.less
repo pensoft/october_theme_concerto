@@ -26,6 +26,19 @@
 @results-timeline-node-width: 106px;
 @results-timeline-arrow-size: 11px;
 @results-timeline-icon-max: 30px;
+@results-timeline-accordion-width: 210px; // widest of the three labels in the design
+
+// Narrow screens. Measured off the design, which is a 2x render of a 393px
+// viewport, so every figure there is halved.
+@results-timeline-phase-size-narrow: 102px;
+@results-timeline-node-size-narrow: 40px;
+@results-timeline-icon-max-narrow: 22px;
+@results-timeline-column-stagger: 46px;
+// Phases are placed as a percentage of the canvas, but are a fixed size, so the
+// canvas needs a floor or they close up on each other when filtering leaves only
+// a row or two of nodes. The tightest gap between the seeded phases is 24.44% of
+// the height, so 102px circles need at least 417px; this leaves 15px clear.
+@results-timeline-canvas-min-narrow: 480px;
 
 // The frosted surface shared by the phase circles and the pop-up: the same
 // wash and blur, differing only in their border and radius.
@@ -168,10 +181,17 @@
         background: @results-timeline-line;
     }
 
+    // The node wrapper only earns its keep on narrow screens; here it steps out
+    // of the way so the nodes stay positioned against the canvas.
+    &__nodes {
+        display: contents;
+    }
+
     // Sits above the axis so the line reads as passing behind the circle.
     &__phase {
         position: absolute;
         top: 50%;
+        left: var(--rt-phase-pos, 50%);
         z-index: 1;
         display: flex;
         align-items: center;
@@ -391,12 +411,15 @@
         margin-top: 12px;
     }
 
-    // Sized to its label rather than stretched, as in the design.
+    // All three share a width so the arrows line up. min-width rather than a
+    // fixed one, so a longer label (or a translation) grows the button instead
+    // of spilling out of it.
     &__accordion-toggle {
         display: inline-flex;
         align-items: center;
+        justify-content: space-between;
         gap: 10px;
-        width: auto;
+        min-width: @results-timeline-accordion-width;
         padding: 13px 18px;
         border: 0;
         border-radius: 6px;
@@ -453,6 +476,12 @@
         a {
             color: @results-timeline-accent;
         }
+
+        // The "Available materials" lists are seeded as <ul>, so the markers
+        // need room inside the panel.
+        ul {
+            padding-left: 18px;
+        }
     }
 }
 
@@ -467,45 +496,118 @@
 // -------------------------------------------------------------------------
 
 .breakpoint-large-down({
-    .results-timeline__canvas {
-        display: flex;
+    .results-timeline {
+        padding: 40px 0 30px;
+    }
+
+    .results-timeline__title {
+        margin-bottom: 28px;
+        font-size: 26px;
+    }
+
+    // Label above the toggles, and each toggle on its own centred row.
+    .results-timeline__filters {
         flex-direction: column;
-        gap: 34px;
-        height: auto;
+        gap: 16px;
+        margin-bottom: 36px;
         padding: 0 20px;
     }
 
-    .results-timeline__axis {
-        display: none;
+    .results-timeline__filters-label {
+        color: @results-timeline-accent;
+        font-size: 20px;
+        text-align: center;
+        white-space: normal;
     }
 
-    .results-timeline__phase {
-        position: static;
+    .results-timeline__toggles {
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
         width: 100%;
+    }
+
+    .results-timeline__toggle {
+        font-size: 16px;
+    }
+
+    .results-timeline__canvas {
         height: auto;
+        padding: 0 16px;
+    }
+
+    // The axis stands up and runs down the middle.
+    .results-timeline__axis {
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        margin: 0 0 0 -1px;
+    }
+
+    // Phases ride the axis, spaced by the same figure that placed them across
+    // it on wide screens. Centred with a transform so the size can change
+    // without a matching negative margin.
+    .results-timeline__phase {
+        top: var(--rt-phase-pos, 50%);
+        left: 50%;
+        width: @results-timeline-phase-size-narrow;
+        height: @results-timeline-phase-size-narrow;
         margin: 0;
-        padding: 14px 0;
-        border: 0;
-        border-top: 1px solid @results-timeline-line;
-        border-radius: 0;
-        background: none;
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
+        transform: translate(-50%, -50%);
+    }
+
+    .results-timeline__phase-name {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    // Two columns either side of the axis. Auto-placement alternates the nodes
+    // left and right in source order, and the gutter is left wide enough for a
+    // phase circle to sit between them.
+    .results-timeline__nodes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: @results-timeline-phase-size-narrow + 16px;
+        row-gap: 26px;
+        align-items: start;
+        // Holds the axis open for the phases. Once there are enough nodes to
+        // exceed it the floor stops mattering, and space-around has no room
+        // left to distribute, so a full timeline is unaffected.
+        min-height: @results-timeline-canvas-min-narrow;
+        align-content: space-around;
     }
 
     .results-timeline__node,
     .results-timeline__node--above,
     .results-timeline__node--below {
         position: static;
-        width: 100%;
+        width: auto;
         margin: 0;
         padding: 0;
         bottom: auto;
         top: auto;
     }
 
+    // Right-hand column drops half a step, so the two sides interleave.
+    .results-timeline__nodes > :nth-child(even) {
+        margin-top: @results-timeline-column-stagger;
+    }
+
+    // Collapsing rather than just hiding, so filtering closes the gaps.
     .results-timeline__node.is-hidden {
         display: none;
+    }
+
+    .results-timeline__node-button {
+        width: @results-timeline-node-size-narrow;
+        height: @results-timeline-node-size-narrow;
+        margin-bottom: 10px;
+    }
+
+    .results-timeline__node-icon img {
+        max-width: @results-timeline-icon-max-narrow;
+        max-height: @results-timeline-icon-max-narrow;
     }
 
     .results-timeline__empty {
